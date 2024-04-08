@@ -39,3 +39,27 @@ function random_num($length)
 
     return $text;
 }
+
+// attempt to authenticate user by userId in library service folder
+function check_login_libraryService($conn)
+{
+    if (isset($_SESSION['userId']))
+    {
+        $id = $_SESSION['userId'];
+        $query = "SELECT * FROM users
+                  WHERE userId = '$id' limit 1";
+
+        $result = mysqli_query($conn, $query);
+
+        // if found return user record (data)
+        if ($result && mysqli_num_rows($result) > 0)
+        {
+            $user_data = mysqli_fetch_assoc($result);
+            return $user_data;
+        }
+    }
+
+    // redirect to login page if user not found
+    header("Location: ../userAuth/login.php");
+    die;
+}
