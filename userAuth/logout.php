@@ -3,9 +3,9 @@
 session_start();
 
 // check if user is logged in then log them out
-if (isset($_SESSION['userId']))
+if (isset($_SESSION['id']))
 {
-    unset($_SESSION['userId']);
+    unset($_SESSION['id']);
 }
 
 // redirect to login page

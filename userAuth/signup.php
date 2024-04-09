@@ -13,12 +13,9 @@ session_start();
         // check if empty
         if (!empty($userName) && !empty($password))
         {
-            // generate random number for new userId
-            $userId = random_num(12);
-
             // make query and send to DB
-            $query = "INSERT INTO users (userId, userName, password)
-                      VALUES ('$userId', '$userName', '$password')";
+            $query = "INSERT INTO users (userName, password)
+                      VALUES ('$userName', '$password')";
             mysqli_query($conn, $query);
             
             // redirect user to login page

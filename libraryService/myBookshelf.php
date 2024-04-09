@@ -6,6 +6,9 @@ include("../connection.php");
 include("../functions.php");
 
 $user_data = check_login_libraryService($conn);
+
+$num_books = getUserBooks($conn);
+$book_data = getBookData($conn);
 ?>
 
 <!DOCTYPE html>
@@ -16,7 +19,7 @@ $user_data = check_login_libraryService($conn);
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-    <title>Library home</title>
+    <title>My bookshelf</title>
 </head>
 
 <body>
@@ -55,6 +58,43 @@ $user_data = check_login_libraryService($conn);
                 </div>
             </li>
         </ul>
+
+        <!-- page content -->
+        <h1>You have <?php echo $num_books; ?> book(s) checked out under your name <?php echo $user_data['userName']; ?></h1>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">ISBN</th>
+                    <th scope="col">Title</th>
+                    <th scope="col">Author</th>
+                    <th scope="col">Genre</th>
+                    <th scope="col">Checked out</th>
+                    <th scope="col">Return</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php
+                // Check if book data is available
+                if ($book_data) {
+                    // Loop through each book record
+                    foreach ($book_data as $book) {
+                        // Output table row for each book
+                        echo "<tr>";
+                        echo "<td>" . $book['isbn'] . "</td>";
+                        echo "<td>" . $book['title'] . "</td>";
+                        echo "<td>" . $book['author'] . "</td>";
+                        echo "<td>" . $book['genre'] . "</td>";
+                        echo "<td>" . $book['dateCheckedOut'] . "</td>";
+                        echo "<td>" . $book['dateOfReturn'] . "</td>";
+                        echo "</tr>";
+                    }
+                } else {
+                    // If no book data is available, display a message in a single table row
+                    echo "<tr><td colspan='6'>No books found</td></tr>";
+                }
+                ?>
+            </tbody>
+        </table>
 
         <!-- footer -->
         <div class="container" id="companyFooter">
