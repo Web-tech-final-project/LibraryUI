@@ -22,7 +22,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                 $user_data = mysqli_fetch_assoc($result);
 
                 // redirect user to welcome page
-                $_SESSION['userId'] = $user_data['userId'];
+                $_SESSION['id'] = $user_data['id'];
                 header("Location: ../welcome.php");
                 die;
             }
