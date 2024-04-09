@@ -1,0 +1,39 @@
+/* userAuth.css */
+
+body {
+    background-image: url('../images/james_walker_library.JPG');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-color: black;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.login-form {
+    border-radius: 15px;
+    padding: 20px;
+    width: 50%;
+    background-color: rgba(0, 0, 0, 0.7);
+    color: white;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.btn {
+    width: 100%;
+}
+
+.signup-section {
+    text-align: center;
+    margin-top: 20px; /* Add space between form and signup link */
+}
