@@ -36,15 +36,16 @@ session_start();
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="userAuth.css"> 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <title>MyLibrary: Signup</title>
 </head>
 
 <body>
     <div class="container">
-        <div style="background-color: darkgray;">
-            <form style="width: 50%; margin: auto;" method="POST">
-                <h3 style="margin: 10px;">Signup</h3>
+        <div class="login-form">
+            <form method="post">
+                <h3 style="text-align: center;">MyLibrary Sign Up</h3>
 
                 <div class="form-group">
                     <label for="signupUsername">Username</label>
@@ -58,7 +59,7 @@ session_start();
 
                 <input type="submit" class="btn btn-success" value="Signup">
 
-                <div class="position-absolute top-50 start-50 translate-middle">
+                <div class="signup-section">
                     <p>Already have an account?</p>
                     <a class="btn btn-primary" href="login.php" role="button" style="margin: auto;">Login</a>
                 </div>
