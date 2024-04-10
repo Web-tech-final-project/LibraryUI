@@ -2,10 +2,10 @@
 <?php
 session_start();
 
-include("../connection.php");
-include("../functions.php");
+    include("../connection.php");
+    include("../functions.php");
 
-$user_data = check_login_libraryService($conn);
+    $user_data = check_login($conn);
 ?>
 
 <!DOCTYPE html>
