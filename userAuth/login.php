@@ -23,7 +23,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
                 // redirect user to welcome page
                 $_SESSION['id'] = $user_data['id'];
-                header("Location: ../welcome.php");
+                header("Location: ../libraryService/libraryHome.php");
                 die;
             }
         }
