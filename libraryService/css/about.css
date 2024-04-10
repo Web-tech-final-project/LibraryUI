@@ -1,0 +1,43 @@
+.headerContainer{
+    padding-top: 20px;
+}
+
+h1{
+    text-align: center;
+    font-size: xx-large;
+}
+
+h2{
+    font-size: large;
+}
+
+/* styles for team members table */
+.teamMembersTableContainer{
+    display: table;
+    padding-top: 20px;
+    padding-bottom: 10px;
+}
+
+
+.row1teamMembers{
+    display: table-row;
+    
+}
+
+.aneesContainer{
+    display: table-cell;
+    text-align: center;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    width: 400px;
+    height: 400px;
+}
+
+.markContainer{
+    display: table-cell;
+    text-align: center;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    width: 400px;
+    height: 400px;
+}
