@@ -72,7 +72,7 @@ $book_data = getBookData($conn);
                 <!-- Anees Alawmleh -->
                 <div class="aneesContainer">
                     <h2><b>Anees Alawmleh</b></h2>
-                    <img src="/images/Annes.JPG" width="200px"; height="350px";>
+                    <img src="/LibraryUI/images/Annes.JPG" width="200px"; height="350px";>
                     <p>I am Anees.</p>
                 </div>
 
@@ -81,7 +81,30 @@ $book_data = getBookData($conn);
                     <h2><b>Mark Eskander</b></h2>
                 </div>
 
-            </div>    
+                <!-- Bryan Hernandez-Trejo -->
+                <div class="bryanContainer">
+                    <h2><b>Bryan Hernandez-Trejo</b></h2>
+                </div>
+
+            </div>
+            
+            <div class="row2teamMembers">
+                <!-- Uriel Esquivel -->
+                <div class="urielContainer">
+                    <h2><b>Uriel Esquivel</b></h2>
+                </div>
+
+                <!-- Angel Vasquez -->
+                <div class="angelContainer">
+                    <h2><b>Angel Vasquez</b></h2>
+                </div>
+
+                <!-- Brandon Sandoval -->
+                <div class="brandonContainer">
+                    <h2><b>Brandon Sandoval</b></h2>
+                </div>
+
+            </div>
                 
         </div>
     
