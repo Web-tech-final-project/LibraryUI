@@ -1,0 +1,98 @@
+.headerContainer{
+    padding-top: 20px;
+}
+
+h1{
+    text-align: center;
+    font-size: xx-large;
+}
+
+h2{
+    font-size: large;
+    padding-top: 10px;
+}
+
+img{
+    padding-top: 10px;
+}
+
+p{
+    padding-top: 10px;
+}
+
+/* styles for team members table */
+.teamMembersTableContainer{
+    display: flex;
+    flex-wrap: wrap;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    justify-content: center; /* Center horizontally */
+}
+
+
+.row1teamMembers,
+.row2teamMembers{
+    display: inline-flex;
+    justify-content: center;
+    width: 100%;
+}
+
+.aneesContainer{
+    display: table-cell;
+    text-align: center;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    width: 400px;
+    height: 550px;
+    margin: auto;
+}
+
+.markContainer{
+    display: table-cell;
+    text-align: center;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    width: 400px;
+    height: 550px;
+    margin: 20px;
+}
+
+.bryanContainer{
+    display: table-cell;
+    text-align: center;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    width: 400px;
+    height: 550px;
+    margin: auto;
+}
+
+.urielContainer{
+    display: table-cell;
+    text-align: center;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    width: 400px;
+    height: 550px;
+    margin: auto;
+}
+
+.angelContainer{
+    display: table-cell;
+    text-align: center;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    width: 400px;
+    height: 550px;
+    margin: 20px;
+}
+
+.brandonContainer{
+    display: table-cell;
+    text-align: center;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    width: 400px;
+    height: 550px;
+    margin: auto;
+}
