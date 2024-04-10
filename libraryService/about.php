@@ -73,17 +73,30 @@ $book_data = getBookData($conn);
                 <div class="aneesContainer">
                     <h2><b>Anees Alawmleh</b></h2>
                     <img src="/LibraryUI/images/Annes.JPG" width="200px"; height="350px";>
-                    <p>I am Anees.</p>
+                    <p id="text">I am Anees.</p>
                 </div>
 
                 <!-- Mark Eskander -->
                 <div class="markContainer">
                     <h2><b>Mark Eskander</b></h2>
+                    <img src="/LibraryUI/images/Mark.png" width="290px"; height="250px";>
+                    <p id="text">
+                    Hey there, I'm Mark, a senior studying Computer Science at MTSU. 
+                    I am a back-end developer with MyLibrary and I love it here. 
+                    I deal with PHP and MySQL for the most part, ensuring seamless integration across front-end, back-end, and database operations. 
+                    Besides the technical stuff, I enjoy spending time with friends and staying active.
+                    </p>
                 </div>
 
                 <!-- Bryan Hernandez-Trejo -->
                 <div class="bryanContainer">
                     <h2><b>Bryan Hernandez-Trejo</b></h2>
+                    <img src="/LibraryUI/images/bryan.JPG" width="250px"; height="250px";>
+                    <p id="text">Hi, my name is Bryan Hernandez-Trejo and I'm from Nashville, TN. I'm a passionate computer science student 
+                        currently enrolled as a Senior at Middle Tennessee State University. I've been working on this team for 3 weeks and it has been an amazing experience. 
+                        We have enjoyed working alongside them in the process of web development and learning new technologies. 
+                        I have enjoyed being part of this team and helping each other out in this process that we had begun with little knowledge about.
+                    </p>
                 </div>
 
             </div>

@@ -21,6 +21,10 @@ p{
 }
 
 /* styles for team members table */
+#text{
+    padding-top: 20px;
+}
+
 .teamMembersTableContainer{
     display: flex;
     flex-wrap: wrap;
@@ -43,8 +47,11 @@ p{
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
     width: 400px;
-    height: 550px;
+    height: 650px;
     margin: auto;
+    padding-right: 20px;
+    padding-left: 20px;
+    padding-top: 20px;
 }
 
 .markContainer{
@@ -53,8 +60,11 @@ p{
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
     width: 400px;
-    height: 550px;
+    height: 650px;
     margin: 20px;
+    padding-right: 20px;
+    padding-left: 20px;
+    padding-top: 20px;
 }
 
 .bryanContainer{
@@ -63,8 +73,11 @@ p{
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
     width: 400px;
-    height: 550px;
+    height: 650px;
     margin: auto;
+    padding-right: 20px;
+    padding-left: 20px;
+    padding-top: 20px;
 }
 
 .urielContainer{
