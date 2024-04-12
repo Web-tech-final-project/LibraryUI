@@ -16,13 +16,18 @@ $user_data = check_login($conn);
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="css/pages.css">
     <title>Library home</title>
 </head>
 
 <body>
-    <div class="container">
+    <div class="container-fluid">
+        <!-- Logo -->
+        <div class="text-center">
+            <img src="../images/myLibraryLogo.JPG" alt="MyLibrary logo" >
+        </div>
         <!-- navbar -->
-        <ul class="nav justify-content-center" style="background-color: #e3f2fd; margin: 10px; padding: 10px;">
+        <ul class="nav justify-content-center" style="background-color:#073c6b; margin: 10px; padding: 10px;">
             <li class="nav-item">
                 <a class="nav-link active" aria-current="page" href="libraryHome.php">Home</a>
             </li>
@@ -36,7 +41,7 @@ $user_data = check_login($conn);
                 <a class="nav-link" href="about.php">About</a>
             </li>
             <li class="nav-item ms-auto">
-                <a class="bi bi-person-circle" data-bs-toggle="offcanvas" href="#profilePane" role="button" style="font-size: 1.5rem; text-decoration: none;">
+                <a class="bi bi-person-circle" data-bs-toggle="offcanvas" href="#profilePane" role="button" style="font-size: 2rem; text-decoration: none;">
                     &nbsp<?php echo $user_data['userName'] ?>
                 </a>
 
@@ -84,9 +89,9 @@ $user_data = check_login($conn);
 
 
         <!-- footer -->
-        <div class="container" id="companyFooter">
+        <div class="container-fluid" id="companyFooter">
             <!-- Footer -->
-            <footer class="text-center text-lg-start text-muted" style="background-color: #e3f2fd;">
+            <footer class="text-center text-lg-start text-muted" style="background-color:#073c6b;">
                 <!-- Section: Social media -->
                 <section class="d-flex justify-content-center justify-content-lg-between p-4 border-bottom">
                     <!-- Left -->
