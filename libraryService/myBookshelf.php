@@ -7,7 +7,7 @@ include("../functions.php");
 
 $user_data = check_login($conn);
 
-$num_books = getUserBooks($conn);
+$num_books = getNumUserBooks($conn);
 $book_data = getBookData($conn);
 ?>
 
@@ -27,7 +27,7 @@ $book_data = getBookData($conn);
     <div class="container-fluid">
         <!-- Logo -->
         <div class="text-center">
-            <img src="../images/myLibraryLogo.JPG" alt="MyLibrary logo" >
+            <img src="../images/myLibraryLogo.JPG" alt="MyLibrary logo">
         </div>
         <!-- navbar -->
         <ul class="nav justify-content-center" style="background-color: #073c6b;  margin: 10px; padding: 10px;">
@@ -91,6 +91,7 @@ $book_data = getBookData($conn);
                         echo "<td>" . $book['genre'] . "</td>";
                         echo "<td>" . $book['dateCheckedOut'] . "</td>";
                         echo "<td>" . $book['dateOfReturn'] . "</td>";
+                        echo "<td><img src='{$book['imgPath']}' width='50px' height='50px'></td>";
                         echo "</tr>";
                     }
                 } else {

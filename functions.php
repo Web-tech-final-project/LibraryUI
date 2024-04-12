@@ -23,7 +23,7 @@ function check_login($conn)
 }
 
 // getting number of user books
-function getUserBooks($conn)
+function getNumUserBooks($conn)
 {
     $id = $_SESSION['id'];
     $query = "SELECT COUNT(*) FROM books
@@ -42,9 +42,10 @@ function getUserBooks($conn)
 function getBookData($conn)
 {
     $id = $_SESSION['id'];
-    $query = "SELECT b.*, g.genre
+    $query = "SELECT b.*, g.genre, bi.imgPath
               FROM books b
               LEFT JOIN genres g ON b.genreId = g.genreId
+              LEFT JOIN bookImgs bi ON b.imgId = bi.imgId
               WHERE b.ownerUserId = '$id'";
 
     $result = mysqli_query($conn, $query);
