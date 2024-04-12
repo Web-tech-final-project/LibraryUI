@@ -75,6 +75,7 @@ $book_data = getBookData($conn);
                     <th scope="col">Genre</th>
                     <th scope="col">Checked out</th>
                     <th scope="col">Return</th>
+                    <th scope="col">Image</th>
                 </tr>
             </thead>
             <tbody>
