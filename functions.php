@@ -23,11 +23,11 @@ function check_login($conn)
 }
 
 // getting number of user books
-function getUserBooks($conn)
+function getNumUserBooks($conn)
 {
     $id = $_SESSION['id'];
-    $query = "SELECT COUNT(*) FROM books
-              WHERE ownerUserId = '$id'";
+    $query = "SELECT COUNT(*) FROM rentals
+              WHERE userId = '$id' AND dateOfReturn IS NULL";
 
     $result = mysqli_query($conn, $query);
 
@@ -39,13 +39,15 @@ function getUserBooks($conn)
 }
 
 // return user books data
-function getBookData($conn)
+function getUserBookData($conn)
 {
     $id = $_SESSION['id'];
-    $query = "SELECT b.*, g.genre
+    $query = "SELECT b.*, g.genre, bi.imgPath, r.*
               FROM books b
               LEFT JOIN genres g ON b.genreId = g.genreId
-              WHERE b.ownerUserId = '$id'";
+              LEFT JOIN bookImgs bi ON b.imgId = bi.imgId
+              JOIN rentals r ON b.bookId = r.bookId
+              WHERE r.userId = '$id' AND r.dateOfReturn IS NULL";
 
     $result = mysqli_query($conn, $query);
 
@@ -61,4 +63,33 @@ function getBookData($conn)
 
         return $booksData;
     }
+}
+
+// function to return a book and update databse
+function returnBook($conn, $bookId)
+{
+    $id = $_SESSION['id'];
+
+    // query to update rentals table
+    $queryRentals = "UPDATE rentals
+              SET dateOfReturn = NOW()
+              WHERE bookId = '$bookId' AND userId = '$id' AND dateOfReturn IS NULL";
+
+    $resultRentals = mysqli_query($conn, $queryRentals);
+
+    // if rentals result was successful
+    if ($resultRentals) {
+        // query to update books table amount
+        $queryBooks = "UPDATE books
+                       SET amount = amount + 1
+                       WHERE bookId = '$bookId'";
+
+        $resultBooks = mysqli_query($conn, $queryBooks);
+
+        // if books query was successful
+        if ($resultBooks) {
+            return true;
+        }
+    }
+    return false;
 }
