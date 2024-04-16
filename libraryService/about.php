@@ -7,8 +7,8 @@ include("../functions.php");
 
 $user_data = check_login($conn);
 
-$num_books = getUserBooks($conn);
-$book_data = getBookData($conn);
+$num_books = getNumUserBooks($conn);
+$book_data = getUserBookData($conn);
 ?>
 
 <!DOCTYPE html>
