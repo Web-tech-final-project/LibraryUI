@@ -17,6 +17,7 @@ $user_data = check_login($conn);
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <link rel="stylesheet" href="css/pages.css">
+    <link rel="stylesheet" hred="css/explore.css">
     <title>Library home</title>
 </head>
 
@@ -61,30 +62,33 @@ $user_data = check_login($conn);
             </li>
         </ul>
 
-
-
-    <!-- Dropdown for search -->
-    <div class="dropdown">
-        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-            Dropdown button
-        </button>
-        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-        <li><a class="dropdown-item" href="#">Search by Title</a></li>
-        <li><a class="dropdown-item" href="#">Search by Author</a></li>
-        <li><a class="dropdown-item" href="#">Search by Genre</a></li>
-        </ul>
-    </div>
-
-
-
-                    <!-- Search bar -->
-                    <form class="form-inline">
-                    <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-                </form>
+<!-- Search and Dropdown -->
+<div class="container">
+    <div class="row align-items-center">
+        <!-- Search Bar -->
+        <div class="col">
+            <form class="d-flex">
+                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                <button class="btn my-2 my-sm-0" type="submit" style="background-color: #28a745; border-color: #28a745;" onmouseover="this.style.backgroundColor='#218838'" onmouseout="this.style.backgroundColor='#28a745'">
+                Search</button>
+            </form>
+        </div>
+        <!-- Dropdown -->
+        <div class="col-auto">
+            <div class="dropdown">
+            <button class="btn btn-secondary dropdown-toggle fixed-width-btn" id="dropdownMenuButton1" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Search Options
+            </button>
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                    <li><a class="dropdown-item" href="#" onclick="updateDropdownLabel('Search by Title')">Search by Title</a></li>
+                    <li><a class="dropdown-item" href="#" onclick="updateDropdownLabel('Search by Author')">Search by Author</a></li>
+                    <li><a class="dropdown-item" href="#" onclick="updateDropdownLabel('Search by Genre')">Search by Genre</a></li>
+                </ul>
             </div>
         </div>
     </div>
+</div>
+
 
 
 
@@ -196,6 +200,7 @@ $user_data = check_login($conn);
 
     <!-- link for bootstrap js compatability -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <script src="javascript/explore.js" defer></script>
 </body>
 
 </html>
