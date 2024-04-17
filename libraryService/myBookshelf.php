@@ -154,13 +154,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['return_book'])) {
                         <a href="https://github.com/orgs/Web-tech-final-project/repositories" target="_blank" class="me-4 text-reset">
                             <i class="bi bi-github"></i>
                         </a>
-                        <a href="" class="me-4 text-reset">
+                        <a href="https://facebook.com" target="_blank" class="me-4 text-reset">
                             <i class="bi bi-facebook"></i>
                         </a>
-                        <a href="" class="me-4 text-reset">
+                        <a href="https://x.com" target="_blank" class="me-4 text-reset">
                             <i class="bi bi-twitter-x"></i>
                         </a>
-                        <a href="" class="me-4 text-reset">
+                        <a href="https://instagram.com" target="_blank" class="me-4 text-reset">
                             <i class="bi bi-instagram"></i>
                         </a>
                     </div>
@@ -204,10 +204,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['return_book'])) {
                                 <a href="about.php" class="text-reset">About</a>
                             </p>
                             <p>
-                                <a href="#!" class="text-reset">FAQ</a>
+                                <a href="faq.php" class="text-reset">FAQ</a>
                             </p>
                             <p>
-                                <a href="#!" class="text-reset">Help</a>
+                                <a href="help.php" class="text-reset">Help</a>
                             </p>
                         </div>
                         <!-- Grid column -->
