@@ -5,10 +5,23 @@ session_start();
 include("../connection.php");
 include("../functions.php");
 
-$user_data = check_login_libraryService($conn);
+$user_data = check_login($conn);
 
-$num_books = getUserBooks($conn);
-$book_data = getBookData($conn);
+$num_books = getNumUserBooks($conn);
+$book_data = getUserBookData($conn);
+
+// if form is submitted call return function
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['return_book'])) {
+    $bookId = $_POST['bookId'];
+    // successful return
+    if (returnBook($conn, $bookId)) {
+        echo "<script>alert('Book returned successfully');</script>";
+        $num_books = getNumUserBooks($conn);
+        $book_data = getUserBookData($conn);
+    } else {
+        echo "<script>alert('Failed to return book');</script>";
+    }
+}
 ?>
 
 <!DOCTYPE html>
@@ -19,13 +32,18 @@ $book_data = getBookData($conn);
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="css/pages.css">
     <title>My bookshelf</title>
 </head>
 
 <body>
-    <div class="container">
+    <div class="container-fluid">
+        <!-- Logo -->
+        <div class="text-center">
+            <img src="../images/myLibraryLogo.JPG" alt="MyLibrary logo">
+        </div>
         <!-- navbar -->
-        <ul class="nav justify-content-center" style="background-color: #e3f2fd; margin: 10px; padding: 10px;">
+        <ul class="nav justify-content-center" style="background-color: #073c6b;  margin: 10px; padding: 10px;">
             <li class="nav-item">
                 <a class="nav-link active" aria-current="page" href="libraryHome.php">Home</a>
             </li>
@@ -39,7 +57,7 @@ $book_data = getBookData($conn);
                 <a class="nav-link" href="about.php">About</a>
             </li>
             <li class="nav-item ms-auto">
-                <a class="bi bi-person-circle" data-bs-toggle="offcanvas" href="#profilePane" role="button" style="font-size: 1.5rem; text-decoration: none;">
+                <a class="bi bi-person-circle" data-bs-toggle="offcanvas" href="#profilePane" role="button" style="font-size: 2rem; text-decoration: none;">
                     &nbsp<?php echo $user_data['userName'] ?>
                 </a>
 
@@ -60,46 +78,69 @@ $book_data = getBookData($conn);
         </ul>
 
         <!-- page content -->
-        <h1>You have <?php echo $num_books; ?> book(s) checked out under your name <?php echo $user_data['userName']; ?></h1>
-        <table class="table">
-            <thead>
-                <tr>
-                    <th scope="col">ISBN</th>
-                    <th scope="col">Title</th>
-                    <th scope="col">Author</th>
-                    <th scope="col">Genre</th>
-                    <th scope="col">Checked out</th>
-                    <th scope="col">Return</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php
-                // Check if book data is available
-                if ($book_data) {
-                    // Loop through each book record
-                    foreach ($book_data as $book) {
-                        // Output table row for each book
-                        echo "<tr>";
-                        echo "<td>" . $book['isbn'] . "</td>";
-                        echo "<td>" . $book['title'] . "</td>";
-                        echo "<td>" . $book['author'] . "</td>";
-                        echo "<td>" . $book['genre'] . "</td>";
-                        echo "<td>" . $book['dateCheckedOut'] . "</td>";
-                        echo "<td>" . $book['dateOfReturn'] . "</td>";
-                        echo "</tr>";
+        <h1>You have <?php echo $num_books; ?> book(s) checked out under your name, <?php echo $user_data['userName']; ?></h1>
+
+        <div class="row m-auto mb-4">
+            <?php
+            // check if book data is available
+            if ($book_data) {
+                // loop through book record
+                foreach ($book_data as $key => $book) {
+                    // start new row every four books
+                    if ($key % 4 == 0) {
+                        echo "</div><div class='row m-auto mb-4'>";
                     }
-                } else {
-                    // If no book data is available, display a message in a single table row
-                    echo "<tr><td colspan='6'>No books found</td></tr>";
+            ?>
+                    <!-- display card with book info -->
+                    <div class='col-md-3'>
+                        <div class='card' style='width: 21rem; height: 39rem;'>
+                            <img src='<?php echo $book['imgPath']; ?>' class='card-img-top' width="auto" height="350px" alt='Book Image'>
+                            <div class='card-body'>
+                                <h3 class='card-title'><?php echo $book['title']; ?></h3>
+                                <p class='card-text'><strong><?php echo $book['author']; ?></strong></p>
+                                <p class='card-text'><?php echo $book['genre']; ?></p>
+                                <p class='card-text'><u>ISBN:</u> <?php echo $book['isbn']; ?></p>
+                                <p class='card-text'><u>Checked out:</u> <?php echo date('D, M d, Y', strtotime($book['dateOfCheckout'])); ?></p>
+                                <div class="d-flex justify-content-center">
+                                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#returnModal<?php echo $key; ?>">
+                                        Return
+                                    </button>
+                                </div>
+
+                                <!-- Modal for returning books -->
+                                <div class="modal fade" id="returnModal<?php echo $key; ?>" tabindex="-1" aria-labelledby="returnModalLabel<?php echo $key; ?>" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h1 class="modal-title fs-5" id="returnModalLabel<?php echo $key; ?>">Process return</h1>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <h4>Are you sure you want to return <strong><?php echo $book['title']; ?></strong> by <strong><?php echo $book['author']; ?></strong></h4>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-success" data-bs-dismiss="modal">No, keep it.</button>
+                                                <form method="post">
+                                                    <input type="hidden" name="bookId" value="<?php echo $book['bookId']; ?>">
+                                                    <button type="submit" name="return_book" class="btn btn-warning">Yes, return my book</button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+            <?php
                 }
-                ?>
-            </tbody>
-        </table>
+            }
+            ?>
+        </div>
 
         <!-- footer -->
-        <div class="container" id="companyFooter">
+        <div class="container-fluid" id="companyFooter">
             <!-- Footer -->
-            <footer class="text-center text-lg-start text-muted" style="background-color: #e3f2fd;">
+            <footer class="text-center text-lg-start text-muted" style="background-color: #073c6b; ">
                 <!-- Section: Social media -->
                 <section class="d-flex justify-content-center justify-content-lg-between p-4 border-bottom">
                     <!-- Left -->
