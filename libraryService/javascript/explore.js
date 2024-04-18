@@ -1,6 +1,8 @@
-function updateDropdownLabel(text) {
+function updateDropdownLabel(text, type) {
     document.getElementById('dropdownMenuButton1').textContent = text;
+    document.getElementById('searchType').value = type;
 }
+
 
 document.addEventListener('DOMContentLoaded', function() {
     let button = document.getElementById('dropdownMenuButton1');
@@ -22,5 +24,5 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     // Set the width of the original button
-    button.style.width = `${maxWidth + 30}px`; // add some padding
+    button.style.width = `${maxWidth + 30}px`;
 });

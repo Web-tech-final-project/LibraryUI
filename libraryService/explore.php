@@ -1,12 +1,26 @@
-<!-- php code -->
 <?php
-session_start();
+// Start session only if no session has been started yet
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+}
 
-include("../connection.php");
-include("../functions.php");
+include_once("../connection.php");
+include_once("../functions.php");
 
 $user_data = check_login($conn);
+
+$num_books = getNumUserBooks($conn);
+$book_data = getUserBookData($conn);
+
+// Handling search functionality
+$searchResults = [];
+if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET['searchQuery'])) {
+    $searchType = $_GET['searchType'];
+    $searchQuery = $_GET['searchQuery'];
+    $searchResults = searchBooks($conn, $searchType, $searchQuery);
+}
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -25,7 +39,7 @@ $user_data = check_login($conn);
     <div class="container-fluid">
         <!-- Logo -->
         <div class="text-center">
-            <img src="../images/myLibraryLogo.JPG" alt="MyLibrary logo" >
+            <img src="../images/myLibraryLogo.JPG" alt="MyLibrary logo">
         </div>
         <!-- navbar -->
         <ul class="nav justify-content-center" style="background-color:#073c6b; margin: 10px; padding: 10px;">
@@ -62,33 +76,73 @@ $user_data = check_login($conn);
             </li>
         </ul>
 
-<!-- Search and Dropdown -->
-<div class="container">
-    <div class="row align-items-center">
-        <!-- Search Bar -->
-        <div class="col">
-            <form class="d-flex">
-                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                <button class="btn my-2 my-sm-0" type="submit" style="background-color: #28a745; border-color: #28a745;" onmouseover="this.style.backgroundColor='#218838'" onmouseout="this.style.backgroundColor='#28a745'">
-                Search</button>
-            </form>
-        </div>
-        <!-- Dropdown -->
-        <div class="col-auto">
-            <div class="dropdown">
-            <button class="btn btn-secondary dropdown-toggle fixed-width-btn" id="dropdownMenuButton1" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-            Search Options
-            </button>
-                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                    <li><a class="dropdown-item" href="#" onclick="updateDropdownLabel('Search by Title')">Search by Title</a></li>
-                    <li><a class="dropdown-item" href="#" onclick="updateDropdownLabel('Search by Author')">Search by Author</a></li>
-                    <li><a class="dropdown-item" href="#" onclick="updateDropdownLabel('Search by Genre')">Search by Genre</a></li>
-                </ul>
+        <div class="container">
+            <div class="row align-items-center justify-content-between">
+                <!-- Search Bar -->
+                <div class="col">
+                    <form class="d-flex" action="explore.php" method="GET">
+                        <input class="form-control me-2" type="search" name="searchQuery" placeholder="Search" aria-label="Search">
+                        <!-- Hidden field for search type -->
+                        <input type="hidden" name="searchType" id="searchType" value="title">
+
+                        <!-- Search Button -->
+                        <button class="btn btn-outline-success" type="submit" style="background-color: #007BFF; border-color: #007BFF; color: white;" onmouseover="this.style.backgroundColor='#66B2FF'" onmouseout="this.style.backgroundColor='#007BFF'">Search</button>
+
+                    </form>
+                </div>
+
+                <!-- Dropdown -->
+                <div class="col-auto">
+                    <div class="dropdown">
+                        <button class="btn btn-secondary dropdown-toggle" id="dropdownMenuButton1" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Search by Title
+                        </button>
+                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                            <li><a class="dropdown-item" href="#" onclick="updateDropdownLabel('Search by Title', 'title')">Search by Title</a></li>
+                            <li><a class="dropdown-item" href="#" onclick="updateDropdownLabel('Search by Author', 'author')">Search by Author</a></li>
+                            <li><a class="dropdown-item" href="#" onclick="updateDropdownLabel('Search by Genre', 'genre')">Search by Genre</a></li>
+                        </ul>
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
-</div>
 
+        <br>
+        <br>
+        <!-- Display search results -->
+        <div class="container-fluid">
+            <div class="row m-auto mb-4">
+                <?php
+                // Check if search results are available
+                if (!empty($searchResults)) {
+                    foreach ($searchResults as $key => $book) {
+                        // Start a new row for every four books
+                        if ($key % 4 == 0 && $key != 0) {
+                            echo "</div><div class='row m-auto mb-4'>";
+                        }
+                ?>
+                        <!-- Display card with book info -->
+                        <div class="col-md-3 mb-4">
+                            <div class='card' style='width: 21rem; height: 39rem;'>
+                            <img src='<?php echo $book['imgPath']; ?>' class='card-img-top' width="auto" height="350px" alt='Book Image'>                                <div class="card-body d-flex flex-column">
+                                    <h3 class='card-title'><?php echo $book['title']; ?></h3>
+                                    <p class='card-text'><strong><?php echo $book['author']; ?></strong></p>
+                                    <p class='card-text'><?php echo $book['genre']; ?></p>
+                                    <p class='card-text'><u>ISBN:</u> <?php echo $book['isbn']; ?></p>
+                                    <p class='card-text'><u>ISBN:</u> <?php echo $book['amount']; ?></p>
+                                    <div class="mt-auto">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                <?php
+                    }
+                } else {
+                    echo "<div class='col-12'><p>No results found.</p></div>";
+                }
+                ?>
+            </div>
+        </div>
 
 
 
