@@ -2,26 +2,26 @@
 <?php
 session_start();
 
-    include("../connection.php");
-    include("../functions.php");
+include("../connection.php");
+include("../functions.php");
 
-    $user_data = check_login($conn);
+$user_data = check_login($conn);
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
+<meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <link rel="stylesheet" href="css/pages.css">
-    <title>MyLibrary home</title>
+    <title>Library Help</title>
 </head>
 
 <body>
-    <div class="container-fluid">
+<div class="container-fluid">
         <!-- Logo -->
         <div class="text-center">
             <img src="../images/myLibraryLogo.JPG" alt="MyLibrary logo" >
@@ -60,6 +60,36 @@ session_start();
                 </div>
             </li>
         </ul>
+
+        <!-- help section -->
+        <div class="container-fluid bg-white rounded-3">
+            <br>
+            <center><h1><b>Frequently Asked Questions</b></h1></center><br>
+
+            <h3><b>Q: How do I return my book(s)?</b></h3>
+            <h5>To return your book(s), simply navigate to the <b>My Bookshelf</b> page and click the <b>return</b> button at the button of the desired book to return.</h5>
+            <br><br>
+
+            <h3><b>Q: How do I check out a book?</b></h3>
+            <h5>To check out a book, simply come down to the library and take your desired book up to the front counter to check out.</h5>
+            <h5> Unfortunately, we not offer online checkout at this time.</h5>
+            <br><br>
+
+            <h3><b>Q: How can I search for a book?</b></h3>
+            <h5>To find a book using our Online Catalog, you can simply navigate to the <b>Explore</b> page.</h5>
+            <h5>Once there, you will see a search bar pop up in which you can search for books by Title, Author, or Genre.</h5>
+            <br><br>
+
+            <h3><b>Q: How do I contact the library?</b></h3>
+            <h5>To contact us for further assistance, you can use one of our contact methods listed at the bottom right of our webpage.</h5>
+            <h5>You can also use the Question Box on our <b>Help</b> page <a href="help.php">here</a></h5>
+            <h5></h5>
+            <br><br>
+
+            <br>
+        </div>
+
+
 
         <!-- footer -->
         <div class="container-fluid" id="companyFooter">
