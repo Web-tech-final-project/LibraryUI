@@ -2,26 +2,26 @@
 <?php
 session_start();
 
-    include("../connection.php");
-    include("../functions.php");
+include("../connection.php");
+include("../functions.php");
 
-    $user_data = check_login($conn);
+$user_data = check_login($conn);
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
+<meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <link rel="stylesheet" href="css/pages.css">
-    <title>MyLibrary home</title>
+    <title>Library Help</title>
 </head>
 
 <body>
-    <div class="container-fluid">
+<div class="container-fluid">
         <!-- Logo -->
         <div class="text-center">
             <img src="../images/myLibraryLogo.JPG" alt="MyLibrary logo" >
@@ -60,6 +60,25 @@ session_start();
                 </div>
             </li>
         </ul>
+
+        <!-- help section -->
+        <div class="container-fluid bg-white rounded-3">
+            <br>
+            <!-- heading -->
+            <center><h1><b>Help</b></h1></center>
+
+            <!-- question box -->
+            <h3>Need further help? Shoot us an email!</h3>
+            <div class="form-group">
+                <label for="name">Name:</label>
+                <input type="text" class="form-control" id="name">
+                <label for="email">Email:</label>
+                <input type="text" class="form-control" id="email">
+                <label for="question">Question:</label>
+                <textarea class="form-control" rows="5" id="question"></textarea>
+            </div><br>
+        </div>
+
 
         <!-- footer -->
         <div class="container-fluid" id="companyFooter">
