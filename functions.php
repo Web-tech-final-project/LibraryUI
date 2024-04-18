@@ -93,3 +93,31 @@ function returnBook($conn, $bookId)
     }
     return false;
 }
+
+// function to renew books and update rentals table
+function renewBook($conn, $bookId)
+{
+    $id = $_SESSION['id'];
+
+    // query to update rentals table
+    $queryExtendDate = "UPDATE rentals
+                        SET newReturnBy = DATE_ADD(returnBy, INTERVAL 1 WEEK)
+                        WHERE bookId = '$bookId' AND userId = '$id' AND dateOfReturn IS NULL AND isRenewed = 0";
+
+    $resultExtend = mysqli_query($conn, $queryExtendDate);
+
+    // if date extended successfully
+    if ($resultExtend) {
+        $queryMakeRenewed = "UPDATE rentals
+                             SET isRenewed = 1
+                             WHERE bookId = '$bookId' AND userId = '$id' AND isRenewed = 0";
+
+        $resultMakeRenewed = mysqli_query($conn, $queryMakeRenewed);
+
+        if ($resultMakeRenewed) {
+            return true;
+        }
+    }
+
+    return false;
+}
