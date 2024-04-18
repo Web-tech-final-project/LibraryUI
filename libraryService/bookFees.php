@@ -1,9 +1,12 @@
 <!-- php code -->
 <?php
-session_start();
+// Start session only if no session has been started yet
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+}
 
-include("../connection.php");
-include("../functions.php");
+include_once("../connection.php");
+include_once("../functions.php");
 
 $user_data = check_login($conn);
 

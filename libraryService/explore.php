@@ -47,10 +47,13 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET['searchQuery'])) {
                 <a class="nav-link active" aria-current="page" href="libraryHome.php">Home</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="myBookshelf.php">My bookshelf</a>
+                <a class="nav-link" href="myBookshelf.php">My Bookshelf</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="explore.php">Explore</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="bookFees.php">Book Fees</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="about.php">About</a>
