@@ -93,3 +93,60 @@ function returnBook($conn, $bookId)
     }
     return false;
 }
+
+
+function searchBooks($conn, $searchType, $searchQuery) {
+    $likeQuery = '%' . $searchQuery . '%';
+    $baseSql = "SELECT b.*, g.genre, bi.imgPath 
+                FROM books b 
+                JOIN genres g ON b.genreId = g.genreId 
+                JOIN bookImgs bi ON b.imgId = bi.imgId ";
+
+    if ($searchType == 'title') {
+        $sql = $baseSql . "WHERE b.title LIKE ?";
+    } elseif ($searchType == 'author') {
+        $sql = $baseSql . "WHERE b.author LIKE ?";
+    } elseif ($searchType == 'genre') {
+        $sql = $baseSql . "WHERE g.genre LIKE ?";
+    } else {
+        return false; // Invalid search type
+    }
+
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("s", $likeQuery);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $books = [];
+    while ($book = $result->fetch_assoc()) {
+        $books[] = $book;
+    }
+    $stmt->close();
+    return $books;
+}
+// function to renew books and update rentals table
+function renewBook($conn, $bookId)
+{
+    $id = $_SESSION['id'];
+
+    // query to update rentals table
+    $queryExtendDate = "UPDATE rentals
+                        SET newReturnBy = DATE_ADD(returnBy, INTERVAL 1 WEEK)
+                        WHERE bookId = '$bookId' AND userId = '$id' AND dateOfReturn IS NULL AND isRenewed = 0";
+
+    $resultExtend = mysqli_query($conn, $queryExtendDate);
+
+    // if date extended successfully
+    if ($resultExtend) {
+        $queryMakeRenewed = "UPDATE rentals
+                             SET isRenewed = 1
+                             WHERE bookId = '$bookId' AND userId = '$id' AND isRenewed = 0";
+
+        $resultMakeRenewed = mysqli_query($conn, $queryMakeRenewed);
+
+        if ($resultMakeRenewed) {
+            return true;
+        }
+    }
+
+    return false;
+}
