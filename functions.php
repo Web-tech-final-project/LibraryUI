@@ -131,7 +131,7 @@ function renewBook($conn, $bookId)
 
     // query to update rentals table
     $queryExtendDate = "UPDATE rentals
-                        SET newReturnBy = DATE_ADD(returnBy, INTERVAL 1 WEEK)
+                        SET newReturnBy = DATE_ADD(CURRENT_DATE, INTERVAL 1 WEEK)
                         WHERE bookId = '$bookId' AND userId = '$id' AND dateOfReturn IS NULL AND isRenewed = 0";
 
     $resultExtend = mysqli_query($conn, $queryExtendDate);
@@ -188,7 +188,7 @@ function overdueRentals($conn)
     $overdueQuery = "SELECT b.*, r.*
                      FROM books b
                      JOIN rentals r ON b.bookId = r.bookId
-                     WHERE r.userId = '$id' AND r.dateOfReturn IS NULL AND r.overdueFee IS NOT NULL";
+                     WHERE r.userId = '$id' AND (r.dateOfReturn IS NULL OR r.overdueFee IS NOT NULL)";
 
     $result = mysqli_query($conn, $overdueQuery);
 
@@ -212,7 +212,7 @@ function totalFees($conn)
     // query to get total fees accrued
     $query = "SELECT SUM(overdueFee)
               FROM rentals
-              WHERE userId = '$id' AND dateOfReturn IS NULL AND overdueFee IS NOT NULL";
+              WHERE userId = '$id' AND overdueFee IS NOT NULL";
 
     $result = mysqli_query($conn, $query);
 
