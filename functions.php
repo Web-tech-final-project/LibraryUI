@@ -95,7 +95,8 @@ function returnBook($conn, $bookId)
 }
 
 
-function searchBooks($conn, $searchType, $searchQuery) {
+function searchBooks($conn, $searchType, $searchQuery)
+{
     $likeQuery = '%' . $searchQuery . '%';
     $baseSql = "SELECT b.*, g.genre, bi.imgPath 
                 FROM books b 
@@ -149,4 +150,54 @@ function renewBook($conn, $bookId)
     }
 
     return false;
+}
+
+function numOverdueRentals($conn)
+{
+    $id = $_SESSION['id'];
+
+    $numOverdueQuery = "SELECT COUNT(*) FROM rentals
+                        WHERE userId = '$id' AND overdueFee IS NOT NULL AND dateOfReturn IS NULL";
+
+    $result = mysqli_query($conn, $numOverdueQuery);
+
+    if ($result) {
+        $row = mysqli_fetch_row($result);
+        return $row[0];
+    }
+}
+
+// method to calculate overdue fees
+function overdueFees($conn)
+{
+    $id = $_SESSION['id'];
+
+    // update db by calculating overdue amount
+    // books that haven't been renewed
+    $updateNotRenewedQuery = "UPDATE rentals
+                     SET overdueFee = DATEDIFF(CURRENT_DATE, returnBy) * 0.10
+                     WHERE dateOfReturn IS NULL AND CURRENT_DATE > returnBy";
+    mysqli_query($conn, $updateNotRenewedQuery);
+
+    // books that have been renewed
+    $updateRenewedQuery = "UPDATE rentals
+                     SET overdueFee = DATEDIFF(CURRENT_DATE, newReturnBy) * 0.10
+                     WHERE dateOfReturn IS NULL AND CURRENT_DATE > newReturnBy";
+    mysqli_query($conn, $updateRenewedQuery);
+
+    $overdueQuery = "SELECT * FROM rentals
+                     WHERE userId = '$id' AND overdueFee IS NOT NULL AND dateOfReturn IS NULL";
+
+    $result = mysqli_query($conn, $overdueQuery);
+
+    $overdueBooksData = array();
+
+    if ($result) {
+        // fetch all rows from the result set
+        while ($row = mysqli_fetch_assoc($result)) {
+            $overdueBooksData[] = $row;
+        }
+
+        return $overdueBooksData;
+    }
 }

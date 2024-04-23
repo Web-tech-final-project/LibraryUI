@@ -10,34 +10,10 @@ include_once("../functions.php");
 
 $user_data = check_login($conn);
 
-$num_books = getNumUserBooks($conn);
-$book_data = getUserBookData($conn);
+$num_overdue_books = numOverdueRentals($conn);
+$overdue_books = overdueFees($conn);
 
-// if form is submitted to call return function
-if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['return_book'])) {
-    $bookId = $_POST['bookId'];
-    // successful return
-    if (returnBook($conn, $bookId)) {
-        echo "<script>alert('Book returned successfully');</script>";
-        $num_books = getNumUserBooks($conn);
-        $book_data = getUserBookData($conn);
-    } else {
-        echo "<script>alert('Failed to return book');</script>";
-    }
-}
 
-// if form is submitted to call renew function
-if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['renew_book'])) {
-    $bookId = $_POST['bookId'];
-    // successful return
-    if (renewBook($conn, $bookId)) {
-        echo "<script>alert('Rental renewed successfully');</script>";
-        $num_books = getNumUserBooks($conn);
-        $book_data = getUserBookData($conn);
-    } else {
-        echo "<script>alert('Failed to renew rental');</script>";
-    }
-}
 ?>
 
 <!DOCTYPE html>
@@ -49,7 +25,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['renew_book'])) {
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <link rel="stylesheet" href="css/pages.css">
-    <title>My bookshelf</title>
+    <title>Overdue fees</title>
 </head>
 
 <body>
@@ -97,102 +73,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['renew_book'])) {
         </ul>
 
         <!-- page content -->
-        <h1>You have <?php echo $num_books; ?> book(s) checked out under your name, <?php echo $user_data['userName']; ?></h1>
+        <h1>You have <?php echo $num_overdue_books; ?> overdue book(s), <?php echo $user_data['userName']; ?></h1>
+        <?php
+        if ($num_overdue_books > 0) {
+        ?>
+            <h1>Please return or renew them at your earliest convenience.</h1>
+        <?php
+        }
+        ?>
 
-        <div class="row m-auto mb-4">
-            <?php
-            // check if book data is available
-            if ($book_data) {
-                // loop through book record
-                foreach ($book_data as $key => $book) {
-                    // start new row every four books
-                    if ($key % 4 == 0) {
-                        echo "</div><div class='row m-auto mb-4'>";
-                    }
-
-                    // which return date to go by and check if overdue
-                    $returnByDate = $book['isRenewed'] == 1 ? $book['newReturnBy'] : $book['returnBy'];
-                    $isOverdue = date('Y-m-d') > date('Y-m-d', strtotime($returnByDate));
-            ?>
-                    <!-- display card with book info -->
-                    <div class='col-md-3'>
-                        <div class='card' style='width: 21rem; height: 39rem;'>
-                            <img src='<?php echo $book['imgPath']; ?>' class='card-img-top' width="auto" height="350px" alt='Book Image'>
-                            <div class='card-body'>
-                                <h3 class='card-title'><?php echo $book['title']; ?></h3>
-                                <p class='card-text'><strong><?php echo $book['author']; ?></strong></p>
-                                <p class='card-text'><?php echo $book['genre']; ?></p>
-                                <!-- <p class='card-text'><u>ISBN: </u> <?php echo $book['isbn']; ?></p> -->
-                                <p class='card-text'><u>Checked out</u>: <?php echo date('D, M d, Y', strtotime($book['dateOfCheckout'])); ?></p>
-                                <p class="card-text"><u>Return by</u>: <?php echo !$isOverdue ? '<span class="text-primary">' . date('D, M d, Y', strtotime($returnByDate)) . '</span>' :
-                                                                            '<span class="text-danger">' . date('D, M d, Y', strtotime($returnByDate)) . '</span>'; ?></p>
-
-                                <div class="row justify-content-center">
-                                    <div class="col-md-4 justify-content-center">
-                                        <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#returnModal<?php echo $key; ?>">
-                                            Return
-                                        </button>
-                                    </div>
-                                    <div class="col-md-4 justify-content-center">
-                                        <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#renewModal<?php echo $key; ?>" <?php echo $book['isRenewed'] ? 'disabled' : ''; ?>>
-                                            Renew
-                                        </button>
-                                    </div>
-                                </div>
-
-                                <!-- Modal for returning books -->
-                                <div class="modal fade" id="returnModal<?php echo $key; ?>" tabindex="-1" aria-labelledby="returnModalLabel<?php echo $key; ?>" aria-hidden="true">
-                                    <div class="modal-dialog">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h1 class="modal-title fs-5" id="returnModalLabel<?php echo $key; ?>">Process return</h1>
-                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                            </div>
-                                            <div class="modal-body">
-                                                <h4>Are you sure you want to return <strong><?php echo $book['title']; ?></strong> by <strong><?php echo $book['author']; ?></strong>?</h4>
-                                                <br>
-                                                <h6><span style="color: red;">*</span> This action can't be undone <span style="color: red;">*</span></h6>
-                                            </div>
-                                            <div class="modal-footer">
-                                                <form method="post">
-                                                    <input type="hidden" name="bookId" value="<?php echo $book['bookId']; ?>">
-                                                    <button type="submit" name="return_book" class="btn btn-danger">Yes, return my book</button>
-                                                </form>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <!-- Modal for renewing books -->
-                                <div class="modal fade" id="renewModal<?php echo $key; ?>" tabindex="-1" aria-labelledby="renewModalLabel<?php echo $key; ?>" aria-hidden="true">
-                                    <div class="modal-dialog">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h1 class="modal-title fs-5" id="renewModalLabel<?php echo $key; ?>">Process renewal</h1>
-                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                            </div>
-                                            <div class="modal-body">
-                                                <h4>Are you sure you want to renew <strong><?php echo $book['title']; ?></strong> by <strong><?php echo $book['author']; ?></strong>?</h4>
-                                                <br>
-                                                <h6><span style="color: red;">*</span> Renewed rentals are extended for 1 week. This rental may only be renewed once. <span style="color: red;">*</span></h6>
-                                            </div>
-                                            <div class="modal-footer">
-                                                <form method="post">
-                                                    <input type="hidden" name="bookId" value="<?php echo $book['bookId']; ?>">
-                                                    <button type="submit" name="renew_book" class="btn btn-success">Yes, renew this book rental</button>
-                                                </form>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-            <?php
-                }
-            }
-            ?>
-        </div>
+        <!-- page content table -->
+        
 
         <!-- footer -->
         <div class="container-fluid" id="companyFooter">
