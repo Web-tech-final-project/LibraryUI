@@ -168,7 +168,7 @@ function numOverdueRentals($conn)
 }
 
 // method to calculate overdue fees
-function overdueFees($conn)
+function overdueRentals($conn)
 {
     $id = $_SESSION['id'];
 
@@ -176,17 +176,19 @@ function overdueFees($conn)
     // books that haven't been renewed
     $updateNotRenewedQuery = "UPDATE rentals
                      SET overdueFee = DATEDIFF(CURRENT_DATE, returnBy) * 0.10
-                     WHERE dateOfReturn IS NULL AND CURRENT_DATE > returnBy";
+                     WHERE dateOfReturn IS NULL AND isRenewed = 0 AND CURRENT_DATE > returnBy";
     mysqli_query($conn, $updateNotRenewedQuery);
 
     // books that have been renewed
     $updateRenewedQuery = "UPDATE rentals
                      SET overdueFee = DATEDIFF(CURRENT_DATE, newReturnBy) * 0.10
-                     WHERE dateOfReturn IS NULL AND CURRENT_DATE > newReturnBy";
+                     WHERE dateOfReturn IS NULL AND isRenewed = 1 AND CURRENT_DATE > newReturnBy";
     mysqli_query($conn, $updateRenewedQuery);
 
-    $overdueQuery = "SELECT * FROM rentals
-                     WHERE userId = '$id' AND overdueFee IS NOT NULL AND dateOfReturn IS NULL";
+    $overdueQuery = "SELECT b.*, r.*
+                     FROM books b
+                     JOIN rentals r ON b.bookId = r.bookId
+                     WHERE r.userId = '$id' AND r.dateOfReturn IS NULL AND r.overdueFee IS NOT NULL";
 
     $result = mysqli_query($conn, $overdueQuery);
 
@@ -199,5 +201,24 @@ function overdueFees($conn)
         }
 
         return $overdueBooksData;
+    }
+}
+
+// returns total fees for all overdue rentals 
+function totalFees($conn)
+{
+    $id = $_SESSION['id'];
+
+    // query to get total fees accrued
+    $query = "SELECT SUM(overdueFee)
+              FROM rentals
+              WHERE userId = '$id' AND dateOfReturn IS NULL AND overdueFee IS NOT NULL";
+
+    $result = mysqli_query($conn, $query);
+
+    if ($row = mysqli_fetch_assoc($result)) {
+        return $row['SUM(overdueFee)'];
+    } else {
+        return 0; // Or handle no rows case differently
     }
 }
