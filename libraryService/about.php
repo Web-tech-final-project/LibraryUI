@@ -78,14 +78,17 @@ $book_data = getUserBookData($conn);
                 <!-- Anees Alawmleh -->
                 <div class="aneesContainer">
                     <h2><b>Anees Alawmleh</b></h2>
-                    <img src="/LibraryUI/images/Annes.JPG" width="200px"; height="350px";>
-                    <p id="text">I am Anees.</p>
+                    <img src="../images/Annes.JPG" width="200px"; height="350px";>
+                    <p id="text">
+                        Hello, my name is Anees Alawmleh. I am originally from Smyrna, Tennessee, and I graduated from Smyrna High School in 2020. 
+                        Reading has always been a passion of mine, so working on this project has been incredibly fulfilling for me.
+                    </p>
                 </div>
 
                 <!-- Mark Eskander -->
                 <div class="markContainer">
                     <h2><b>Mark Eskander</b></h2>
-                    <img src="/LibraryUI/images/Mark.png" width="290px"; height="250px";>
+                    <img src="../images/Mark.png" width="290px"; height="250px";>
                     <p id="text">
                     Hey there, I'm Mark, a senior studying Computer Science at MTSU. 
                     I am a back-end developer with MyLibrary and I love it here. 
@@ -97,7 +100,7 @@ $book_data = getUserBookData($conn);
                 <!-- Bryan Hernandez-Trejo -->
                 <div class="bryanContainer">
                     <h2><b>Bryan Hernandez-Trejo</b></h2>
-                    <img src="/LibraryUI/images/bryan.JPG" width="250px"; height="250px";>
+                    <img src="../images/bryan.JPG" width="250px"; height="250px";>
                     <p id="text">Hi, my name is Bryan Hernandez-Trejo and I'm from Nashville, TN. I'm a passionate computer science student 
                         currently enrolled as a Senior at Middle Tennessee State University. I've been working on this team for 3 weeks and it has been an amazing experience. 
                         We have enjoyed working alongside them in the process of web development and learning new technologies. 
@@ -111,11 +114,18 @@ $book_data = getUserBookData($conn);
                 <!-- Uriel Esquivel -->
                 <div class="urielContainer">
                     <h2><b>Uriel Esquivel</b></h2>
+                    <img src="../images/Uriel.JPG" width="250px"; height="250px";>
                 </div>
 
                 <!-- Angel Vazquez -->
                 <div class="angelContainer">
                     <h2><b>Angel Vazquez</b></h2>
+                    <img src="../images/Angel.png" width="250px"; height="250px";>
+                    <p id="text">
+                    My name is Angel Vazquez, I'm currently a Senior in Computer Science @ MTSU and a Front-End developer on the MyLibrary team. 
+                    I make sure that the the informational side of the site is up to date with the current FAQs and help methods for the users. 
+                    In my free time I'm either out and about, binging a new series, or collecting things such as trading cards or figures.
+                    </p>
                 </div>
 
                 <!-- Brandon Sandoval -->
