@@ -144,13 +144,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['pay_all_books'])) {
                             <td>
                                 <?php
                                 if ($returned) {
-                                    echo "Returned";
+                                    echo "Returned: " . date('D, M d, Y', strtotime($book['dateOfReturn']));
+                                } elseif ($book['payDate'] != NULL && (strtotime(date('Y-m-d')) > strtotime($book['payDate']))) {
+                                    echo "Last paid: " . date('D, M d, Y', strtotime($book['payDate']));
                                 } elseif ($book['renewalDate'] != NULL && date('Y-m-d') > date('Y-m-d', strtotime($returnByDate))) {
-                                    echo ((strtotime(date('Y-m-d')) - strtotime($returnByDate)) + (strtotime($book['renewalDate']) - strtotime($book['returnBy']))) / (60 * 60 * 24);
+                                    echo ((strtotime(date('Y-m-d')) - strtotime($returnByDate)) + (strtotime($book['renewalDate']) - strtotime($book['returnBy']))) / (60 * 60 * 24) . " days";
                                 } elseif ($book['renewalDate'] != NULL) {
-                                    echo (strtotime($book['renewalDate']) - strtotime($book['returnBy'])) / (60 * 60 * 24);
+                                    echo (strtotime($book['renewalDate']) - strtotime($book['returnBy'])) / (60 * 60 * 24) . " days";
                                 } else {
-                                    echo (strtotime(date('Y-m-d')) - strtotime(date('Y-m-d', strtotime($returnByDate)))) / (60 * 60 * 24);
+                                    echo (strtotime(date('Y-m-d')) - strtotime(date('Y-m-d', strtotime($returnByDate)))) / (60 * 60 * 24) . " days";
                                 }
                                 ?>
                             </td>
@@ -192,9 +194,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['pay_all_books'])) {
                 ?>
             </table>
 
-            <button type="button" class="btn btn-success btn-lg" data-bs-toggle="modal" data-bs-target="#payAllModal">
-                Pay all &nbsp;<i class="bi bi-credit-card-fill"></i>
-            </button>
+            <div class="row justify-content-center">
+                <div class="col-md-1">
+                    <button type="button" class="btn btn-success btn-lg" data-bs-toggle="modal" data-bs-target="#payAllModal">
+                        Pay all &nbsp;<i class="bi bi-credit-card-fill"></i>
+                    </button>
+                </div>
+            </div>
 
             <!-- Modal for returning books -->
             <div class="modal fade" id="payAllModal" tabindex="-1" aria-labelledby="payAllModalLabel" aria-hidden="true">

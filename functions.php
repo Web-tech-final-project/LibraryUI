@@ -165,13 +165,19 @@ function overdueRentals($conn)
     $id = $_SESSION['id'];
 
     // update db by calculating overdue amount
-    // books that haven't been renewed
-    $updateNotRenewedQuery = "UPDATE rentals
+    // books that haven't been renewed or returned
+    $updateNotRenewedNotReturnedQuery = "UPDATE rentals
                      SET overdueFee = DATEDIFF(CURRENT_DATE, returnBy) * 0.10
-                     WHERE (dateOfReturn IS NULL OR dateOfReturn > returnBy) AND renewalDate IS NULL AND CURRENT_DATE > returnBy AND payDate IS NULL";
-    mysqli_query($conn, $updateNotRenewedQuery);
+                     WHERE dateOfReturn IS NULL AND renewalDate IS NULL AND CURRENT_DATE > returnBy AND payDate IS NULL";
+    mysqli_query($conn, $updateNotRenewedNotReturnedQuery);
 
-    // books that have been renewed and are overdue
+    // books that haven't been renewed but have been returned
+    $updateNotRenewedReturnedQuery = "UPDATE rentals
+                     SET overdueFee = DATEDIFF(dateOfReturn, returnBy) * 0.10
+                     WHERE dateOfReturn > returnBy AND renewalDate IS NULL AND payDate IS NULL";
+    mysqli_query($conn, $updateNotRenewedReturnedQuery);
+
+    // books that have been renewed
     $updateRenewedQuery = "UPDATE rentals
                      SET overdueFee = DATEDIFF(renewalDate, returnBy) * 0.10
                      WHERE (dateOfReturn IS NULL OR dateOfReturn > newReturnBy) AND renewalDate IS NOT NULL AND CURRENT_DATE < newReturnBy AND payDate IS NULL";
@@ -179,7 +185,7 @@ function overdueRentals($conn)
 
     // books that have been renewed and are overdue
     $updateRenewedOverdueQuery = "UPDATE rentals
-                     SET overdueFee = overdueFee + (DATEDIFF(CURRENT_DATE, newReturnBy) + DATEDIFF(renewalDate, returnBy)) * 0.10
+                     SET overdueFee = (DATEDIFF(CURRENT_DATE, newReturnBy) + DATEDIFF(renewalDate, returnBy)) * 0.10
                      WHERE (dateOfReturn IS NULL OR dateOfReturn > newReturnBy) AND renewalDate IS NOT NULL AND CURRENT_DATE >= newReturnBy AND payDate IS NULL";
     mysqli_query($conn, $updateRenewedOverdueQuery);
 
@@ -190,10 +196,16 @@ function overdueRentals($conn)
     mysqli_query($conn, $updateNotRenewedPaidQuery);
 
     // books that have been renewed and are overdue after being paid for
-    $updateNotRenewedQuery = "UPDATE rentals
+    $updateRenewedPaidQuery = "UPDATE rentals
                      SET overdueFee = DATEDIFF(CURRENT_DATE, payDate) * 0.10
-                     WHERE dateOfReturn IS NULL AND payDate IS NOT NULL AND renewalDate IS NOT NULL AND CURRENT_DATE > payDate AND CURRENT_DATE > renewalDate";
-    mysqli_query($conn, $updateNotRenewedQuery);
+                     WHERE dateOfReturn IS NULL AND payDate IS NOT NULL AND renewalDate IS NOT NULL AND CURRENT_DATE > payDate AND CURRENT_DATE > newReturnBy";
+    mysqli_query($conn, $updateRenewedPaidQuery);
+
+    // books that have been paid for, then overdue, then paid for
+    $updateReturnedPaidQuery = "UPDATE rentals
+                     SET overdueFee = DATEDIFF(dateOfReturn, payDate) * 0.10
+                     WHERE dateOfReturn IS NOT NULL AND payDate IS NOT NULL AND dateOfReturn > payDate";
+    mysqli_query($conn, $updateReturnedPaidQuery);
 
     $overdueQuery = "SELECT b.*, r.*
                      FROM books b
@@ -238,7 +250,7 @@ function payOneBook($conn, $rentalId)
 {
     $query = "UPDATE rentals
               SET payDate = CURRENT_DATE, overdueFee = NULL
-              WHERE rentalId = '$rentalId'";
+              WHERE rentalId = '$rentalId' AND overdueFee IS NOT NULL";
 
     $result = mysqli_query($conn, $query);
 
@@ -256,7 +268,7 @@ function payAllBooks($conn)
 
     $query = "UPDATE rentals
               SET payDate = CURRENT_DATE, overdueFee = NULL
-              WHERE userId = '$id'";
+              WHERE userId = '$id' AND overdueFee IS NOT NULL";
 
     $result = mysqli_query($conn, $query);
 
