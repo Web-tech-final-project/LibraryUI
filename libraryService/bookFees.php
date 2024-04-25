@@ -195,7 +195,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['pay_all_books'])) {
             </table>
 
             <div class="row justify-content-center">
-                <div class="col-md-1">
+                <div class="col-md-auto">
                     <button type="button" class="btn btn-success btn-lg" data-bs-toggle="modal" data-bs-target="#payAllModal">
                         Pay all &nbsp;<i class="bi bi-credit-card-fill"></i>
                     </button>
