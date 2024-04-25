@@ -108,7 +108,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['renew_book'])) {
                     }
 
                     // which return date to go by and check if overdue
-                    $returnByDate = $book['isRenewed'] == 1 ? $book['newReturnBy'] : $book['returnBy'];
+                    $returnByDate = $book['renewalDate'] != NULL ? $book['newReturnBy'] : $book['returnBy'];
                     $isOverdue = date('Y-m-d') > date('Y-m-d', strtotime($returnByDate));
             ?>
                     <!-- display card with book info -->
@@ -131,7 +131,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['renew_book'])) {
                                         </button>
                                     </div>
                                     <div class="col-md-4 justify-content-center">
-                                        <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#renewModal<?php echo $key; ?>" <?php echo ($book['isRenewed'] || date('Y-m-d') < date('Y-m-d', strtotime($returnByDate))) ? 'disabled' : ''; ?>>
+                                        <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#renewModal<?php echo $key; ?>" <?php echo ($book['renewalDate'] != NULL || date('Y-m-d') < date('Y-m-d', strtotime($returnByDate))) ? 'disabled' : ''; ?>>
                                             Renew
                                         </button>
                                     </div>

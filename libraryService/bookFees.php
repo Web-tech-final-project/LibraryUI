@@ -10,9 +10,36 @@ include_once("../functions.php");
 
 $user_data = check_login($conn);
 
-$num_overdue_books = numOverdueRentals($conn);
 $overdue_books = overdueRentals($conn);
+$num_overdue_books = numOverdueRentals($conn);
 $totalFeesAccrued = totalFees($conn);
+
+// if form is submitted to call pay 1 book function
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['pay_book'])) {
+    $rentalId = $_POST['rentalId'];
+    // successful return
+    if (payOneBook($conn, $rentalId)) {
+        echo "<script>alert('Rental fee paid successfully');</script>";
+        $overdue_books = overdueRentals($conn);
+        $num_overdue_books = numOverdueRentals($conn);
+        $totalFeesAccrued = totalFees($conn);
+    } else {
+        echo "<script>alert('Payment unsuccessful');</script>";
+    }
+}
+
+// if form is submitted to call pay all books function
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['pay_all_books'])) {
+    // successful return
+    if (payAllBooks($conn)) {
+        echo "<script>alert('Overdue rentals paid successfully');</script>";
+        $overdue_books = overdueRentals($conn);
+        $num_overdue_books = numOverdueRentals($conn);
+        $totalFeesAccrued = totalFees($conn);
+    } else {
+        echo "<script>alert('Payment unsuccessful');</script>";
+    }
+}
 ?>
 
 <!DOCTYPE html>
@@ -88,8 +115,8 @@ $totalFeesAccrued = totalFees($conn);
         // check if book data is available
         if ($overdue_books) {
         ?>
-            <table class="table table-striped table-hover" style="text-align: center;">
-                <thead>
+            <table class="table table-striped table-hover">
+                <thead style="text-align: center;">
                     <tr>
                         <th>No.</th>
                         <th>Title</th>
@@ -100,36 +127,97 @@ $totalFeesAccrued = totalFees($conn);
                     </tr>
                 </thead>
                 <?php
-                $count = 0;
+                $count = 1;
                 // loop through book record
                 foreach ($overdue_books as $key => $book) {
-                    $returnByDate = $book['isRenewed'] == 1 ? $book['newReturnBy'] : $book['returnBy'];
+                    $returnByDate = $book['renewalDate'] != NULL ? $book['newReturnBy'] : $book['returnBy'];
                     $returned = false;
                     if ($book['dateOfReturn'] != NULL) {
                         $returned = true;
                     }
-                    if (date('Y-m-d') > date('Y-m-d', strtotime($returnByDate)) || $book['overdueFee'] != 0) {
+                    if ($book['overdueFee'] != NULL) {
                 ?>
-                        <tr style="height: 50px;">
-                            <td><?php echo $count + 1; ?></td>
+                        <tr style="height: 50px; text-align: center;">
+                            <td><?php echo $count; ?></td>
                             <td><?php echo $book['title']; ?></td>
                             <td><?php echo $book['author']; ?></td>
                             <td>
-                                <?php echo ($returned) ? "Returned" : (strtotime(date('Y-m-d')) - strtotime($returnByDate)) / (60 * 60 * 24); ?>
+                                <?php
+                                if ($returned) {
+                                    echo "Returned";
+                                } elseif ($book['renewalDate'] != NULL && date('Y-m-d') > date('Y-m-d', strtotime($returnByDate))) {
+                                    echo ((strtotime(date('Y-m-d')) - strtotime($returnByDate)) + (strtotime($book['renewalDate']) - strtotime($book['returnBy']))) / (60 * 60 * 24);
+                                } elseif ($book['renewalDate'] != NULL) {
+                                    echo (strtotime($book['renewalDate']) - strtotime($book['returnBy'])) / (60 * 60 * 24);
+                                } else {
+                                    echo (strtotime(date('Y-m-d')) - strtotime(date('Y-m-d', strtotime($returnByDate)))) / (60 * 60 * 24);
+                                }
+                                ?>
                             </td>
                             <td>$<?php echo number_format($book['overdueFee'], 2, '.', ''); ?></td>
                             <td>
-                                <button type="button" class="btn btn-success">
+                                <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#payOneModal<?php echo $key; ?>">
                                     <i class="bi bi-credit-card-fill"></i>
                                 </button>
+
                             </td>
                         </tr>
+
+                        <!-- Modal for paying 1 book -->
+                        <div class="modal fade" id="payOneModal<?php echo $key; ?>" tabindex="-1" aria-labelledby="payOneModalLabel<?php echo $key; ?>" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h1 class="modal-title fs-5" id="payOneModalLabel<?php echo $key; ?>">Process fee payment</h1>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <h4>Would you like to pay <strong><?php echo "$" . number_format($book['overdueFee'], 2, '.', '') . " for " . $book['title']; ?></strong> by <strong><?php echo $book['author']; ?></strong>?</h4>
+                                        <br>
+                                        <h6><span style="color: red;">*</span> This action can't be undone <span style="color: red;">*</span></h6>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <form method="post">
+                                            <input type="hidden" name="rentalId" value="<?php echo $book['rentalId']; ?>">
+                                            <button type="submit" name="pay_book" class="btn btn-success">Yes, pay now</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                 <?php
                         $count++;
                     }
                 }
                 ?>
             </table>
+
+            <button type="button" class="btn btn-success btn-lg" data-bs-toggle="modal" data-bs-target="#payAllModal">
+                Pay all &nbsp;<i class="bi bi-credit-card-fill"></i>
+            </button>
+
+            <!-- Modal for returning books -->
+            <div class="modal fade" id="payAllModal" tabindex="-1" aria-labelledby="payAllModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="payAllModalLabel">Process fee payment(s)</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <h4>Would you like to pay <strong><?php echo "$" . number_format($totalFeesAccrued, 2, '.', '') . " "; ?></strong> for <strong><?php echo $num_overdue_books ?></strong> books?</h4>
+                            <br>
+                            <h6><span style="color: red;">*</span> This action can't be undone <span style="color: red;">*</span></h6>
+                        </div>
+                        <div class="modal-footer">
+                            <form method="post">
+                                <button type="submit" name="pay_all_books" class="btn btn-success">Yes, pay all now</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
         <?php
         }
         ?>
