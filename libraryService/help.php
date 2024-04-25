@@ -12,7 +12,7 @@ $user_data = check_login($conn);
 <html lang="en">
 
 <head>
-<meta charset="UTF-8">
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
@@ -21,10 +21,10 @@ $user_data = check_login($conn);
 </head>
 
 <body>
-<div class="container-fluid">
+    <div class="container-fluid">
         <!-- Logo -->
         <div class="text-center">
-            <img src="../images/myLibraryLogo.JPG" alt="MyLibrary logo" >
+            <img src="../images/myLibraryLogo.JPG" alt="MyLibrary logo">
         </div>
         <!-- navbar -->
         <ul class="nav justify-content-center" style="background-color: #073c6b; margin: 10px; padding: 10px;">
@@ -50,12 +50,13 @@ $user_data = check_login($conn);
 
                 <div class="offcanvas offcanvas-end" tabindex="-1" id="profilePane" aria-labelledby="profilePaneLabel">
                     <div class="offcanvas-header">
-                        <h5 class="offcanvas-title" id="profilePaneLabel"><?php echo $user_data['userName'] ?></h5>
+                        <h5 class="offcanvas-title" id="profilePaneLabel"><span style="color: blue;"><?php echo $user_data['userName'] ?></span></h5>
                         <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
                     </div>
                     <div class="offcanvas-body">
                         <div>
-                            Some text as placeholder. In real life you can have the elements you have chosen. Like, text, images, lists, etc.
+                            <?php echo "Date joined: " . date('Y-m-d', strtotime($user_data['date'])); ?>
+                            <br><br>
                         </div>
 
                         <a class="btn btn-danger" href="../userAuth/logout.php" role="button" style="margin: auto;">Logout</a>
@@ -68,7 +69,9 @@ $user_data = check_login($conn);
         <div class="container-fluid bg-white rounded-3">
             <br>
             <!-- heading -->
-            <center><h1><b>Help</b></h1></center>
+            <center>
+                <h1><b>Help</b></h1>
+            </center>
 
             <!-- question box -->
             <h3>Need further help? Shoot us an email!</h3>

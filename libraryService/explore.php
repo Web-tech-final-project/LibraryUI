@@ -65,12 +65,13 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET['searchQuery'])) {
 
                 <div class="offcanvas offcanvas-end" tabindex="-1" id="profilePane" aria-labelledby="profilePaneLabel">
                     <div class="offcanvas-header">
-                        <h5 class="offcanvas-title" id="profilePaneLabel"><?php echo $user_data['userName'] ?></h5>
+                        <h5 class="offcanvas-title" id="profilePaneLabel"><span style="color: blue;"><?php echo $user_data['userName'] ?></span></h5>
                         <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
                     </div>
                     <div class="offcanvas-body">
                         <div>
-                            Some text as placeholder. In real life you can have the elements you have chosen. Like, text, images, lists, etc.
+                            <?php echo "Date joined: " . date('Y-m-d', strtotime($user_data['date'])); ?>
+                            <br><br>
                         </div>
 
                         <a class="btn btn-danger" href="../userAuth/logout.php" role="button" style="margin: auto;">Logout</a>
@@ -127,7 +128,8 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET['searchQuery'])) {
                         <!-- Display card with book info -->
                         <div class="col-md-3 mb-4">
                             <div class='card' style='width: 21rem; height: 39rem;'>
-                            <img src='<?php echo $book['imgPath']; ?>' class='card-img-top' width="auto" height="350px" alt='Book Image'>                                <div class="card-body d-flex flex-column">
+                                <img src='<?php echo $book['imgPath']; ?>' class='card-img-top' width="auto" height="350px" alt='Book Image'>
+                                <div class="card-body d-flex flex-column">
                                     <h3 class='card-title'><?php echo $book['title']; ?></h3>
                                     <p class='card-text'><strong><?php echo $book['author']; ?></strong></p>
                                     <p class='card-text'><?php echo $book['genre']; ?></p>

@@ -6,7 +6,7 @@ function check_login($conn)
     if (isset($_SESSION['id'])) {
         $id = $_SESSION['id'];
         $query = "SELECT * FROM users
-                  WHERE id = '$id' limit 1";
+                  WHERE id = '$id' AND isDeleted IS NULL limit 1";
 
         $result = mysqli_query($conn, $query);
 
