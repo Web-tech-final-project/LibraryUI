@@ -21,15 +21,15 @@ $book_data = getUserBookData($conn);
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <link rel="stylesheet" href="css/about.css">
     <link rel="stylesheet" href="css/pages.css">
- 
+
     <title>Library home</title>
 </head>
 
 <body>
-<div class="container-fluid">
+    <div class="container-fluid">
         <!-- Logo -->
         <div class="text-center">
-            <img src="../images/myLibraryLogo.JPG" alt="MyLibrary logo" >
+            <img src="../images/myLibraryLogo.JPG" alt="MyLibrary logo">
         </div>
         <!-- navbar -->
         <ul class="nav justify-content-center" style="background-color: #073c6b; margin: 10px; padding: 10px;">
@@ -37,10 +37,13 @@ $book_data = getUserBookData($conn);
                 <a class="nav-link active" aria-current="page" href="libraryHome.php">Home</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="myBookshelf.php">My bookshelf</a>
+                <a class="nav-link" href="myBookshelf.php">My Bookshelf</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="explore.php">Explore</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="bookFees.php">Book Fees</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="about.php">About</a>
@@ -52,12 +55,13 @@ $book_data = getUserBookData($conn);
 
                 <div class="offcanvas offcanvas-end" tabindex="-1" id="profilePane" aria-labelledby="profilePaneLabel">
                     <div class="offcanvas-header">
-                        <h5 class="offcanvas-title" id="profilePaneLabel"><?php echo $user_data['userName'] ?></h5>
+                        <h5 class="offcanvas-title" id="profilePaneLabel"><span style="color: blue;"><?php echo $user_data['userName'] ?></span></h5>
                         <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
                     </div>
                     <div class="offcanvas-body">
                         <div>
-                            Some text as placeholder. In real life you can have the elements you have chosen. Like, text, images, lists, etc.
+                            <?php echo "Date joined: " . date('Y-m-d', strtotime($user_data['date'])); ?>
+                            <br><br>
                         </div>
 
                         <a class="btn btn-danger" href="../userAuth/logout.php" role="button" style="margin: auto;">Logout</a>
@@ -78,9 +82,9 @@ $book_data = getUserBookData($conn);
                 <!-- Anees Alawmleh -->
                 <div class="aneesContainer">
                     <h2><b>Anees Alawmleh</b></h2>
-                    <img src="../images/Annes.JPG" width="200px"; height="350px";>
+                    <img src="../images/Annes.JPG" width="200px" ; height="350px" ;>
                     <p id="text">
-                        Hello, my name is Anees Alawmleh. I am originally from Smyrna, Tennessee, and I graduated from Smyrna High School in 2020. 
+                        Hello, my name is Anees Alawmleh. I am originally from Smyrna, Tennessee, and I graduated from Smyrna High School in 2020.
                         Reading has always been a passion of mine, so working on this project has been incredibly fulfilling for me.
                     </p>
                 </div>
@@ -88,43 +92,43 @@ $book_data = getUserBookData($conn);
                 <!-- Mark Eskander -->
                 <div class="markContainer">
                     <h2><b>Mark Eskander</b></h2>
-                    <img src="../images/Mark.png" width="290px"; height="250px";>
+                    <img src="../images/Mark.png" width="290px" ; height="250px" ;>
                     <p id="text">
-                    Hey there, I'm Mark, a senior studying Computer Science at MTSU. 
-                    I am a back-end developer with MyLibrary and I love it here. 
-                    I deal with PHP and MySQL for the most part, ensuring seamless integration across front-end, back-end, and database operations. 
-                    Besides the technical stuff, I enjoy spending time with friends and staying active.
+                        Hey there, I'm Mark, a senior studying Computer Science at MTSU.
+                        I am a back-end developer with MyLibrary and I love it here.
+                        I deal with PHP and MySQL for the most part, ensuring seamless integration across front-end, back-end, and database operations.
+                        Besides the technical stuff, I enjoy spending time with friends and staying active.
                     </p>
                 </div>
 
                 <!-- Bryan Hernandez-Trejo -->
                 <div class="bryanContainer">
                     <h2><b>Bryan Hernandez-Trejo</b></h2>
-                    <img src="../images/bryan.JPG" width="250px"; height="250px";>
-                    <p id="text">Hi, my name is Bryan Hernandez-Trejo and I'm from Nashville, TN. I'm a passionate computer science student 
-                        currently enrolled as a Senior at Middle Tennessee State University. I've been working on this team for 3 weeks and it has been an amazing experience. 
-                        We have enjoyed working alongside them in the process of web development and learning new technologies. 
+                    <img src="../images/bryan.JPG" width="250px" ; height="250px" ;>
+                    <p id="text">Hi, my name is Bryan Hernandez-Trejo and I'm from Nashville, TN. I'm a passionate computer science student
+                        currently enrolled as a Senior at Middle Tennessee State University. I've been working on this team for 3 weeks and it has been an amazing experience.
+                        We have enjoyed working alongside them in the process of web development and learning new technologies.
                         I have enjoyed being part of this team and helping each other out in this process that we had begun with little knowledge about.
                     </p>
                 </div>
 
             </div>
-            
+
             <div class="row2teamMembers">
                 <!-- Uriel Esquivel -->
                 <div class="urielContainer">
                     <h2><b>Uriel Esquivel</b></h2>
-                    <img src="../images/Uriel.JPG" width="250px"; height="250px";>
+                    <img src="../images/Uriel.JPG" width="250px" ; height="250px" ;>
                 </div>
 
                 <!-- Angel Vazquez -->
                 <div class="angelContainer">
                     <h2><b>Angel Vazquez</b></h2>
-                    <img src="../images/Angel.png" width="250px"; height="250px";>
+                    <img src="../images/Angel.png" width="250px" ; height="250px" ;>
                     <p id="text">
-                    My name is Angel Vazquez, I'm currently a Senior in Computer Science @ MTSU and a Front-End developer on the MyLibrary team. 
-                    I make sure that the the informational side of the site is up to date with the current FAQs and help methods for the users. 
-                    In my free time I'm either out and about, binging a new series, or collecting things such as trading cards or figures.
+                        My name is Angel Vazquez, I'm currently a Senior in Computer Science @ MTSU and a Front-End developer on the MyLibrary team.
+                        I make sure that the the informational side of the site is up to date with the current FAQs and help methods for the users.
+                        In my free time I'm either out and about, binging a new series, or collecting things such as trading cards or figures.
                     </p>
                 </div>
 
@@ -134,9 +138,9 @@ $book_data = getUserBookData($conn);
                 </div>
 
             </div>
-                
+
         </div>
-    
+
 
 
         <!-- footer -->
