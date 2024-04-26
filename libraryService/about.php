@@ -118,7 +118,13 @@ $book_data = getUserBookData($conn);
                 <!-- Uriel Esquivel -->
                 <div class="urielContainer">
                     <h2><b>Uriel Esquivel</b></h2>
-                    <img src="../images/Uriel.JPG" width="250px" ; height="250px" ;>
+                    <img src="../images/Uriel.JPG" width="250px" ; height="250px" ;> 
+                    <p id="text ">
+                      Hi all! I'm a Computer Science student who is passionate about programming languages.
+                      I'm eager to tackle new challenges and improve my skills.
+                      I excel in collaborative teams and enjoy working with colleagues to bring projects to fruition.
+                       I'm thrilled to keep learning and broaden my understanding of computer science, always on the lookout for opportunities to grow.
+                    </p>
                 </div>
 
                 <!-- Angel Vazquez -->
@@ -135,6 +141,13 @@ $book_data = getUserBookData($conn);
                 <!-- Brandon Sandoval -->
                 <div class="brandonContainer">
                     <h2><b>Brandon Sandoval</b></h2>
+                    <img src="../images/Brandon.jpg" width="250px" ; height="250px" ;>
+                    <p id="text">
+                      Hi there! I'm Brandon Sandoval, a software engineering student at MTSU, eager to land an internship where I can apply my programming skills in Python, C++, and NASM x84_64.
+                      My GitHub portfolio showcases projects like Discord Bots and computer simulations, stemming from a childhood fascination with technology.
+                      Beyond coding, I thrive in team environments, valuing collaboration and communication.
+                       I'm on the lookout for an internship at a company that shares my passion for innovation, collaboration, mentorship, and continuous learning. Let's connect and build something amazing together!
+                    </p>
                 </div>
 
             </div>
