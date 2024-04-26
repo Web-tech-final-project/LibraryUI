@@ -135,6 +135,13 @@ $book_data = getUserBookData($conn);
                 <!-- Brandon Sandoval -->
                 <div class="brandonContainer">
                     <h2><b>Brandon Sandoval</b></h2>
+                    <img src="../images/Brandon.jpg" width="250px" ; height="250px" ;>
+                    <p id="text">
+                      Hi there! I'm Brandon Sandoval, a software engineering student at MTSU, eager to land an internship where I can apply my programming skills in Python, C++, and NASM x84_64.
+                      My GitHub portfolio showcases projects like Discord Bots and computer simulations, stemming from a childhood fascination with technology.
+                      Beyond coding, I thrive in team environments, valuing collaboration and communication.
+                       I'm on the lookout for an internship at a company that shares my passion for innovation, collaboration, mentorship, and continuous learning. Let's connect and build something amazing together!
+                    </p>
                 </div>
 
             </div>
