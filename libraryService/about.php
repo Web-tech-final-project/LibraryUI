@@ -118,7 +118,13 @@ $book_data = getUserBookData($conn);
                 <!-- Uriel Esquivel -->
                 <div class="urielContainer">
                     <h2><b>Uriel Esquivel</b></h2>
-                    <img src="../images/Uriel.JPG" width="250px" ; height="250px" ;>
+                    <img src="../images/Uriel.JPG" width="250px" ; height="250px" ;> 
+                    <p id="text ">
+                      Hi all! I'm a Computer Science student who is passionate about programming languages.
+                      I'm eager to tackle new challenges and improve my skills.
+                      I excel in collaborative teams and enjoy working with colleagues to bring projects to fruition.
+                       I'm thrilled to keep learning and broaden my understanding of computer science, always on the lookout for opportunities to grow.
+                    </p>
                 </div>
 
                 <!-- Angel Vazquez -->
