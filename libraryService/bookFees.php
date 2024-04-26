@@ -104,7 +104,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['pay_all_books'])) {
         <?php
         if ($num_overdue_books > 0) {
         ?>
-            <h1>Please return or renew them at your earliest convenience.</h1>
+            <h1>Please pay for, <a href="myBookshelf.php">return, and/or renew</a> them at your earliest convenience.</h1>
         <?php
         }
         ?>

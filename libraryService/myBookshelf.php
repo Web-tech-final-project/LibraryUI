@@ -95,7 +95,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['renew_book'])) {
         </ul>
 
         <!-- page content -->
-        <h1>You have <?php echo $num_books; ?> book(s) checked out under your name, <?php echo $user_data['userName']; ?>.</h1>
+        <?php echo ($num_books > 0) ? "<h1>You have $num_books book(s) checked out under your name, {$user_data['userName']}.</h1>" : "<h1><a href='explore.php'>Explore</a> our book collection.</h1>"; ?>
 
         <div class="row m-auto mb-4">
             <?php
