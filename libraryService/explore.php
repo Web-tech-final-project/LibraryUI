@@ -18,6 +18,9 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET['searchQuery'])) {
     $searchType = $_GET['searchType'];
     $searchQuery = $_GET['searchQuery'];
     $searchResults = searchBooks($conn, $searchType, $searchQuery);
+} else {
+    // If no search performed, display all books
+    $searchResults = getAllBooks($conn);
 }
 ?>
 
@@ -134,7 +137,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET['searchQuery'])) {
                                     <p class='card-text'><strong><?php echo $book['author']; ?></strong></p>
                                     <p class='card-text'><?php echo $book['genre']; ?></p>
                                     <p class='card-text'><u>ISBN:</u> <?php echo $book['isbn']; ?></p>
-                                    <p class='card-text'><u>ISBN:</u> <?php echo $book['amount']; ?></p>
+                                    <p class='card-text'><u>Amount Available:</u> <?php echo $book['amount']; ?></p>
                                     <div class="mt-auto">
                                     </div>
                                 </div>

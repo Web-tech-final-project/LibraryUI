@@ -279,3 +279,21 @@ function payAllBooks($conn)
         return false;
     }
 }
+
+
+function getAllBooks($conn) {
+    $sql = "SELECT b.*, g.genre, bi.imgPath 
+            FROM books b 
+            JOIN genres g ON b.genreId = g.genreId 
+            JOIN bookImgs bi ON b.imgId = bi.imgId";
+
+    $result = $conn->query($sql);
+    $books = [];
+    if ($result->num_rows > 0) {
+        while ($book = $result->fetch_assoc()) {
+            $books[] = $book;
+        }
+    }
+    return $books;
+}
+
