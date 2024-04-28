@@ -40,6 +40,9 @@ $book_data = getUserBookData($conn);
                 <a class="nav-link" href="myBookshelf.php">My Bookshelf</a>
             </li>
             <li class="nav-item">
+                <a class="nav-link" href="myHolds.php">My Holds</a>
+            </li>
+            <li class="nav-item">
                 <a class="nav-link" href="explore.php">Explore</a>
             </li>
             <li class="nav-item">

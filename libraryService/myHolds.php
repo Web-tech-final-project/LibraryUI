@@ -17,7 +17,7 @@ $user_data = check_login($conn);
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <link rel="stylesheet" href="css/pages.css">
-    <title>Library Help</title>
+    <title>MyLibrary home</title>
 </head>
 
 <body>
@@ -28,14 +28,14 @@ $user_data = check_login($conn);
         </div>
         <!-- navbar -->
         <ul class="nav justify-content-center" style="background-color: #073c6b; margin: 10px; padding: 10px;">
-            <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="libraryHome.php">Home</a>
+        <li class="nav-item">
+                <a class="nav-link" href="myHolds.php">Home</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="myBookshelf.php">My Bookshelf</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="myHolds.php">My Holds</a>
+                <a class="nav-link active" aria-current="page" href="myHolds.php">My Holds</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="explore.php">Explore</a>
@@ -67,38 +67,6 @@ $user_data = check_login($conn);
                 </div>
             </li>
         </ul>
-
-        <!-- help section -->
-        <div class="container-fluid bg-white rounded-3">
-            <br>
-            <center>
-                <h1><b>Frequently Asked Questions</b></h1>
-            </center><br>
-
-            <h3><b>Q: How do I return my book(s)?</b></h3>
-            <h5>To return your book(s), simply navigate to the <b>My Bookshelf</b> page and click the <b>return</b> button at the button of the desired book to return.</h5>
-            <br><br>
-
-            <h3><b>Q: How do I check out a book?</b></h3>
-            <h5>To check out a book, simply come down to the library and take your desired book up to the front counter to check out.</h5>
-            <h5> Unfortunately, we not offer online checkout at this time.</h5>
-            <br><br>
-
-            <h3><b>Q: How can I search for a book?</b></h3>
-            <h5>To find a book using our Online Catalog, you can simply navigate to the <b>Explore</b> page.</h5>
-            <h5>Once there, you will see a search bar pop up in which you can search for books by Title, Author, or Genre.</h5>
-            <br><br>
-
-            <h3><b>Q: How do I contact the library?</b></h3>
-            <h5>To contact us for further assistance, you can use one of our contact methods listed at the bottom right of our webpage.</h5>
-            <h5>You can also use the Question Box on our <b>Help</b> page <a href="help.php">here</a></h5>
-            <h5></h5>
-            <br><br>
-
-            <br>
-        </div>
-
-
 
         <!-- footer -->
         <div class="container-fluid" id="companyFooter">
