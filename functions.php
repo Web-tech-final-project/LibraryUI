@@ -297,3 +297,41 @@ function getAllBooks($conn) {
     return $books;
 }
 
+
+function checkoutBook($conn, $userId, $bookId) {
+    // Begin transaction
+    $conn->begin_transaction();
+
+    try {
+        // Check if there are books available to checkout
+        $query = "SELECT amount FROM books WHERE bookId = ?";
+        $stmt = $conn->prepare($query);
+        $stmt->bind_param("i", $bookId);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $book = $result->fetch_assoc();
+
+        if ($book['amount'] > 0) {
+            // Update the book amount
+            $updateQuery = "UPDATE books SET amount = amount - 1 WHERE bookId = ?";
+            $updateStmt = $conn->prepare($updateQuery);
+            $updateStmt->bind_param("i", $bookId);
+            $updateStmt->execute();
+
+            // Insert the rental record
+            $rentalQuery = "INSERT INTO rentals (bookId, userId, dateOfCheckout) VALUES (?, ?, NOW())";
+            $rentalStmt = $conn->prepare($rentalQuery);
+            $rentalStmt->bind_param("ii", $bookId, $userId);
+            $rentalStmt->execute();
+
+            $conn->commit();
+            return true;
+        } else {
+            $conn->rollback();
+            return false;
+        }
+    } catch (Exception $e) {
+        $conn->rollback();
+        return false;
+    }
+}

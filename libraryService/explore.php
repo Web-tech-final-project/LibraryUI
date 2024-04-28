@@ -22,6 +22,17 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET['searchQuery'])) {
     // If no search performed, display all books
     $searchResults = getAllBooks($conn);
 }
+
+if ($_SERVER['REQUEST_METHOD'] == "POST" && isset($_POST['checkout'])) {
+    $bookId = $_POST['bookId'];
+    $userId = $user_data['id'];  // Ensure you have the user's ID from session or another method
+
+    if (checkoutBook($conn, $userId, $bookId)) {
+        echo "<script>alert('Book checked out successfully');</script>";
+    } else {
+        echo "<script>alert('Failed to check out the book');</script>";
+    }
+}
 ?>
 
 
@@ -120,25 +131,39 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET['searchQuery'])) {
         <div class="container-fluid">
             <div class="row m-auto mb-4">
                 <?php
-                // Check if search results are available
                 if (!empty($searchResults)) {
                     foreach ($searchResults as $key => $book) {
-                        // Start a new row for every four books
                         if ($key % 4 == 0 && $key != 0) {
                             echo "</div><div class='row m-auto mb-4'>";
                         }
                 ?>
-                        <!-- Display card with book info -->
                         <div class="col-md-3 mb-4">
                             <div class='card' style='width: 21rem; height: 39rem;'>
-                                <img src='<?php echo $book['imgPath']; ?>' class='card-img-top' width="auto" height="350px" alt='Book Image'>
-                                <div class="card-body d-flex flex-column">
-                                    <h3 class='card-title'><?php echo $book['title']; ?></h3>
-                                    <p class='card-text'><strong><?php echo $book['author']; ?></strong></p>
-                                    <p class='card-text'><?php echo $book['genre']; ?></p>
-                                    <p class='card-text'><u>ISBN:</u> <?php echo $book['isbn']; ?></p>
-                                    <p class='card-text'><u>Amount Available:</u> <?php echo $book['amount']; ?></p>
-                                    <div class="mt-auto">
+                                <img src='<?php echo $book['imgPath']; ?>' class='card-img-top' alt='Book Image' style="height: 350px; object-fit: cover;">
+                                <div class="card-body">
+                                    <h5 class='card-title'><?php echo htmlspecialchars($book['title']); ?></h5>
+                                    <p class='card-text'><strong>Author:</strong> <?php echo htmlspecialchars($book['author']); ?></p>
+                                    <p class='card-text'>Genre: <?php echo htmlspecialchars($book['genre']); ?></p>
+                                    <p class='card-text'>ISBN: <?php echo htmlspecialchars($book['isbn']); ?></p>
+                                    <p class='card-text'>Amount Available: <?php echo htmlspecialchars($book['amount']); ?></p>
+
+                                    <!-- Button Forms in Flex Container -->
+                                    <div class="d-flex justify-content-between">
+                                        <!-- Checkout Button Form -->
+                                        <form method="POST" action="" onsubmit="return confirmCheckout(this, '<?php echo addslashes($book['title']); ?>');" class="flex-grow-1 me-2">
+                                            <input type="hidden" name="bookId" value="<?php echo $book['bookId']; ?>">
+                                            <button type="submit" name="checkout" class="btn btn-success w-100" <?php echo $book['amount'] == 0 ? 'disabled' : ''; ?>>
+                                                Checkout
+                                            </button>
+                                        </form>
+
+                                        <!-- Reserve Button Form -->
+                                        <form method="POST" action="handleReservation.php" class="flex-grow-1">
+                                            <input type="hidden" name="bookId" value="<?php echo $book['bookId']; ?>">
+                                            <button type="button" class="btn btn-warning w-100" <?php echo $book['amount'] != 0 ? 'disabled' : ''; ?> onclick="return confirmAction('reserve', '<?php echo $book['title']; ?>', this);">
+                                                Reserve
+                                            </button>
+                                        </form>
                                     </div>
                                 </div>
                             </div>

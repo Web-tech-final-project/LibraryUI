@@ -26,3 +26,14 @@ document.addEventListener('DOMContentLoaded', function() {
     // Set the width of the original button
     button.style.width = `${maxWidth + 30}px`;
 });
+
+function confirmCheckout(form, bookTitle) {
+    const message = "Please confirm your checkout of '" + bookTitle + ".'";
+    if (confirm(message)) {
+        // If the user confirms, proceed with the form submission
+        form.submit();
+    } else {
+        // If the user does not confirm, prevent form submission
+        return false;
+    }
+}
