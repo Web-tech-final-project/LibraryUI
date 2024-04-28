@@ -27,13 +27,26 @@ document.addEventListener('DOMContentLoaded', function() {
     button.style.width = `${maxWidth + 30}px`;
 });
 
-function confirmCheckout(form, bookTitle) {
-    const message = "Please confirm your checkout of '" + bookTitle + ".'";
-    if (confirm(message)) {
-        // If the user confirms, proceed with the form submission
-        form.submit();
-    } else {
-        // If the user does not confirm, prevent form submission
-        return false;
-    }
+function confirmCheckout(bookId, bookTitle) {
+    // Send an AJAX request to check if the book is already checked out
+    fetch('checkCheckoutStatus.php', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: 'bookId=' + bookId
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.hasCheckedOut) {
+            alert("You have already checked out this book.");
+        } else {
+            if (confirm("Please confirm your checkout of " + bookTitle)) {
+                // Submit the form if confirmed
+                document.getElementById('checkoutForm' + bookId).submit();
+            }
+        }
+    })
+    .catch(error => console.error('Error:', error));
 }
+

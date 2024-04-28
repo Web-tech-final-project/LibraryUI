@@ -30,7 +30,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST" && isset($_POST['checkout'])) {
     if (checkoutBook($conn, $userId, $bookId)) {
         echo "<script>alert('Book checked out successfully');</script>";
     } else {
-        echo "<script>alert('Failed to check out the book');</script>";
+        echo "<script>alert('Failed to check out the book or you have already checked out this book');</script>";
     }
 }
 ?>
