@@ -354,3 +354,15 @@ function checkoutBook($conn, $userId, $bookId) {
         return false;
     }
 }
+
+
+function getBookAmount($conn, $bookId) {
+    $stmt = $conn->prepare("SELECT amount FROM books WHERE bookId = ?");
+    $stmt->bind_param("i", $bookId);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    if ($row = $result->fetch_assoc()) {
+        return $row['amount'];
+    }
+    return 0;
+}

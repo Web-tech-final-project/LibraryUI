@@ -25,17 +25,20 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET['searchQuery'])) {
 
 if ($_SERVER['REQUEST_METHOD'] == "POST" && isset($_POST['checkout'])) {
     $bookId = $_POST['bookId'];
-    $userId = $user_data['id'];
+    $userId = $user_data['id']; // Ensure you have the user's ID
 
     if (hasUserCheckedOutBook($conn, $userId, $bookId)) {
-        echo "<script>alert('You have already checked out this book.');</script>";
+        echo json_encode(['success' => false, 'message' => 'You have already checked out this book.']);
     } else {
         if (checkoutBook($conn, $userId, $bookId)) {
-            echo "<script>alert('Book checked out successfully');</script>";
+            // Assume checkoutBook updates the amount and returns the new amount
+            $newAmount = getBookAmount($conn, $bookId); // Function to get the new amount
+            echo json_encode(['success' => true, 'newAmount' => $newAmount]);
         } else {
-            echo "<script>alert('Failed to check out the book.');</script>";
+            echo json_encode(['success' => false, 'message' => 'Failed to check out the book.']);
         }
     }
+    exit();
 }
 ?>
 
@@ -133,89 +136,91 @@ if ($_SERVER['REQUEST_METHOD'] == "POST" && isset($_POST['checkout'])) {
         <br>
         <!-- Display search results -->
         <div class="container-fluid">
-    <div class="row m-auto mb-4">
-        <?php
-        if (!empty($searchResults)) {
-            foreach ($searchResults as $key => $book) {
-                if ($key % 4 == 0 && $key != 0) {
-                    echo "</div><div class='row m-auto mb-4'>";
-                }
-        ?>
-                <div class="col-md-3 mb-4">
-                    <div class='card' style='width: 21rem; height: 39rem;'>
-                        <img src='<?php echo $book['imgPath']; ?>' class='card-img-top' alt='Book Image' style="height: 350px; object-fit: cover;">
-                        <div class="card-body">
-                            <h5 class='card-title'><?php echo htmlspecialchars($book['title']); ?></h5>
-                            <p class='card-text'><strong>Author:</strong> <?php echo htmlspecialchars($book['author']); ?></p>
-                            <p class='card-text'>Genre: <?php echo htmlspecialchars($book['genre']); ?></p>
-                            <p class='card-text'>ISBN: <?php echo htmlspecialchars($book['isbn']); ?></p>
-                            <p class='card-text'>Amount Available: <?php echo htmlspecialchars($book['amount']); ?></p>
+            <div class="row m-auto mb-4">
+                <?php
+                if (!empty($searchResults)) {
+                    foreach ($searchResults as $key => $book) {
+                        if ($key % 4 == 0 && $key != 0) {
+                            echo "</div><div class='row m-auto mb-4'>";
+                        }
+                ?>
+                        <div class="col-md-3 mb-4">
+                            <div class='card' style='width: 21rem; height: 39rem;'>
+                                <img src='<?php echo $book['imgPath']; ?>' class='card-img-top' alt='Book Image' style="height: 350px; object-fit: cover;">
+                                <div class="card-body">
+                                    <h5 class='card-title'><?php echo htmlspecialchars($book['title']); ?></h5>
+                                    <p class='card-text'><strong>Author:</strong> <?php echo htmlspecialchars($book['author']); ?></p>
+                                    <p class='card-text'>Genre: <?php echo htmlspecialchars($book['genre']); ?></p>
+                                    <p class='card-text'>ISBN: <?php echo htmlspecialchars($book['isbn']); ?></p>
+                                    <p class='card-text'>Amount Available: <span id="amountAvailable<?php echo $book['bookId']; ?>"><?php echo htmlspecialchars($book['amount']); ?></span></p>
 
-                            <!-- Checkout Button Trigger for Modal -->
-                            <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#checkoutModal<?php echo $key; ?>" <?php echo $book['amount'] == 0 ? 'disabled' : ''; ?>>
-                                Checkout
-                            </button>
+                                    <!-- Checkout Button Trigger for Modal -->
+                                    <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#checkoutModal<?php echo $key; ?>" <?php echo $book['amount'] == 0 ? 'disabled' : ''; ?>>
+                                        Checkout
+                                    </button>
 
-                            <!-- Modal for checking out books -->
-                            <div class="modal fade" id="checkoutModal<?php echo $key; ?>" tabindex="-1" aria-labelledby="checkoutModalLabel<?php echo $key; ?>" aria-hidden="true">
-                                <div class="modal-dialog">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h1 class="modal-title fs-5" id="checkoutModalLabel<?php echo $key; ?>">Confirm Checkout</h1>
-                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                        </div>
-                                        <div class="modal-body">
-                                            <h4>Are you sure you want to checkout <strong><?php echo $book['title']; ?></strong> by <strong><?php echo $book['author']; ?></strong>?</h4>
-                                        </div>
-                                        <div class="modal-footer">
-                                            <form method="post" action="">
-                                                <input type="hidden" name="bookId" value="<?php echo $book['bookId']; ?>">
-                                                <button type="submit" name="checkout" class="btn btn-primary">Yes, checkout</button>
-                                            </form>
-                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                                    <!-- Modal for checking out books -->
+                                    <div class="modal fade" id="checkoutModal<?php echo $key; ?>" tabindex="-1" aria-labelledby="checkoutModalLabel<?php echo $key; ?>" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h1 class="modal-title fs-5" id="checkoutModalLabel<?php echo $key; ?>">Confirm Checkout</h1>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <h4>Are you sure you want to checkout <strong><?php echo $book['title']; ?></strong> by <strong><?php echo $book['author']; ?></strong>?</h4>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <form method="post" action="">
+                                                        <input type="hidden" name="bookId" value="<?php echo $book['bookId']; ?>">
+                                                        <button type="button" class="btn btn-primary" onclick="checkoutBook(<?php echo $book['bookId']; ?>);">
+                                                            Yes, checkout
+                                                        </button>
+                                                    </form>
+                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                            </div>
 
-                            <!-- Reserve Button Trigger for Modal -->
-                            <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#reserveModal<?php echo $key; ?>" <?php echo $book['amount'] != 0 ? 'disabled' : ''; ?>>
-                                Reserve
-                            </button>
+                                    <!-- Reserve Button Trigger for Modal -->
+                                    <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#reserveModal<?php echo $key; ?>" <?php echo $book['amount'] != 0 ? 'disabled' : ''; ?>>
+                                        Reserve
+                                    </button>
 
-                            <!-- Modal for reserving books -->
-                            <div class="modal fade" id="reserveModal<?php echo $key; ?>" tabindex="-1" aria-labelledby="reserveModalLabel<?php echo $key; ?>" aria-hidden="true">
-                                <div class="modal-dialog">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h1 class="modal-title fs-5" id="reserveModalLabel<?php echo $key; ?>">Confirm Reservation</h1>
-                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                        </div>
-                                        <div class="modal-body">
-                                            <h4>Are you sure you want to reserve <strong><?php echo $book['title']; ?></strong> by <strong><?php echo $book['author']; ?></strong>?</h4>
-                                        </div>
-                                        <div class="modal-footer">
-                                            <form method="post" action="">
-                                                <input type="hidden" name="bookId" value="<?php echo $book['bookId']; ?>">
-                                                <button type="submit" name="reserve" class="btn btn-primary">Yes, reserve</button>
-                                            </form>
-                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                                    <!-- Modal for reserving books -->
+                                    <div class="modal fade" id="reserveModal<?php echo $key; ?>" tabindex="-1" aria-labelledby="reserveModalLabel<?php echo $key; ?>" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h1 class="modal-title fs-5" id="reserveModalLabel<?php echo $key; ?>">Confirm Reservation</h1>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <h4>Are you sure you want to reserve <strong><?php echo $book['title']; ?></strong> by <strong><?php echo $book['author']; ?></strong>?</h4>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <form method="post" action="">
+                                                        <input type="hidden" name="bookId" value="<?php echo $book['bookId']; ?>">
+                                                        <button type="submit" name="reserve" class="btn btn-primary">Yes, reserve</button>
+                                                    </form>
+                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
+
                                 </div>
                             </div>
-
                         </div>
-                    </div>
-                </div>
-        <?php
-            }
-        } else {
-            echo "<div class='col-12'><p>No results found.</p></div>";
-        }
-        ?>
-    </div>
-</div>
+                <?php
+                    }
+                } else {
+                    echo "<div class='col-12'><p>No results found.</p></div>";
+                }
+                ?>
+            </div>
+        </div>
 
 
         <!-- footer -->
