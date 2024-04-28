@@ -26,3 +26,30 @@ document.addEventListener('DOMContentLoaded', function() {
     // Set the width of the original button
     button.style.width = `${maxWidth + 30}px`;
 });
+
+function checkoutBook(bookId) {
+    // Prepare the data to be sent
+    var formData = new FormData();
+    formData.append('bookId', bookId);
+    formData.append('checkout', true);
+
+    // Create the AJAX request
+    fetch('explore.php', {
+        method: 'POST',
+        body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            alert('Book checked out successfully');
+            // Update the amount on the page
+            document.getElementById('amountAvailable' + bookId).textContent = data.newAmount;
+        } else {
+            alert(data.message);
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('Failed to process checkout');
+    });
+}
