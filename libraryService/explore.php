@@ -155,9 +155,19 @@ if ($_SERVER['REQUEST_METHOD'] == "POST" && isset($_POST['checkout'])) {
                                     <p class='card-text'>Amount Available: <span id="amountAvailable<?php echo $book['bookId']; ?>"><?php echo htmlspecialchars($book['amount']); ?></span></p>
 
                                     <!-- Checkout Button Trigger for Modal -->
-                                    <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#checkoutModal<?php echo $key; ?>" <?php echo $book['amount'] == 0 ? 'disabled' : ''; ?>>
-                                        Checkout
-                                    </button>
+                                    <div class="row justify-content-center">
+                                        <div class="col-md-4 justify-content-center">
+                                            <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#checkoutModal<?php echo $key; ?>" <?php echo $book['amount'] == 0 ? 'disabled' : ''; ?>>
+                                                Checkout
+                                            </button>
+                                        </div>
+                                        <!-- Reserve Button Trigger for Modal -->
+                                        <div class="col-md-4 justify-content-center">
+                                            <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#reserveModal<?php echo $key; ?>" <?php echo $book['amount'] != 0 ? 'disabled' : ''; ?>>
+                                                Reserve
+                                            </button>
+                                        </div>
+                                    </div>
 
                                     <!-- Modal for checking out books -->
                                     <div class="modal fade" id="checkoutModal<?php echo $key; ?>" tabindex="-1" aria-labelledby="checkoutModalLabel<?php echo $key; ?>" aria-hidden="true">
@@ -182,11 +192,6 @@ if ($_SERVER['REQUEST_METHOD'] == "POST" && isset($_POST['checkout'])) {
                                             </div>
                                         </div>
                                     </div>
-
-                                    <!-- Reserve Button Trigger for Modal -->
-                                    <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#reserveModal<?php echo $key; ?>" <?php echo $book['amount'] != 0 ? 'disabled' : ''; ?>>
-                                        Reserve
-                                    </button>
 
                                     <!-- Modal for reserving books -->
                                     <div class="modal fade" id="reserveModal<?php echo $key; ?>" tabindex="-1" aria-labelledby="reserveModalLabel<?php echo $key; ?>" aria-hidden="true">
