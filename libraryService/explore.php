@@ -69,9 +69,9 @@ if ($_SERVER['REQUEST_METHOD'] == "POST" && isset($_POST['reserve'])) {
 
 <body>
     <div class="container-fluid">
-        <!-- Logo -->
-        <div class="text-center">
-            <img src="../images/myLibraryLogo.JPG" alt="MyLibrary logo">
+          <!-- Logo -->
+          <div class="text-center">
+            <img src="../images/myLibraryLogoEdited.PNG" alt="MyLibrary logo">
         </div>
         <!-- navbar -->
         <ul class="nav justify-content-center" style="background-color:#073c6b; margin: 10px; padding: 10px;">

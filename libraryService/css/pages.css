@@ -6,7 +6,7 @@
 
 }
  body {
-   background-color: #95acbe;
+   background-color: #f1f7fc;
 }
 .text-center {
     margin-top: 20px;
@@ -18,7 +18,7 @@
 }
 /*------------------------------------------------------------------------------------------- */
 .navbar-nav {
-    border-radius: 10px; /* Adjust the value as needed */
+    border-radius: 10px; 
 }
 
 .nav-item {
@@ -59,3 +59,4 @@ footer .bi-twitter-x,
 footer .bi-facebook{
     color: white;
 }
+

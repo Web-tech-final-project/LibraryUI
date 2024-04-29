@@ -1,0 +1,98 @@
+/* Add padding between sections for better spacing */
+.container, .container-fluid {
+    padding-bottom: 40px; /* Adds padding to the bottom of each container */
+}
+/* Add a central border line that can be reused */
+.section-divider {
+    width: 50%; 
+    margin: 20px auto; /* Center the line and add space around it */
+    border-bottom: 2px solid #073c6b; /* Solid line with color */
+}
+h1 {
+    color: #073c6b;
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+p {
+    font-size: 20px;
+    
+}
+/*------------------------------------------------------------------------------------------- */
+
+.page-title {
+    font-size: 2rem; /* Adjust font size as needed */
+    text-align: center;
+    margin-bottom: 20px; /* Space below the title */
+}
+/*------------------------------------------------------------------------------------------- */
+#introduction {
+    background-color: #bcd0eebe;  /* Light grey background */
+    padding: 20px;            
+    border-radius: 8px;        
+    margin-top: 20px;        
+}
+
+#introduction h1 {
+    color: #073c6b;            /* Dark blue color for the heading */
+    margin-bottom: 15px;       /* Space below the heading */
+}
+
+#introduction p {
+    font-size: 1.1rem;         /* Slightly larger font size for readability */
+}
+/*------------------------------------------------------------------------------------------- */
+.library-hours h2 {
+    color: #073c6b; 
+}
+.library-hours {
+    text-align: center;
+    margin-top: 20px;
+}
+.library-hours ul {
+    list-style: none;
+    padding: 0;
+}
+.library-hours li {
+    font-size: 16px;
+    color: #666; 
+}
+.library-hours li strong {
+    font-weight: bold;
+    color: #000; 
+}
+.custom-spacing {
+    padding: 0 15px; 
+    margin: 0 5px; 
+    flex: 1; 
+    min-width: 120px; 
+}
+/*------------------------------------------------------------------------------------------- */
+#aboutUs img {
+    max-width: 100%; 
+    height: auto;
+    width: 75%;
+}
+#aboutUs {
+    padding-top: 50px;  /* Adds padding to the top of the About Us section */
+}
+/*------------------------------------------------------------------------------------------- */
+#ourMission img {
+    max-width: 100%; 
+    height: auto; 
+    width: 85%; 
+}
+#ourMission .blockquote {
+    font-style: italic;
+    margin-top: 20px; 
+    padding-left: 20px;
+    border-left: 5px solid #073c6b; 
+    margin-bottom: 10px; 
+}
+
+#ourMission .blockquote-footer {
+    font-size: 0.8rem;
+    text-align: right;
+    color: #666;
+    padding-top: 10px; /* Adds space above the footer */
+}
