@@ -1,0 +1,98 @@
+/* Add padding between sections for better spacing */
+.container, .container-fluid {
+    padding-bottom: 40px; /* Adds padding to the bottom of each container */
+}
+/* Add a central border line that can be reused */
+.section-divider {
+    width: 50%; /* Adjust width as needed */
+    margin: 20px auto; /* Center the line and add space around it */
+    border-bottom: 2px solid #073c6b; /* Solid line with color */
+}
+h1 {
+    color: #073c6b;
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+p {
+    font-size: 20px;
+    
+}
+/*------------------------------------------------------------------------------------------- */
+
+.page-title {
+    font-size: 2rem; /* Adjust font size as needed */
+    text-align: center;
+    margin-bottom: 20px; /* Space below the title */
+}
+/*------------------------------------------------------------------------------------------- */
+#introduction {
+    background-color: #bcd0eebe;  /* Light grey background */
+    padding: 20px;             /* Padding for some breathing room */
+    border-radius: 8px;        /* Optional: rounded corners */
+    margin-top: 20px;          /* Space above the section */
+}
+
+#introduction h1 {
+    color: #073c6b;            /* Dark blue color for the heading */
+    margin-bottom: 15px;       /* Space below the heading */
+}
+
+#introduction p {
+    font-size: 1.1rem;         /* Slightly larger font size for readability */
+}
+/*------------------------------------------------------------------------------------------- */
+.library-hours h2 {
+    color: #073c6b; 
+}
+.library-hours {
+    text-align: center;
+    margin-top: 20px;
+}
+.library-hours ul {
+    list-style: none;
+    padding: 0;
+}
+.library-hours li {
+    font-size: 16px;
+    color: #666; /* This will change the color of the hours */
+}
+.library-hours li strong {
+    font-weight: bold;
+    color: #000; /* This will change the color of the days */
+}
+.custom-spacing {
+    padding: 0 15px; /* Increased padding for visual spacing */
+    margin: 0 5px; /* Adding margins to control spacing between columns */
+    flex: 1; /* Ensures the columns expand to use available space */
+    min-width: 120px; /* Ensures each column has a minimum width */
+}
+/*------------------------------------------------------------------------------------------- */
+#aboutUs img {
+    max-width: 100%; /* Ensures responsiveness */
+    height: auto; /* Maintains aspect ratio */
+    width: 75%; /* Adjust this value as needed */
+}
+#aboutUs {
+    padding-top: 50px;  /* Adds padding to the top of the About Us section */
+}
+/*------------------------------------------------------------------------------------------- */
+#ourMission img {
+    max-width: 100%; /* Ensures responsiveness */
+    height: auto; /* Maintains aspect ratio */
+    width: 85%; /* Adjust this value as needed */
+}
+#ourMission .blockquote {
+    font-style: italic;
+    margin-top: 20px; /* Adds space between the mission text and the quote */
+    padding-left: 20px;
+    border-left: 5px solid #073c6b; /* Adds a thematic left border to the quote */
+    margin-bottom: 10px; /* Adds space below the quote before the footer */
+}
+
+#ourMission .blockquote-footer {
+    font-size: 0.8rem;
+    text-align: right;
+    color: #666;
+    padding-top: 10px; /* Adds space above the footer */
+}
