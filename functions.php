@@ -385,3 +385,46 @@ function reserveBook($conn, $userId, $bookId) {
     $insertStmt->execute();
     return $insertStmt->affected_rows > 0;
 }
+
+// getting number of user reserved books
+function getNumUserReserves($conn)
+{
+    $id = $_SESSION['id']; // Ensure the session variable name matches your project's
+    $query = "SELECT COUNT(*) FROM reserves
+              WHERE userId = '$id' AND isDeleted = 0"; // Assumed isDeleted is used to mark active/inactive reserves
+
+    $result = mysqli_query($conn, $query);
+
+    // if successful query return number of books counted
+    if ($result) {
+        $row = mysqli_fetch_row($result);
+        return $row[0];
+    }
+}
+
+// return user reserved books data
+function getUserReserveData($conn)
+{
+    $id = $_SESSION['id']; // Ensure the session variable name matches your project's
+    $query = "SELECT b.*, g.genre, bi.imgPath, r.*
+              FROM books b
+              LEFT JOIN genres g ON b.genreId = g.genreId
+              LEFT JOIN bookImgs bi ON b.imgId = bi.imgId
+              JOIN reserves r ON b.bookId = r.bookId
+              WHERE r.userId = '$id' AND r.isDeleted = 0"; // Assumed isDeleted is used to mark active/inactive reserves
+
+    $result = mysqli_query($conn, $query);
+
+    // initialize an empty array to store book data
+    $reserveData = array();
+
+    // if query was successful get store all records returned
+    if ($result) {
+        // fetch all rows from the result set
+        while ($row = mysqli_fetch_assoc($result)) {
+            $reserveData[] = $row;
+        }
+
+        return $reserveData;
+    }
+}

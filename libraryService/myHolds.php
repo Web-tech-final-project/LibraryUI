@@ -1,4 +1,3 @@
-<!-- php code -->
 <?php
 session_start();
 
@@ -6,6 +5,9 @@ include("../connection.php");
 include("../functions.php");
 
 $user_data = check_login($conn);
+
+$num_reserves = getNumUserReserves($conn);
+$reserve_data = getUserReserveData($conn);
 ?>
 
 <!DOCTYPE html>
@@ -17,7 +19,7 @@ $user_data = check_login($conn);
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <link rel="stylesheet" href="css/pages.css">
-    <title>MyLibrary home</title>
+    <title>My Holds</title>
 </head>
 
 <body>
@@ -67,6 +69,33 @@ $user_data = check_login($conn);
                 </div>
             </li>
         </ul>
+
+  <!-- page content -->
+  <h1 class="text-center"><?php echo ($num_reserves > 0) ? "You have $num_reserves book(s) reserved, {$user_data['userName']}." : "<a href='explore.php'>Explore</a> our book collection and make some reservations."; ?></h1>
+
+<div class="row m-auto mb-4">
+    <?php
+    if ($reserve_data) {
+        foreach ($reserve_data as $key => $book) {
+            if ($key % 4 == 0) {
+                echo "</div><div class='row m-auto mb-4'>";
+            }
+            echo "<div class='col-md-3'>
+                <div class='card' style='width: 21rem; height: 39rem;'>
+                    <img src='{$book['imgPath']}' class='card-img-top' width='auto' height='350px' alt='Book Image'>
+                    <div class='card-body'>
+                        <h5 class='card-title'>{$book['title']}</h5>
+                        <p class='card-text'><strong>{$book['author']}</strong></p>
+                        <p class='card-text'>{$book['genre']}</p>
+                    </div>
+                </div>
+            </div>";
+        }
+    } else {
+        echo "<p class='text-center'>You have no books currently reserved.</p>";
+    }
+    ?>
+</div>
 
         <!-- footer -->
         <div class="container-fluid" id="companyFooter">
