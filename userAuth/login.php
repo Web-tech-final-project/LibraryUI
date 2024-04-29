@@ -13,7 +13,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     if (!empty($userName) && !empty($password)) {
         // make query and send to DB
         $query = "SELECT * FROM users
-                      WHERE userName = '$userName' and password = '$password'";
+                      WHERE userName = '$userName' AND password = '$password' AND isDeleted IS NULL";
         $result = mysqli_query($conn, $query);
 
         // validate result

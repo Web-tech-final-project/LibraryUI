@@ -1,0 +1,9 @@
+/* Dropdown menu size */
+.fixed-width-btn {
+    width: 200px;
+}
+
+#dropdownMenuButton1 {
+    min-width: 160px; /* Adjust this value as needed to fit your design */
+    text-align: left; /* Ensures text alignment does not affect button size */
+}
