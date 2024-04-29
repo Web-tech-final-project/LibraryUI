@@ -98,7 +98,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['renew_book'])) {
         </ul>
 
         <!-- page content -->
-        <?php echo ($num_books > 0) ? "<h1>You have $num_books book(s) checked out under your name, {$user_data['userName']}.</h1>" : "<h1><a href='explore.php'>Explore</a> our book collection.</h1>"; ?>
+        <h1 class="text-center"> <?php echo ($num_books > 0) ? "<h1>You have $num_books book(s) checked out under your name, {$user_data['userName']}.</h1>" : "<a href='explore.php'>Explore</a> our book collection and checkout books."; ?></h1>
 
         <div class="row m-auto mb-4">
             <?php
@@ -190,6 +190,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['renew_book'])) {
                     </div>
             <?php
                 }
+            } else {
+                echo "<p class='text-center'>You have no books currently checked out.</p>";
             }
             ?>
         </div>
