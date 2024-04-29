@@ -1,4 +1,3 @@
-<!-- php code -->
 <?php
 session_start();
 
@@ -7,32 +6,32 @@ include("../functions.php");
 
 $user_data = check_login($conn);
 
-$num_books = getNumUserBooks($conn);
-$book_data = getUserBookData($conn);
+$num_reserves = getNumUserReserves($conn);
+$reserve_data = getUserReserveData($conn);
 
-// if form is submitted to call return function
-if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['return_book'])) {
+if ($_SERVER['REQUEST_METHOD'] == "POST" && isset($_POST['checkout'])) {
     $bookId = $_POST['bookId'];
-    // successful return
-    if (returnBook($conn, $bookId)) {
-        echo "<script>alert('Book returned successfully');</script>";
-        $num_books = getNumUserBooks($conn);
-        $book_data = getUserBookData($conn);
+    $userId = $user_data['id'];
+
+    if (checkoutReservedBook($conn, $userId, $bookId)) {
+        $num_reserves = getNumUserReserves($conn);
+        $reserve_data = getUserReserveData($conn);
+        echo "<script>alert('Book checked out successfully');</script>";
     } else {
-        echo "<script>alert('Failed to return book');</script>";
+        echo "<script>alert('Failed to checkout book.');</script>";
     }
 }
 
-// if form is submitted to call renew function
-if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['renew_book'])) {
+if ($_SERVER['REQUEST_METHOD'] == "POST" && isset($_POST['remove_hold'])) {
     $bookId = $_POST['bookId'];
-    // successful return
-    if (renewBook($conn, $bookId)) {
-        echo "<script>alert('Rental renewed successfully');</script>";
-        $num_books = getNumUserBooks($conn);
-        $book_data = getUserBookData($conn);
+    $userId = $user_data['id'];
+
+    if (removeReservedBook($conn, $userId, $bookId)) {
+        $num_reserves = getNumUserReserves($conn);
+        $reserve_data = getUserReserveData($conn);
+        echo "<script>alert('Removed hold successfully');</script>";
     } else {
-        echo "<script>alert('Failed to renew rental');</script>";
+        echo "<script>alert('Failed to remove hold.');</script>";
     }
 }
 ?>
@@ -46,25 +45,25 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['renew_book'])) {
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <link rel="stylesheet" href="css/pages.css">
-    <title>My bookshelf</title>
+    <title>My Holds</title>
 </head>
 
 <body>
     <div class="container-fluid">
-          <!-- Logo -->
-          <div class="text-center">
-            <img src="../images/myLibraryLogoEdited.PNG" alt="MyLibrary logo">
+        <!-- Logo -->
+        <div class="text-center">
+            <img src="../images/myLibraryLogo.JPG" alt="MyLibrary logo">
         </div>
         <!-- navbar -->
-        <ul class="nav justify-content-center" style="background-color: #073c6b;  margin: 10px; padding: 10px;">
+        <ul class="nav justify-content-center" style="background-color: #073c6b; margin: 10px; padding: 10px;">
             <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="libraryHome.php">Home</a>
+                <a class="nav-link" href="myHolds.php">Home</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="myBookshelf.php">My Bookshelf</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="myHolds.php">My Holds</a>
+                <a class="nav-link active" aria-current="page" href="myHolds.php">My Holds</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="explore.php">Explore</a>
@@ -98,89 +97,84 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['renew_book'])) {
         </ul>
 
         <!-- page content -->
-        <h1 class="text-center"> <?php echo ($num_books > 0) ? "<h1>You have $num_books book(s) checked out under your name, {$user_data['userName']}.</h1>" : "<a href='explore.php'>Explore</a> our book collection and checkout books."; ?></h1>
+        <h1 class="text-center"><?php echo ($num_reserves > 0) ? "You have $num_reserves book(s) reserved, {$user_data['userName']}." : "<a href='explore.php'>Explore</a> our book collection and make some reservations."; ?></h1>
 
         <div class="row m-auto mb-4">
             <?php
-            // check if book data is available
-            if ($book_data) {
-                // loop through book record
-                foreach ($book_data as $key => $book) {
-                    // start new row every four books
+            if ($reserve_data) {
+                foreach ($reserve_data as $key => $book) {
                     if ($key % 4 == 0) {
                         echo "</div><div class='row m-auto mb-4'>";
                     }
-
-                    // which return date to go by and check if overdue
-                    $returnByDate = $book['renewalDate'] != NULL ? $book['newReturnBy'] : $book['returnBy'];
-                    $isOverdue = date('Y-m-d') > date('Y-m-d', strtotime($returnByDate));
             ?>
-                    <!-- display card with book info -->
                     <div class='col-md-3'>
                         <div class='card' style='width: 21rem; height: 39rem;'>
-                            <img src='<?php echo $book['imgPath']; ?>' class='card-img-top' width="auto" height="350px" alt='Book Image'>
+                            <img src='<?php echo $book['imgPath']; ?>' class='card-img-top' width='auto' height='350px' alt='Book Image'>
                             <div class='card-body'>
                                 <h5 class='card-title'><?php echo $book['title']; ?></h5>
                                 <p class='card-text'><strong><?php echo $book['author']; ?></strong></p>
                                 <p class='card-text'><?php echo $book['genre']; ?></p>
-                                <p class='card-text'><u>Checked out</u>: <?php echo date('D, M d, Y', strtotime($book['dateOfCheckout'])); ?></p>
-                                <p class="card-text"><u>Return by</u>: <?php echo !$isOverdue ? '<span class="text-primary">' . date('D, M d, Y', strtotime($returnByDate)) . '</span>' :
-                                                                            '<span class="text-danger">' . date('D, M d, Y', strtotime($returnByDate)) . '</span>'; ?></p>
+                                <p class='card-text'>ISBN: <?php echo htmlspecialchars($book['isbn']); ?></p>
+                                <p class='card-text'>Amount Available: <span id="amountAvailable<?php echo $book['bookId']; ?>"><?php echo htmlspecialchars($book['amount']); ?></span></p>
 
+                                <!-- Checkout Button Trigger for Modal -->
                                 <div class="row justify-content-center">
                                     <div class="col-md-4 justify-content-center">
-                                        <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#returnModal<?php echo $key; ?>">
-                                            Return
+                                        <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#checkoutModal<?php echo $key; ?>" <?php echo $book['amount'] == 0 ? 'disabled' : ''; ?>>
+                                            Checkout
                                         </button>
                                     </div>
-                                    <div class="col-md-4 justify-content-center">
-                                        <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#renewModal<?php echo $key; ?>" <?php echo ($book['renewalDate'] != NULL || date('Y-m-d') < date('Y-m-d', strtotime($returnByDate))) ? 'disabled' : ''; ?>>
-                                            Renew
+                                    <!-- Reserve Button Trigger for Modal -->
+                                    <div class="col-auto justify-content-center">
+                                        <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#removeHoldModal<?php echo $key; ?>">
+                                            Remove hold
                                         </button>
                                     </div>
                                 </div>
 
-                                <!-- Modal for returning books -->
-                                <div class="modal fade" id="returnModal<?php echo $key; ?>" tabindex="-1" aria-labelledby="returnModalLabel<?php echo $key; ?>" aria-hidden="true">
+                                <!-- Modal for checking out books -->
+                                <div class="modal fade" id="checkoutModal<?php echo $key; ?>" tabindex="-1" aria-labelledby="checkoutModalLabel<?php echo $key; ?>" aria-hidden="true">
                                     <div class="modal-dialog">
                                         <div class="modal-content">
                                             <div class="modal-header">
-                                                <h1 class="modal-title fs-5" id="returnModalLabel<?php echo $key; ?>">Process return</h1>
+                                                <h1 class="modal-title fs-5" id="checkoutModalLabel<?php echo $key; ?>">Confirm Checkout</h1>
                                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                             </div>
                                             <div class="modal-body">
-                                                <h4>Are you sure you want to return <strong><?php echo $book['title']; ?></strong> by <strong><?php echo $book['author']; ?></strong>?</h4>
-                                                <br>
-                                                <h6><span style="color: red;">*</span> This action can't be undone <span style="color: red;">*</span></h6>
+                                                <h4>Are you sure you want to checkout <strong><?php echo $book['title']; ?></strong> by <strong><?php echo $book['author']; ?></strong>?</h4>
                                             </div>
                                             <div class="modal-footer">
-                                                <form method="post">
+                                                <form method="post" action="">
                                                     <input type="hidden" name="bookId" value="<?php echo $book['bookId']; ?>">
-                                                    <button type="submit" name="return_book" class="btn btn-danger">Yes, return my book</button>
+                                                    <button type="submit" name="checkout" class="btn btn-primary">
+                                                        Yes, checkout
+                                                    </button>
                                                 </form>
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
 
-                                <!-- Modal for renewing books -->
-                                <div class="modal fade" id="renewModal<?php echo $key; ?>" tabindex="-1" aria-labelledby="renewModalLabel<?php echo $key; ?>" aria-hidden="true">
+                                <!-- Modal for removing a hold -->
+                                <div class="modal fade" id="removeHoldModal<?php echo $key; ?>" tabindex="-1" aria-labelledby="removeHoldModalLabel<?php echo $key; ?>" aria-hidden="true">
                                     <div class="modal-dialog">
                                         <div class="modal-content">
                                             <div class="modal-header">
-                                                <h1 class="modal-title fs-5" id="renewModalLabel<?php echo $key; ?>">Process renewal</h1>
+                                                <h1 class="modal-title fs-5" id="removeHoldModalLabel<?php echo $key; ?>">Confirm Checkout</h1>
                                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                             </div>
                                             <div class="modal-body">
-                                                <h4>Are you sure you want to renew <strong><?php echo $book['title']; ?></strong> by <strong><?php echo $book['author']; ?></strong>?</h4>
-                                                <br>
-                                                <h6><span style="color: red;">*</span> Renewed rentals are extended for 1 week. This rental may only be renewed once. <span style="color: red;">*</span></h6>
+                                                <h4>Are you sure you want to remove hold for <strong><?php echo $book['title']; ?></strong> by <strong><?php echo $book['author']; ?></strong>?</h4>
                                             </div>
                                             <div class="modal-footer">
-                                                <form method="post">
+                                                <form method="post" action="">
                                                     <input type="hidden" name="bookId" value="<?php echo $book['bookId']; ?>">
-                                                    <button type="submit" name="renew_book" class="btn btn-success">Yes, renew this book rental</button>
+                                                    <button type="submit" name="remove_hold" class="btn btn-primary">
+                                                        Yes, remove hold
+                                                    </button>
                                                 </form>
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
                                             </div>
                                         </div>
                                     </div>
@@ -191,7 +185,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['renew_book'])) {
             <?php
                 }
             } else {
-                echo "<p class='text-center'>You have no books currently checked out.</p>";
+                echo "<p class='text-center'>You have no books currently reserved.</p>";
             }
             ?>
         </div>
@@ -199,7 +193,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['renew_book'])) {
         <!-- footer -->
         <div class="container-fluid" id="companyFooter">
             <!-- Footer -->
-            <footer class="text-center text-lg-start text-muted" style="background-color: #073c6b; ">
+            <footer class="text-center text-lg-start text-muted" style="background-color: #073c6b;">
                 <!-- Section: Social media -->
                 <section class="d-flex justify-content-center justify-content-lg-between p-4 border-bottom">
                     <!-- Left -->

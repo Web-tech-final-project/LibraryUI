@@ -69,6 +69,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['pay_all_books'])) {
                 <a class="nav-link" href="myBookshelf.php">My Bookshelf</a>
             </li>
             <li class="nav-item">
+                <a class="nav-link" href="myHolds.php">My Holds</a>
+            </li>
+            <li class="nav-item">
                 <a class="nav-link" href="explore.php">Explore</a>
             </li>
             <li class="nav-item">
@@ -100,11 +103,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['pay_all_books'])) {
         </ul>
 
         <!-- page content -->
-        <h1> <?php echo $user_data['userName']; ?>, you have <?php echo $num_overdue_books; ?> overdue book(s)<?php echo ($num_overdue_books > 0) ? " totaling $" . number_format($totalFeesAccrued, 2, '.', '') : ''; ?>. </h1>
+        <h1 class="text-center"> <?php echo $user_data['userName']; ?>, you have <?php echo $num_overdue_books; ?> overdue book(s)<?php echo ($num_overdue_books > 0) ? " totaling $" . number_format($totalFeesAccrued, 2, '.', '') : ''; ?>. </h1>
         <?php
         if ($num_overdue_books > 0) {
         ?>
-            <h1>Please pay for, <a href="myBookshelf.php">return, and/or renew</a> them at your earliest convenience.</h1>
+            <h1 class="text-center">Please pay for, <a href="myBookshelf.php">return, and/or renew</a> them at your earliest convenience.</h1>
         <?php
         }
         ?>
