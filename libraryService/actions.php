@@ -1,6 +1,7 @@
 <?php
-require 'libraries.php';
+require 'libraries.php'; // Include the libraries.php file to use the 'libraries' class
 
+// Updates the geographical coordinates (latitude and longitude) of a library record based on provided HTTP request parameters.
 $lib = new libraries();
 $lib->setId(isset($_REQUEST['id']) ? (int) $_REQUEST['id'] : null);
 $lib->setLat(isset($_REQUEST['lat']) ? (float) $_REQUEST['lat'] : null);

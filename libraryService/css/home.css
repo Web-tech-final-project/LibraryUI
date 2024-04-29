@@ -4,7 +4,7 @@
 }
 /* Add a central border line that can be reused */
 .section-divider {
-    width: 50%; /* Adjust width as needed */
+    width: 50%; 
     margin: 20px auto; /* Center the line and add space around it */
     border-bottom: 2px solid #073c6b; /* Solid line with color */
 }
@@ -28,9 +28,9 @@ p {
 /*------------------------------------------------------------------------------------------- */
 #introduction {
     background-color: #bcd0eebe;  /* Light grey background */
-    padding: 20px;             /* Padding for some breathing room */
-    border-radius: 8px;        /* Optional: rounded corners */
-    margin-top: 20px;          /* Space above the section */
+    padding: 20px;            
+    border-radius: 8px;        
+    margin-top: 20px;        
 }
 
 #introduction h1 {
@@ -55,39 +55,39 @@ p {
 }
 .library-hours li {
     font-size: 16px;
-    color: #666; /* This will change the color of the hours */
+    color: #666; 
 }
 .library-hours li strong {
     font-weight: bold;
-    color: #000; /* This will change the color of the days */
+    color: #000; 
 }
 .custom-spacing {
-    padding: 0 15px; /* Increased padding for visual spacing */
-    margin: 0 5px; /* Adding margins to control spacing between columns */
-    flex: 1; /* Ensures the columns expand to use available space */
-    min-width: 120px; /* Ensures each column has a minimum width */
+    padding: 0 15px; 
+    margin: 0 5px; 
+    flex: 1; 
+    min-width: 120px; 
 }
 /*------------------------------------------------------------------------------------------- */
 #aboutUs img {
-    max-width: 100%; /* Ensures responsiveness */
-    height: auto; /* Maintains aspect ratio */
-    width: 75%; /* Adjust this value as needed */
+    max-width: 100%; 
+    height: auto;
+    width: 75%;
 }
 #aboutUs {
     padding-top: 50px;  /* Adds padding to the top of the About Us section */
 }
 /*------------------------------------------------------------------------------------------- */
 #ourMission img {
-    max-width: 100%; /* Ensures responsiveness */
-    height: auto; /* Maintains aspect ratio */
-    width: 85%; /* Adjust this value as needed */
+    max-width: 100%; 
+    height: auto; 
+    width: 85%; 
 }
 #ourMission .blockquote {
     font-style: italic;
-    margin-top: 20px; /* Adds space between the mission text and the quote */
+    margin-top: 20px; 
     padding-left: 20px;
-    border-left: 5px solid #073c6b; /* Adds a thematic left border to the quote */
-    margin-bottom: 10px; /* Adds space below the quote before the footer */
+    border-left: 5px solid #073c6b; 
+    margin-bottom: 10px; 
 }
 
 #ourMission .blockquote-footer {

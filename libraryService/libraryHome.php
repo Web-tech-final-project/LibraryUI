@@ -127,7 +127,7 @@ $user_data = check_login($conn);
                     </p>
                 </div>
                 <div class="col-md-6">
-                    <!-- Placeholder for image -->
+                    <!-- image -->
                     <img src="../images\homeImgs\library-management-system.jpg" alt="librarySystemImg" class="img-fluid">
                 </div>
             </div>
@@ -234,7 +234,7 @@ $user_data = check_login($conn);
             <center><h1>All library Locations</h1></center>
             <?php
             $libraries = $library->getLibrariesBlankLatLng();
-            // Optionally you can remove this line if you do not want to display raw data on your page
+            // remove raw data on page
             // print_r($libraries);
             ?>
             <div id="allData" style="display:none;">
