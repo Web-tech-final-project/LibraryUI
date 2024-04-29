@@ -37,7 +37,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['return_book'])) {
 </head>
 
 <body>
-    <div class="container">
+    <div class="container-fluid">
         <!-- navbar -->
         <ul class="nav justify-content-center" style="background-color: #073c6b;  margin: 10px; padding: 10px;">
             <li class="nav-item">

@@ -60,6 +60,91 @@ session_start();
                 </div>
             </li>
         </ul>
+        <h1 class="page-title">
+            <span>MyLibrary Branch</span>
+        </h1>
+        <div class="office-hours--wrapper">
+            <div>
+                <div>
+                    <div class="office-hours office-hours-status--open">
+                    <div class="office-hours__item">
+                            <span class="office-hours__item-label" style="width: 5.4em;">Sunday</span>
+                                  <span class="office-hours__item-slots">2:00 pm-5:00 pm</span>
+                                <span><br></span>
+                    </div>
+                    <div class="office-hours__item">
+                            <span class="office-hours__item-label" style="width: 5.4em;">Monday</span>
+                                  <span class="office-hours__item-slots">10:00 am-8:00 pm</span>
+                                <span><br></span>
+                    </div>
+                    <div class="office-hours__item">
+                            <span class="office-hours__item-label" style="width: 5.4em;">Tuesday</span>
+                                  <span class="office-hours__item-slots">10:00 am-8:00 pm</span>
+                                <span><br></span>
+                    </div>
+                    <div class="office-hours__item">
+                            <span class="office-hours__item-label" style="width: 5.4em;">Wednesday</span>
+                                  <span class="office-hours__item-slots">10:00 am-8:00 pm</span>
+                                <span><br></span>
+                    </div>
+                    <div class="office-hours__item">
+                            <span class="office-hours__item-label" style="width: 5.4em;">Thursday</span>
+                                  <span class="office-hours__item-slots">10:00 am-8:00 pm</span>
+                                <span><br></span>
+                    </div>
+                    <div class="office-hours__item">
+                            <span class="office-hours__item-label" style="width: 5.4em;">Friday</span>
+                                  <span class="office-hours__item-slots">10:00 am-6:00 pm</span>
+                                <span><br></span>
+                    </div>
+                    <div class="office-hours__item">
+                            <span class="office-hours__item-label" style="width: 5.4em;">Saturday</span>
+                                  <span class="office-hours__item-slots">10:00 am-5:00 pm</span>
+                                <span><br></span>
+                    </div>
+                </div>
+              </div>
+            </div>      
+        </div>
+        <div class="container-fluid" id="aboutUs">
+            <h1> About Us </h1>
+            <p> Welcome to MyLibrary, your gateway to a world of knowledge and exploration. Established with a vision to empower 
+                and inspire our community through access to information, we are proud to introduce our innovative web-based library management system.
+            </p>
+        </div>
+        <div class="container-fluid" id="ourMission">
+            <h1> Our Mission </h1>
+            <p> At MyLibrary, we are committed to fostering a culture of lifelong learning and enrichment. Our mission is to provide comprehensive 
+                access to resources, support academic and personal growth, and promote a love for reading and discovery.
+            </p>
+        </div>
+        <div class="container-fluid" id="ourHistory">
+            <h1> Our History </h1>
+            <p> Founded in 2024, MyLibrary has been a cornerstone of education and enlightenment in our community. We have evolved to meet the changing needs of our 
+                patrons, embracing technological advancements to enhance the library experience.
+            </p>
+        </div>
+        <div class="container-fluid" id="managementSystem">
+            <h1> About Our Web-Based Library Management System </h1>
+            <p> Driven by a passion for innovation, we are excited to introduce our user-friendly web-based library management system. Designed with the needs of our 
+                patrons in mind, our system empowers users to seamlessly access, explore, and manage their reading journey from anywhere, at any time.
+            </p>
+        </div>
+        <div class="container-fluid" id="keyfeatures">
+            <h2> Key features of our system include: </h1>
+            <p> Driven by a passion for innovation, we are excited to introduce our user-friendly web-based library management system. Designed with the needs of our 
+                patrons in mind, our system empowers users to seamlessly access, explore, and manage their reading journey from anywhere, at any time.
+            </p>
+       
+            <ul class="features justify-content-center">
+            <li>Book Information: Easily search for detailed information about books in our collection, including summaries, author bios, and reviews.</li>
+            <li>Availability Checking: Check the availability of books in real-time, ensuring that you can locate the materials you need with ease.</li>
+            <li>Reading Lists Management: Create personalized reading lists, categorizing books as 'Read' or 'To Read' for easy organization and tracking.</li>
+            <li>Checkout and Returns: Streamlined processes for book checkouts and returns, making borrowing and returning materials a breeze.</li>
+            </ul>
+        </div>
+
+
 
         <!-- footer -->
         <div class="container-fluid" id="companyFooter">
