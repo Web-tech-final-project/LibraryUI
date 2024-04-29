@@ -47,7 +47,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST" && isset($_POST['reserve'])) {
     if (reserveBook($conn, $userId, $bookId)) {
         echo "<script>alert('Book reserved successfully');</script>";
     } else {
-        echo "<script>alert('Failed to reserve the book or it is already reserved by you');</script>";
+        echo "<script>alert('Failed to reserve the book because it has already been reserved or checked out by you');</script>";
     }
 }
 
@@ -221,7 +221,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST" && isset($_POST['reserve'])) {
                                                 <div class="modal-footer">
                                                     <form method="post" action="">
                                                         <input type="hidden" name="bookId" value="<?php echo $book['bookId']; ?>">
-                                                        <button type="button" onclick="reserveBookAsync(<?php echo $book['bookId']; ?>);" class="btn btn-warning" <?php echo $book['amount'] != 0 ? 'disabled' : ''; ?>>
+                                                        <button type="submit" name="reserve" class="btn btn-warning" <?php echo $book['amount'] != 0 ? 'disabled' : ''; ?>>
                                                             Yes, Reserve
                                                         </button>
                                                     </form>

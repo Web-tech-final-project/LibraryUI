@@ -281,7 +281,8 @@ function payAllBooks($conn)
 }
 
 
-function getAllBooks($conn) {
+function getAllBooks($conn)
+{
     $sql = "SELECT b.*, g.genre, bi.imgPath 
             FROM books b 
             JOIN genres g ON b.genreId = g.genreId 
@@ -299,7 +300,8 @@ function getAllBooks($conn) {
 
 
 // Function to check if the book is already checked out by the user
-function hasUserCheckedOutBook($conn, $userId, $bookId) {
+function hasUserCheckedOutBook($conn, $userId, $bookId)
+{
     $query = "SELECT * FROM rentals WHERE bookId = ? AND userId = ? AND dateOfReturn IS NULL";
     $stmt = $conn->prepare($query);
     $stmt->bind_param("ii", $bookId, $userId);
@@ -311,7 +313,8 @@ function hasUserCheckedOutBook($conn, $userId, $bookId) {
 }
 
 // Function to checkout a book
-function checkoutBook($conn, $userId, $bookId) {
+function checkoutBook($conn, $userId, $bookId)
+{
     // Begin transaction
     $conn->begin_transaction();
 
@@ -356,7 +359,8 @@ function checkoutBook($conn, $userId, $bookId) {
 }
 
 
-function getBookAmount($conn, $bookId) {
+function getBookAmount($conn, $bookId)
+{
     $stmt = $conn->prepare("SELECT amount FROM books WHERE bookId = ?");
     $stmt->bind_param("i", $bookId);
     $stmt->execute();
@@ -367,16 +371,32 @@ function getBookAmount($conn, $bookId) {
     return 0;
 }
 
-function reserveBook($conn, $userId, $bookId) {
+function reserveBook($conn, $userId, $bookId)
+{
     // Check if the book is already reserved by the user
-    $query = "SELECT * FROM reserves WHERE bookId = ? AND userId = ? AND isDeleted = 0";
+    $query = "SELECT * FROM reserves WHERE bookId = '$bookId' AND userId = '$userId' AND isDeleted IS NULL";
     $stmt = $conn->prepare($query);
-    $stmt->bind_param("ii", $bookId, $userId);
     $stmt->execute();
     $result = $stmt->get_result();
     if ($result->num_rows > 0) {
         return false; // The user has already reserved this book
     }
+
+    // check if the book is already checked out by the user
+    $query = "SELECT * FROM rentals
+              WHERE userId = '$userId' AND bookId = '$bookId' AND dateOfReturn IS NULL";
+
+    $stmt = $conn->prepare($query);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    if ($result->num_rows > 0) {
+        return false; // The user has already checked out this book
+    }
+
+    // $query = "SELECT reserve.*, rental.*
+    //           FROM reserves reserve
+    //           JOIN rentals rental ON reserve.userId = rental.userId AND reserve.bookId = rental.bookId AND rental.dateOfReturn IS NULL
+    //           WHERE reserve.bookId = '$bookId' AND reserve.userId = '$userId' AND reserve.isDeleted IS NULL";
 
     // Insert the reservation
     $insertQuery = "INSERT INTO reserves (bookId, userId) VALUES (?, ?)";
@@ -391,7 +411,7 @@ function getNumUserReserves($conn)
 {
     $id = $_SESSION['id']; // Ensure the session variable name matches your project's
     $query = "SELECT COUNT(*) FROM reserves
-              WHERE userId = '$id' AND isDeleted = 0"; // Assumed isDeleted is used to mark active/inactive reserves
+              WHERE userId = '$id' AND isDeleted IS NULL"; // Assumed isDeleted is used to mark active/inactive reserves
 
     $result = mysqli_query($conn, $query);
 
@@ -411,7 +431,7 @@ function getUserReserveData($conn)
               LEFT JOIN genres g ON b.genreId = g.genreId
               LEFT JOIN bookImgs bi ON b.imgId = bi.imgId
               JOIN reserves r ON b.bookId = r.bookId
-              WHERE r.userId = '$id' AND r.isDeleted = 0"; // Assumed isDeleted is used to mark active/inactive reserves
+              WHERE r.userId = '$id' AND r.isDeleted IS NULL"; // Assumed isDeleted is used to mark active/inactive reserves
 
     $result = mysqli_query($conn, $query);
 
@@ -426,5 +446,40 @@ function getUserReserveData($conn)
         }
 
         return $reserveData;
+    }
+}
+
+
+// function for user to checkout a book that's on hold
+function checkoutReservedBook($conn, $userId, $bookId)
+{
+    // query
+    $query = "UPDATE reserves
+              SET isDeleted = 1
+              WHERE '$userId' = userId AND '$bookId' = bookId AND isDeleted IS NULL";
+
+    $result = mysqli_query($conn, $query);
+
+    if ($result) {
+        return checkoutBook($conn, $userId, $bookId);
+    } else {
+        return false;
+    }
+}
+
+// function for user to checkout a book that's on hold
+function removeReservedBook($conn, $userId, $bookId)
+{
+    // query
+    $query = "UPDATE reserves
+              SET isDeleted = 1
+              WHERE '$userId' = userId AND '$bookId' = bookId AND isDeleted IS NULL";
+
+    $result = mysqli_query($conn, $query);
+
+    if ($result) {
+        return true;
+    } else {
+        return false;
     }
 }

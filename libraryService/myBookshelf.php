@@ -123,7 +123,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['renew_book'])) {
                                 <h5 class='card-title'><?php echo $book['title']; ?></h5>
                                 <p class='card-text'><strong><?php echo $book['author']; ?></strong></p>
                                 <p class='card-text'><?php echo $book['genre']; ?></p>
-                                <!-- <p class='card-text'><u>ISBN: </u> <?php echo $book['isbn']; ?></p> -->
                                 <p class='card-text'><u>Checked out</u>: <?php echo date('D, M d, Y', strtotime($book['dateOfCheckout'])); ?></p>
                                 <p class="card-text"><u>Return by</u>: <?php echo !$isOverdue ? '<span class="text-primary">' . date('D, M d, Y', strtotime($returnByDate)) . '</span>' :
                                                                             '<span class="text-danger">' . date('D, M d, Y', strtotime($returnByDate)) . '</span>'; ?></p>
