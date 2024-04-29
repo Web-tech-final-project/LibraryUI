@@ -279,3 +279,90 @@ function payAllBooks($conn)
         return false;
     }
 }
+
+
+function getAllBooks($conn) {
+    $sql = "SELECT b.*, g.genre, bi.imgPath 
+            FROM books b 
+            JOIN genres g ON b.genreId = g.genreId 
+            JOIN bookImgs bi ON b.imgId = bi.imgId";
+
+    $result = $conn->query($sql);
+    $books = [];
+    if ($result->num_rows > 0) {
+        while ($book = $result->fetch_assoc()) {
+            $books[] = $book;
+        }
+    }
+    return $books;
+}
+
+
+// Function to check if the book is already checked out by the user
+function hasUserCheckedOutBook($conn, $userId, $bookId) {
+    $query = "SELECT * FROM rentals WHERE bookId = ? AND userId = ? AND dateOfReturn IS NULL";
+    $stmt = $conn->prepare($query);
+    $stmt->bind_param("ii", $bookId, $userId);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $hasCheckedOut = $result->num_rows > 0;
+    $stmt->close();
+    return $hasCheckedOut;
+}
+
+// Function to checkout a book
+function checkoutBook($conn, $userId, $bookId) {
+    // Begin transaction
+    $conn->begin_transaction();
+
+    try {
+        // First, check if the user has already checked out this book
+        if (!hasUserCheckedOutBook($conn, $userId, $bookId)) {
+            // Proceed with checking out the book
+            $query = "SELECT amount FROM books WHERE bookId = ?";
+            $stmt = $conn->prepare($query);
+            $stmt->bind_param("i", $bookId);
+            $stmt->execute();
+            $result = $stmt->get_result();
+            $book = $result->fetch_assoc();
+
+            if ($book['amount'] > 0) {
+                // Update the book amount
+                $updateQuery = "UPDATE books SET amount = amount - 1 WHERE bookId = ?";
+                $updateStmt = $conn->prepare($updateQuery);
+                $updateStmt->bind_param("i", $bookId);
+                $updateStmt->execute();
+
+                // Insert the rental record
+                $rentalQuery = "INSERT INTO rentals (bookId, userId, dateOfCheckout) VALUES (?, ?, NOW())";
+                $rentalStmt = $conn->prepare($rentalQuery);
+                $rentalStmt->bind_param("ii", $bookId, $userId);
+                $rentalStmt->execute();
+
+                $conn->commit();
+                return true;
+            } else {
+                $conn->rollback();
+                return false;
+            }
+        } else {
+            $conn->rollback();
+            return false; // User has already checked out this book
+        }
+    } catch (Exception $e) {
+        $conn->rollback();
+        return false;
+    }
+}
+
+
+function getBookAmount($conn, $bookId) {
+    $stmt = $conn->prepare("SELECT amount FROM books WHERE bookId = ?");
+    $stmt->bind_param("i", $bookId);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    if ($row = $result->fetch_assoc()) {
+        return $row['amount'];
+    }
+    return 0;
+}

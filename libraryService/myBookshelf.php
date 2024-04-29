@@ -95,7 +95,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['renew_book'])) {
         </ul>
 
         <!-- page content -->
-        <h1>You have <?php echo $num_books; ?> book(s) checked out under your name, <?php echo $user_data['userName']; ?>.</h1>
+        <?php echo ($num_books > 0) ? "<h1>You have $num_books book(s) checked out under your name, {$user_data['userName']}.</h1>" : "<h1><a href='explore.php'>Explore</a> our book collection.</h1>"; ?>
 
         <div class="row m-auto mb-4">
             <?php
@@ -117,7 +117,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['renew_book'])) {
                         <div class='card' style='width: 21rem; height: 39rem;'>
                             <img src='<?php echo $book['imgPath']; ?>' class='card-img-top' width="auto" height="350px" alt='Book Image'>
                             <div class='card-body'>
-                                <h3 class='card-title'><?php echo $book['title']; ?></h3>
+                                <h5 class='card-title'><?php echo $book['title']; ?></h5>
                                 <p class='card-text'><strong><?php echo $book['author']; ?></strong></p>
                                 <p class='card-text'><?php echo $book['genre']; ?></p>
                                 <!-- <p class='card-text'><u>ISBN: </u> <?php echo $book['isbn']; ?></p> -->

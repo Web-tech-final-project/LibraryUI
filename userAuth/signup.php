@@ -1,33 +1,41 @@
 <!-- php code -->
 <?php
 session_start();
-    include("../connection.php");
-    include("../functions.php");
+include("../connection.php");
+include("../functions.php");
 
-    if ($_SERVER['REQUEST_METHOD'] == "POST")
-    {
-        // form was posted store data from form
-        $userName = $_POST['userName'];
-        $password = $_POST['password'];
+if ($_SERVER['REQUEST_METHOD'] == "POST") {
+    // form was posted store data from form
+    $userName = $_POST['userName'];
+    $password = $_POST['password'];
 
-        // check if empty
-        if (!empty($userName) && !empty($password))
-        {
+    // check if empty
+    if (!empty($userName) && !empty($password)) {
+        try {
             // make query and send to DB
             $query = "INSERT INTO users (userName, password)
                       VALUES ('$userName', '$password')";
-            mysqli_query($conn, $query);
-            
-            // redirect user to login page
-            header("Location: login.php");
-            die;
-        }
-        // invalid info entered
-        else 
-        {
-            echo "Please enter valid credentials.";
+            if (mysqli_query($conn, $query)) {
+                // redirect user to login page
+                header("Location: login.php");
+                die;
+            } else {
+                throw new Exception("Failed to insert user.");
+            }
+        } catch (Exception $e) {
+            // check if the error is due to duplicate entry for userName
+            if ($e->getCode() == 1062) {
+                echo "Username '$userName' is already taken. Please choose a different username.";
+            } else {
+                echo "An error occurred: " . $e->getMessage();
+            }
         }
     }
+    // invalid info entered
+    else {
+        echo "Please enter valid credentials.";
+    }
+}
 ?>
 
 <!DOCTYPE html>
@@ -36,7 +44,7 @@ session_start();
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" type="text/css" href="userAuth.css"> 
+    <link rel="stylesheet" type="text/css" href="userAuth.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <title>MyLibrary: Signup</title>
 </head>
