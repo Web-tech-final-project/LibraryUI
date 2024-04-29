@@ -25,14 +25,13 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET['searchQuery'])) {
 
 if ($_SERVER['REQUEST_METHOD'] == "POST" && isset($_POST['checkout'])) {
     $bookId = $_POST['bookId'];
-    $userId = $user_data['id']; // Ensure you have the user's ID
+    $userId = $user_data['id'];
 
     if (hasUserCheckedOutBook($conn, $userId, $bookId)) {
         echo json_encode(['success' => false, 'message' => 'You have already checked out this book.']);
     } else {
         if (checkoutBook($conn, $userId, $bookId)) {
-            // Assume checkoutBook updates the amount and returns the new amount
-            $newAmount = getBookAmount($conn, $bookId); // Function to get the new amount
+            $newAmount = getBookAmount($conn, $bookId);
             echo json_encode(['success' => true, 'newAmount' => $newAmount]);
         } else {
             echo json_encode(['success' => false, 'message' => 'Failed to check out the book.']);
@@ -40,6 +39,18 @@ if ($_SERVER['REQUEST_METHOD'] == "POST" && isset($_POST['checkout'])) {
     }
     exit();
 }
+
+if ($_SERVER['REQUEST_METHOD'] == "POST" && isset($_POST['reserve'])) {
+    $bookId = $_POST['bookId'];
+    $userId = $user_data['id'];
+
+    if (reserveBook($conn, $userId, $bookId)) {
+        echo "<script>alert('Book reserved successfully');</script>";
+    } else {
+        echo "<script>alert('Failed to reserve the book or it is already reserved by you');</script>";
+    }
+}
+
 ?>
 
 
@@ -210,13 +221,16 @@ if ($_SERVER['REQUEST_METHOD'] == "POST" && isset($_POST['checkout'])) {
                                                 <div class="modal-footer">
                                                     <form method="post" action="">
                                                         <input type="hidden" name="bookId" value="<?php echo $book['bookId']; ?>">
-                                                        <button type="submit" name="reserve" class="btn btn-primary">Yes, reserve</button>
+                                                        <button type="button" onclick="reserveBookAsync(<?php echo $book['bookId']; ?>);" class="btn btn-warning" <?php echo $book['amount'] != 0 ? 'disabled' : ''; ?>>
+                                                            Yes, Reserve
+                                                        </button>
                                                     </form>
                                                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
+
 
                                 </div>
                             </div>

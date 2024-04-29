@@ -366,3 +366,22 @@ function getBookAmount($conn, $bookId) {
     }
     return 0;
 }
+
+function reserveBook($conn, $userId, $bookId) {
+    // Check if the book is already reserved by the user
+    $query = "SELECT * FROM reserves WHERE bookId = ? AND userId = ? AND isDeleted = 0";
+    $stmt = $conn->prepare($query);
+    $stmt->bind_param("ii", $bookId, $userId);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    if ($result->num_rows > 0) {
+        return false; // The user has already reserved this book
+    }
+
+    // Insert the reservation
+    $insertQuery = "INSERT INTO reserves (bookId, userId) VALUES (?, ?)";
+    $insertStmt = $conn->prepare($insertQuery);
+    $insertStmt->bind_param("ii", $bookId, $userId);
+    $insertStmt->execute();
+    return $insertStmt->affected_rows > 0;
+}

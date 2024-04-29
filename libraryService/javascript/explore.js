@@ -53,3 +53,25 @@ function checkoutBook(bookId) {
         alert('Failed to process checkout');
     });
 }
+
+function reserveBookAsync(bookId) {
+    var formData = new FormData();
+    formData.append('bookId', bookId);
+    formData.append('reserve', true);
+
+    fetch('explore.php', {
+        method: 'POST',
+        body: formData
+    })
+    .then(response => response.text())
+    .then(html => {
+        alert('Book reserved successfully');
+        // Optionally update UI elements here
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('Failed to reserve the book');
+    });
+
+    return false; // Prevent traditional form submission
+}
