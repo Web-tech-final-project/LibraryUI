@@ -184,7 +184,7 @@ $user_data = check_login($conn);
                                 My Bookshelf Page
                             </button>
                             </h2>
-                            <div id="collapseOne" class="accordion-collapse collapse" data-bs-parent="#accordionExample" style="">
+                            <div id="collapseOne" class="accordion-collapse collapse" data-bs-parent="#accordionExample" >
                             <div class="accordion-body">
                                 Keep track of your currently rented books with our "My Bookshelf" feature. This personalized space allows you to see which books you have borrowed, monitor due dates, and manage renewals without the need to visit the library.
                             </div>
@@ -196,7 +196,7 @@ $user_data = check_login($conn);
                                 Availability Checking
                             </button>
                             </h2>
-                            <div id="collapseTwo" class="accordion-collapse collapse" data-bs-parent="#accordionExample" style="">
+                            <div id="collapseTwo" class="accordion-collapse collapse" data-bs-parent="#accordionExample" >
                             <div class="accordion-body">
                                 Check the availability of books in real-time, ensuring that you can locate the materials you need with ease.
                             </div>
@@ -208,7 +208,7 @@ $user_data = check_login($conn);
                                 Explore Page
                             </button>
                             </h2>
-                            <div id="collapseThree" class="accordion-collapse collapse" data-bs-parent="#accordionExample" style="">
+                            <div id="collapseThree" class="accordion-collapse collapse" data-bs-parent="#accordionExample" >
                             <div class="accordion-body">
                                 Discover new titles and old favorites with our Explore page. Search for books by title, author, genre, or keywords. Our intuitive search feature makes finding your next read both easy and enjoyable.
                             </div>
@@ -220,7 +220,7 @@ $user_data = check_login($conn);
                                 Checkout and Returns
                             </button>
                             </h2>
-                            <div id="collapseFour" class="accordion-collapse collapse" data-bs-parent="#accordionExample" style="">
+                            <div id="collapseFour" class="accordion-collapse collapse" data-bs-parent="#accordionExample" >
                             <div class="accordion-body">
                                 Streamlined processes for book checkouts and returns, making borrowing and returning materials a breeze.
                             </div>

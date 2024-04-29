@@ -68,6 +68,28 @@
                 return false;
             }
         }
+        public function getAllLibraries() {
+            $sql = "SELECT * FROM $this->tableName";
+            $stmt = $this->conn->prepare($sql);
         
+            // Check if prepare was successful
+            if (!$stmt) {
+                throw new Exception("Prepare failed: " . $this->conn->error);
+            }
+        
+            // Execute the query
+            $stmt->execute();
+        
+            // Get the result set from the prepared statement.
+            $result = $stmt->get_result();
+        
+            if ($result) {
+                // Fetch all rows as an associative array.
+                return $result->fetch_all(MYSQLI_ASSOC);
+            } else {
+                throw new Exception("Failed to retrieve data: " . $stmt->error);
+            }
+        }
+
     }
 ?>
