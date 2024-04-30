@@ -63,7 +63,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST" && isset($_POST['reserve'])) {
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <link rel="stylesheet" href="css/pages.css">
     <link rel="stylesheet" hred="css/explore.css">
-    <title>Library home</title>
+    <title>Explore Library</title>
 </head>
 
 <body>
@@ -106,12 +106,12 @@ if ($_SERVER['REQUEST_METHOD'] == "POST" && isset($_POST['reserve'])) {
                         <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
                     </div>
                     <div class="offcanvas-body">
-                        <div style="margin-top: 25px;">
+                        <div style="margin-top: 15px;">
                             <?php echo "Date joined: " . date('Y-m-d', strtotime($user_data['date'])); ?>
                             <br><br>
                         </div>
 
-                        <a class="btn btn-danger" href="../userAuth/logout.php" role="button" style="margin-top: 40px;">Logout</a>
+                        <a class="btn btn-danger" href="../userAuth/logout.php" role="button" style="margin-top: 15px;">Logout</a>
                     </div>
                 </div>
             </li>
