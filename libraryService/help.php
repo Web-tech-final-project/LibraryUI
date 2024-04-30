@@ -81,14 +81,43 @@ $user_data = check_login($conn);
 
             <!-- question box -->
             <h3>Need further help? Shoot us an email!</h3>
-            <div class="form-group">
-                <label for="name">Name:</label>
-                <input type="text" class="form-control" id="name">
-                <label for="email">Email:</label>
-                <input type="text" class="form-control" id="email">
-                <label for="question">Question:</label>
-                <textarea class="form-control" rows="5" id="question"></textarea>
-            </div><br>
+            <br>
+
+            <form method="post" action="process_form.php" class="box-aside" role="form">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="content-left">
+                            <article class="content">
+                                <div class="form-group">
+                                    <label for="name">Name:</label>
+                                    <input id="name" class="form-control" name="name" placeholder="Enter Name" type="text">
+                                </div>
+                                <div class="form-group">
+                                    <label for="email">Email address</label>
+                                    <input id="email" class="form-control" name="email" placeholder="Enter Email" type="email">
+                                </div>
+                                <div class="form-group">
+                                    <label for="message">Message</label>
+                                    <textarea id="message" class="form-control" rows="5" name="message" placeholder="Enter Message" type="text"></textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label>Subject</label>
+                                    <select class="form-control" name="subject">
+                                        <option value="blank">- Select a Subject -</option>
+                                        <option value="Website Issue/Bug">Website Issue/Bug</option>
+                                        <option value="Holds/Late Fees">Holds/Late Fees</option>
+                                        <option value="Rentals">Rentals</option>
+                                        <option value="Other">Other</option>
+                                    </select>
+                                </div>
+                                <br>
+                                <button class="btn btn-light" type="submit" name="submit">Submit</button>
+                                <br><br>
+                            </article>
+                        </div>
+                    </div>
+                </div>
+            </form>
         </div>
 
 
