@@ -1,4 +1,3 @@
-<!-- php code -->
 <?php
 session_start();
 
@@ -6,6 +5,21 @@ include("../connection.php");
 include("../functions.php");
 
 $user_data = check_login($conn);
+
+// Fetch reviews from the database
+$query = "SELECT reviews.*, users.userName, bookimgs.imgPath 
+          FROM reviews 
+          LEFT JOIN users ON reviews.user_id = users.id
+          LEFT JOIN bookimgs ON reviews.book_id = bookimgs.imgId";
+
+$result = mysqli_query($conn, $query);
+
+$reviews = [];
+if ($result && mysqli_num_rows($result) > 0) {
+    while ($row = mysqli_fetch_assoc($result)) {
+        $reviews[] = $row;
+    }
+}
 ?>
 
 <!DOCTYPE html>
@@ -17,7 +31,7 @@ $user_data = check_login($conn);
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <link rel="stylesheet" href="css/pages.css">
-    <title>Library Help</title>
+    <title>MyLibrary Reviews</title>
 </head>
 
 <body>
@@ -71,53 +85,43 @@ $user_data = check_login($conn);
             </li>
         </ul>
 
-        <!-- help section -->
-        <div class="container-fluid bg-white rounded-3">
-            <br>
-            <!-- heading -->
-            <center>
-                <h1><b>Help</b></h1>
-            </center>
-
-            <!-- question box -->
-            <h3>Need further help? Shoot us an email!</h3>
-            <br>
-
-            <form method="post" action="process_form.php" class="box-aside" role="form">
-                <div class="row">
-                    <div class="col-sm-6">
-                        <div class="content-left">
-                            <article class="content">
-                                <div class="form-group">
-                                    <label for="name">Name:</label>
-                                    <input id="name" class="form-control" name="name" placeholder="Enter Name" type="text">
-                                </div>
-                                <div class="form-group">
-                                    <label for="email">Email address</label>
-                                    <input id="email" class="form-control" name="email" placeholder="Enter Email" type="email">
-                                </div>
-                                <div class="form-group">
-                                    <label for="message">Message</label>
-                                    <textarea id="message" class="form-control" rows="5" name="message" placeholder="Enter Message" type="text"></textarea>
-                                </div>
-                                <div class="form-group">
-                                    <label>Subject</label>
-                                    <select class="form-control" name="subject">
-                                        <option value="blank">- Select a Subject -</option>
-                                        <option value="Website Issue/Bug">Website Issue/Bug</option>
-                                        <option value="Holds/Late Fees">Holds/Late Fees</option>
-                                        <option value="Rentals">Rentals</option>
-                                        <option value="Other">Other</option>
-                                    </select>
-                                </div>
-                                <br>
-                                <button class="btn btn-light" type="submit" name="submit">Submit</button>
-                                <br><br>
-                            </article>
+        <!-- Reviews -->
+        <div class="container">
+            <h1 class="text-center mb-3">Reviews</h1>
+            <?php foreach ($reviews as $review) : ?>
+                <div class="card mb-3">
+                    <div class="row g-0">
+                        <!-- Book Image -->
+                        <div class="col-md-3">
+                            <img src='<?php echo $review['imgPath']; ?>' class='card-img-top' width="auto" height="350px" alt='Book Image'>
                         </div>
+
+                        <!-- Review Content -->
+                        <div class="col-md-9">
+                            <div class="card-body">
+                                <h5 class="card-title">Reviewed by <?php echo $review['userName']; ?></h5>
+                                <div class="mb-2">
+                                    <?php
+                                    // Display star rating
+                                    $rating = $review['rating'];
+                                    for ($i = 1; $i <= 5; $i++) {
+                                        if ($i <= $rating) {
+                                            echo '<i class="bi bi-star-fill text-warning"></i>';
+                                        } else {
+                                            echo '<i class="bi bi-star"></i>';
+                                        }
+                                    }
+                                    ?>
+                                </div>
+                                <h6 class="card-subtitle mb-2 text-muted"><?php echo $review['title']; ?></h6>
+                                <p class="card-text"><b>Reviewed on </b> <?php echo date('F jS, Y', strtotime($review['created_at'])); ?></p>
+                                <p class="card-text"><?php echo $review['review_text']; ?></p>
+                            </div>
+                        </div>
+                        
                     </div>
                 </div>
-            </form>
+            <?php endforeach; ?>
         </div>
 
 
@@ -228,9 +232,10 @@ $user_data = check_login($conn);
             </footer>
             <!-- Footer -->
         </div>
+
     </div>
 
-    <!-- link for bootstrap js compatability -->
+    <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 </body>
 

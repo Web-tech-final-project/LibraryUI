@@ -5,35 +5,42 @@
     padding-left: 0;
 
 }
- body {
-   background-color: #f1f7fc;
+
+body {
+    background-color: #f1f7fc;
 }
+
 .text-center {
     margin-top: 20px;
-    padding-left: 20px; 
+    padding-left: 20px;
 }
+
 .text-center img {
-    max-width: 130px; 
+    max-width: 130px;
     border-radius: 15px;
 }
+
 /*------------------------------------------------------------------------------------------- */
+.nav,
 .navbar-nav {
-    border-radius: 10px; 
+    border-radius: 10px;
 }
 
 .nav-item {
-    margin-right: 25px; 
+    margin-right: 25px;
 }
+
 /* Navigation text */
 .nav-link {
     color: #ffffff;
-    font-size: 25px; 
+    font-size: 25px;
 }
 
 /*  text/button profile */
 .bi-person-circle {
     color: white;
 }
+
 /*------------------------------------------------------------------------------------------- */
 /* footer text */
 footer,
@@ -43,10 +50,12 @@ footer h6 {
     border-radius: 10px;
     margin: 20px 0px 20px 0px;
 }
+
 /*  "Stay connected with us: */
 footer .d-none span {
     color: white;
 }
+
 /*  copyright text */
 footer .text-center {
     color: white;
@@ -54,9 +63,18 @@ footer .text-center {
 
 /* social media icons */
 footer .bi-github,
-footer .bi-instagram ,
+footer .bi-instagram,
 footer .bi-twitter-x,
-footer .bi-facebook{
+footer .bi-facebook {
     color: white;
 }
 
+
+.offcanvas {
+    border-radius: 10px;
+    background-color: #f1f7fc;
+}
+
+.offcanvas-body{
+    font-weight: bold;
+}

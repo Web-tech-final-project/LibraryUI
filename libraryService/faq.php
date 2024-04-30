@@ -24,7 +24,7 @@ $user_data = check_login($conn);
     <div class="container-fluid">
         <!-- Logo -->
         <div class="text-center">
-            <img src="../images/myLibraryLogo.JPG" alt="MyLibrary logo">
+            <img src="../images/myLibraryLogoEdited.png" alt="MyLibrary logo">
         </div>
         <!-- navbar -->
         <ul class="nav justify-content-center" style="background-color: #073c6b; margin: 10px; padding: 10px;">
@@ -41,6 +41,9 @@ $user_data = check_login($conn);
                 <a class="nav-link" href="explore.php">Explore</a>
             </li>
             <li class="nav-item">
+                <a class="nav-link" href="reviews.php">Reviews</a>
+            </li>
+            <li class="nav-item">
                 <a class="nav-link" href="bookFees.php">Book Fees</a>
             </li>
             <li class="nav-item">
@@ -51,18 +54,18 @@ $user_data = check_login($conn);
                     &nbsp<?php echo $user_data['userName'] ?>
                 </a>
 
-                <div class="offcanvas offcanvas-end" tabindex="-1" id="profilePane" aria-labelledby="profilePaneLabel">
+                <div class="offcanvas offcanvas-end h-25" tabindex="-1" id="profilePane" aria-labelledby="profilePaneLabel">
                     <div class="offcanvas-header">
                         <h5 class="offcanvas-title" id="profilePaneLabel"><span style="color: blue;"><?php echo $user_data['userName'] ?></span></h5>
                         <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
                     </div>
                     <div class="offcanvas-body">
-                        <div>
+                        <div style="margin-top: 25px;">
                             <?php echo "Date joined: " . date('Y-m-d', strtotime($user_data['date'])); ?>
                             <br><br>
                         </div>
 
-                        <a class="btn btn-danger" href="../userAuth/logout.php" role="button" style="margin: auto;">Logout</a>
+                        <a class="btn btn-danger" href="../userAuth/logout.php" role="button" style="margin-top: 40px;">Logout</a>
                     </div>
                 </div>
             </li>
@@ -172,6 +175,9 @@ $user_data = check_login($conn);
                             </p>
                             <p>
                                 <a href="help.php" class="text-reset">Help</a>
+                            </p>
+                            <p>
+                                <a href="reviews.php" class="text-reset">Reviews</a>
                             </p>
                         </div>
                         <!-- Grid column -->

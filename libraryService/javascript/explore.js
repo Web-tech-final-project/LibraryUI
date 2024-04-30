@@ -53,3 +53,66 @@ function checkoutBook(bookId) {
         alert('Failed to process checkout');
     });
 }
+
+
+document.addEventListener('DOMContentLoaded', function() {
+    const createReviewButtons = document.querySelectorAll('.create-review-btn');
+    createReviewButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            const bookId = this.getAttribute('data-bookid');
+            document.getElementById('bookIdInput').value = bookId;
+        });
+    });
+});
+
+document.addEventListener('DOMContentLoaded', function() {
+    const stars = document.querySelectorAll('.star');
+    const ratingInput = document.getElementById('rating');
+
+    // Handle hover event
+    stars.forEach(star => {
+        star.addEventListener('mouseenter', function() {
+            const rating = this.getAttribute('data-rating');
+            highlightStars(rating);
+        });
+
+        star.addEventListener('mouseleave', function() {
+            const currentRating = ratingInput.value;
+            highlightStars(currentRating);
+        });
+
+        // Handle click event
+        star.addEventListener('click', function() {
+            const rating = this.getAttribute('data-rating');
+            ratingInput.value = rating;
+            highlightStars(rating);
+            fillStars(rating);
+        });
+    });
+
+    // Function to highlight stars up to the specified rating
+    function highlightStars(rating) {
+        stars.forEach(star => {
+            const starRating = star.getAttribute('data-rating');
+            if (starRating <= rating) {
+                star.classList.add('text-warning');
+            } else {
+                star.classList.remove('text-warning');
+            }
+        });
+    }
+
+    // Function to fill stars up to the specified rating
+    function fillStars(rating) {
+        stars.forEach(star => {
+            const starRating = star.getAttribute('data-rating');
+            if (starRating <= rating) {
+                star.classList.remove('bi-star');
+                star.classList.add('bi-star-fill');
+            } else {
+                star.classList.remove('bi-star-fill');
+                star.classList.add('bi-star');
+            }
+        });
+    }
+});
