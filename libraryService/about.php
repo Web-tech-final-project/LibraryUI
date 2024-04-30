@@ -22,7 +22,7 @@ $book_data = getUserBookData($conn);
     <link rel="stylesheet" href="css/about.css">
     <link rel="stylesheet" href="css/pages.css">
 
-    <title>Library home</title>
+    <title>About us</title>
 </head>
 
 <body>
@@ -65,12 +65,12 @@ $book_data = getUserBookData($conn);
                         <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
                     </div>
                     <div class="offcanvas-body">
-                        <div style="margin-top: 25px;">
+                        <div style="margin-top: 15px;">
                             <?php echo "Date joined: " . date('Y-m-d', strtotime($user_data['date'])); ?>
                             <br><br>
                         </div>
 
-                        <a class="btn btn-danger" href="../userAuth/logout.php" role="button" style="margin-top: 40px;">Logout</a>
+                        <a class="btn btn-danger" href="../userAuth/logout.php" role="button" style="margin-top: 15px;">Logout</a>
                     </div>
                 </div>
             </li>
