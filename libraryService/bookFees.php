@@ -75,6 +75,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['pay_all_books'])) {
                 <a class="nav-link" href="explore.php">Explore</a>
             </li>
             <li class="nav-item">
+                <a class="nav-link" href="reviews.php">Reviews</a>
+            </li>
+            <li class="nav-item">
                 <a class="nav-link" href="bookFees.php">Book Fees</a>
             </li>
             <li class="nav-item">
@@ -303,6 +306,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['pay_all_books'])) {
                             </p>
                             <p>
                                 <a href="help.php" class="text-reset">Help</a>
+                            </p>
+                            <p>
+                                <a href="reviews.php" class="text-reset">Reviews</a>
                             </p>
                         </div>
                         <!-- Grid column -->

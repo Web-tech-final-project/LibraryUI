@@ -37,7 +37,6 @@ if ($_SERVER['REQUEST_METHOD'] == "POST" && isset($_POST['checkout'])) {
             echo json_encode(['success' => false, 'message' => 'Failed to check out the book.']);
         }
     }
-    exit();
 }
 
 if ($_SERVER['REQUEST_METHOD'] == "POST" && isset($_POST['reserve'])) {
@@ -69,8 +68,8 @@ if ($_SERVER['REQUEST_METHOD'] == "POST" && isset($_POST['reserve'])) {
 
 <body>
     <div class="container-fluid">
-          <!-- Logo -->
-          <div class="text-center">
+        <!-- Logo -->
+        <div class="text-center">
             <img src="../images/myLibraryLogoEdited.PNG" alt="MyLibrary logo">
         </div>
         <!-- navbar -->
@@ -86,6 +85,9 @@ if ($_SERVER['REQUEST_METHOD'] == "POST" && isset($_POST['reserve'])) {
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="explore.php">Explore</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="reviews.php">Reviews</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="bookFees.php">Book Fees</a>
@@ -159,7 +161,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST" && isset($_POST['reserve'])) {
                         }
                 ?>
                         <div class="col-md-3 mb-4">
-                            <div class='card' style='width: 21rem; height: 39rem;'>
+                            <div class='card' style='width: 21rem; height: 41rem;'>
                                 <img src='<?php echo $book['imgPath']; ?>' class='card-img-top' alt='Book Image' style="height: 350px; object-fit: cover;">
                                 <div class="card-body">
                                     <h5 class='card-title'><?php echo htmlspecialchars($book['title']); ?></h5>
@@ -179,6 +181,11 @@ if ($_SERVER['REQUEST_METHOD'] == "POST" && isset($_POST['reserve'])) {
                                         <div class="col-md-4 justify-content-center">
                                             <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#reserveModal<?php echo $key; ?>" <?php echo $book['amount'] != 0 ? 'disabled' : ''; ?>>
                                                 Reserve
+                                            </button>
+                                        </div>
+                                        <div class="col-auto justify-content-center mt-2">
+                                            <button class="btn btn-primary create-review-btn" data-bs-toggle="modal" data-bs-target="#createReviewModal" data-bookid="<?php echo $book['bookId']; ?>">
+                                                Create Review
                                             </button>
                                         </div>
                                     </div>
@@ -226,6 +233,49 @@ if ($_SERVER['REQUEST_METHOD'] == "POST" && isset($_POST['reserve'])) {
                                                         </button>
                                                     </form>
                                                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+
+                                    <!-- Modal for creating a review -->
+                                    <div class="modal fade" id="createReviewModal" tabindex="-1" aria-labelledby="createReviewModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="createReviewModalLabel">Create Review</h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <form action="submit_review.php" method="POST">
+                                                        <input type="hidden" id="bookIdInput" name="book_id">
+
+                                                        <div class="mb-3">
+                                                            <label for="rating" class="form-label">Rating</label>
+                                                            <div id="ratingStars">
+                                                                <i class="bi bi-star star" data-rating="1"></i>
+                                                                <i class="bi bi-star star" data-rating="2"></i>
+                                                                <i class="bi bi-star star" data-rating="3"></i>
+                                                                <i class="bi bi-star star" data-rating="4"></i>
+                                                                <i class="bi bi-star star" data-rating="5"></i>
+                                                            </div>
+                                                            <input type="hidden" id="rating" name="rating">
+                                                        </div>
+
+                                                        <div class="mb-3">
+                                                            <label for="reviewTitle" class="form-label">Review Title</label>
+                                                            <input type="text" class="form-control" id="reviewTitle" name="review_title" required>
+                                                        </div>
+
+
+                                                        <div class="mb-3">
+                                                            <label for="reviewText" class="form-label">Review Text</label>
+                                                            <textarea class="form-control" id="reviewText" name="review_text" rows="5" required></textarea>
+                                                        </div>
+                                                        <button type="submit" class="btn btn-primary" name="submit_review">Submit Review</button>
+                                                    </form>
                                                 </div>
                                             </div>
                                         </div>
@@ -316,6 +366,9 @@ if ($_SERVER['REQUEST_METHOD'] == "POST" && isset($_POST['reserve'])) {
                             </p>
                             <p>
                                 <a href="help.php" class="text-reset">Help</a>
+                            </p>
+                            <p>
+                                <a href="reviews.php" class="text-reset">Reviews</a>
                             </p>
                         </div>
                         <!-- Grid column -->

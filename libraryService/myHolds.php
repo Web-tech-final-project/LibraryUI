@@ -52,7 +52,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST" && isset($_POST['remove_hold'])) {
     <div class="container-fluid">
         <!-- Logo -->
         <div class="text-center">
-            <img src="../images/myLibraryLogo.JPG" alt="MyLibrary logo">
+            <img src="../images/myLibraryLogoEdited.png" alt="MyLibrary logo">
         </div>
         <!-- navbar -->
         <ul class="nav justify-content-center" style="background-color: #073c6b; margin: 10px; padding: 10px;">
@@ -67,6 +67,9 @@ if ($_SERVER['REQUEST_METHOD'] == "POST" && isset($_POST['remove_hold'])) {
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="explore.php">Explore</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="reviews.php">Reviews</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="bookFees.php">Book Fees</a>
@@ -261,6 +264,9 @@ if ($_SERVER['REQUEST_METHOD'] == "POST" && isset($_POST['remove_hold'])) {
                             </p>
                             <p>
                                 <a href="help.php" class="text-reset">Help</a>
+                            </p>
+                            <p>
+                                <a href="reviews.php" class="text-reset">Reviews</a>
                             </p>
                         </div>
                         <!-- Grid column -->

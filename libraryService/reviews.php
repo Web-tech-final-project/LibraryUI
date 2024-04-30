@@ -1,4 +1,3 @@
-<!-- php code -->
 <?php
 session_start();
 
@@ -7,8 +6,20 @@ include("../functions.php");
 
 $user_data = check_login($conn);
 
-$num_books = getNumUserBooks($conn);
-$book_data = getUserBookData($conn);
+// Fetch reviews from the database
+$query = "SELECT reviews.*, users.userName, bookimgs.imgPath 
+          FROM reviews 
+          LEFT JOIN users ON reviews.user_id = users.id
+          LEFT JOIN bookimgs ON reviews.book_id = bookimgs.imgId";
+
+$result = mysqli_query($conn, $query);
+
+$reviews = [];
+if ($result && mysqli_num_rows($result) > 0) {
+    while ($row = mysqli_fetch_assoc($result)) {
+        $reviews[] = $row;
+    }
+}
 ?>
 
 <!DOCTYPE html>
@@ -19,17 +30,15 @@ $book_data = getUserBookData($conn);
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-    <link rel="stylesheet" href="css/about.css">
     <link rel="stylesheet" href="css/pages.css">
-
-    <title>Library home</title>
+    <title>MyLibrary Reviews</title>
 </head>
 
 <body>
     <div class="container-fluid">
-         <!-- Logo -->
-         <div class="text-center">
-            <img src="../images/myLibraryLogoEdited.PNG" alt="MyLibrary logo">
+        <!-- Logo -->
+        <div class="text-center">
+            <img src="../images/myLibraryLogoEdited.png" alt="MyLibrary logo">
         </div>
         <!-- navbar -->
         <ul class="nav justify-content-center" style="background-color: #073c6b; margin: 10px; padding: 10px;">
@@ -76,90 +85,44 @@ $book_data = getUserBookData($conn);
             </li>
         </ul>
 
-        <div class="headerContainer">
-            <h1><b>Learn about Our Development Team</b></h1>
+        <!-- Reviews -->
+        <div class="container mt-5">
+            <h2 class="mb-4">Reviews</h2>
+            <?php foreach ($reviews as $review) : ?>
+                <div class="card mb-3">
+                    <div class="row g-0">
+                        <!-- Book Image -->
+                        <div class="col-md-3">
+                            <img src='<?php echo $review['imgPath']; ?>' class='card-img-top' width="auto" height="350px" alt='Book Image'>
+                        </div>
+
+                        <!-- Review Content -->
+                        <div class="col-md-9">
+                            <div class="card-body">
+                                <h5 class="card-title">Reviewed by <?php echo $review['userName']; ?></h5>
+                                <div class="mb-2">
+                                    <?php
+                                    // Display star rating
+                                    $rating = $review['rating'];
+                                    for ($i = 1; $i <= 5; $i++) {
+                                        if ($i <= $rating) {
+                                            echo '<i class="bi bi-star-fill text-warning"></i>';
+                                        } else {
+                                            echo '<i class="bi bi-star"></i>';
+                                        }
+                                    }
+                                    ?>
+                                </div>
+                                <h6 class="card-subtitle mb-2 text-muted"><?php echo $review['title']; ?></h6>
+                                <p class="card-text"><b>Reviewed on </b> <?php echo date('F jS, Y', strtotime($review['created_at'])); ?></p>
+                                <p class="card-text"><?php echo $review['review_text']; ?></p>
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>
+            <?php endforeach; ?>
         </div>
-
-        <!-- Team Member profiles -->
-        <div class="teamMembersTableContainer">
-
-            <div class="row1teamMembers">
-
-                <!-- Anees Alawmleh -->
-                <div class="aneesContainer">
-                    <h2><b>Anees Alawmleh</b></h2>
-                    <img src="../images/Annes.JPG" width="200px" ; height="350px" ;>
-                    <p id="text">
-                        Hello, my name is Anees Alawmleh. I am originally from Smyrna, Tennessee, and I graduated from Smyrna High School in 2020.
-                        Reading has always been a passion of mine, so working on this project has been incredibly fulfilling for me.
-                    </p>
-                </div>
-
-                <!-- Mark Eskander -->
-                <div class="markContainer">
-                    <h2><b>Mark Eskander</b></h2>
-                    <img src="../images/Mark.png" width="290px" ; height="250px" ;>
-                    <p id="text">
-                        Hey there, I'm Mark, a senior studying Computer Science at MTSU.
-                        I am a back-end developer with MyLibrary and I love it here.
-                        I deal with PHP and MySQL for the most part, ensuring seamless integration across front-end, back-end, and database operations.
-                        Besides the technical stuff, I enjoy spending time with friends and staying active.
-                    </p>
-                </div>
-
-                <!-- Bryan Hernandez-Trejo -->
-                <div class="bryanContainer">
-                    <h2><b>Bryan Hernandez-Trejo</b></h2>
-                    <img src="../images/bryan.JPG" width="250px" ; height="250px" ;>
-                    <p id="text">Hi, my name is Bryan Hernandez-Trejo and I'm from Nashville, TN. I'm a passionate computer science student
-                        currently enrolled as a Senior at Middle Tennessee State University. I've been working on this team for 3 weeks and it has been an amazing experience.
-                        We have enjoyed working alongside them in the process of web development and learning new technologies.
-                        I have enjoyed being part of this team and helping each other out in this process that we had begun with little knowledge about.
-                    </p>
-                </div>
-
-            </div>
-
-            <div class="row2teamMembers">
-                <!-- Uriel Esquivel -->
-                <div class="urielContainer">
-                    <h2><b>Uriel Esquivel</b></h2>
-                    <img src="../images/Uriel.JPG" width="250px" ; height="250px" ;> 
-                    <p id="text ">
-                      Hi all! I'm a Computer Science student who is passionate about programming languages.
-                      I'm eager to tackle new challenges and improve my skills.
-                      I excel in collaborative teams and enjoy working with colleagues to bring projects to fruition.
-                       I'm thrilled to keep learning and broaden my understanding of computer science, always on the lookout for opportunities to grow.
-                    </p>
-                </div>
-
-                <!-- Angel Vazquez -->
-                <div class="angelContainer">
-                    <h2><b>Angel Vazquez</b></h2>
-                    <img src="../images/Angel.png" width="250px" ; height="250px" ;>
-                    <p id="text">
-                        My name is Angel Vazquez, I'm currently a Senior in Computer Science @ MTSU and a Front-End developer on the MyLibrary team.
-                        I make sure that the the informational side of the site is up to date with the current FAQs and help methods for the users.
-                        In my free time I'm either out and about, binging a new series, or collecting things such as trading cards or figures.
-                    </p>
-                </div>
-
-                <!-- Brandon Sandoval -->
-                <div class="brandonContainer">
-                    <h2><b>Brandon Sandoval</b></h2>
-                    <img src="../images/Brandon.jpg" width="250px" ; height="250px" ;>
-                    <p id="text">
-                      Hi there! I'm Brandon Sandoval, a software engineering student at MTSU, eager to land an internship where I can apply my programming skills in Python, C++, and NASM x84_64.
-                      My GitHub portfolio showcases projects like Discord Bots and computer simulations, stemming from a childhood fascination with technology.
-                      Beyond coding, I thrive in team environments, valuing collaboration and communication.
-                       I'm on the lookout for an internship at a company that shares my passion for innovation, collaboration, mentorship, and continuous learning. Let's connect and build something amazing together!
-                    </p>
-                </div>
-
-            </div>
-
-        </div>
-
 
 
         <!-- footer -->
@@ -269,9 +232,10 @@ $book_data = getUserBookData($conn);
             </footer>
             <!-- Footer -->
         </div>
+
     </div>
 
-    <!-- link for bootstrap js compatability -->
+    <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 </body>
 

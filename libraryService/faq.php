@@ -24,7 +24,7 @@ $user_data = check_login($conn);
     <div class="container-fluid">
         <!-- Logo -->
         <div class="text-center">
-            <img src="../images/myLibraryLogo.JPG" alt="MyLibrary logo">
+            <img src="../images/myLibraryLogoEdited.png" alt="MyLibrary logo">
         </div>
         <!-- navbar -->
         <ul class="nav justify-content-center" style="background-color: #073c6b; margin: 10px; padding: 10px;">
@@ -39,6 +39,9 @@ $user_data = check_login($conn);
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="explore.php">Explore</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="reviews.php">Reviews</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="bookFees.php">Book Fees</a>
@@ -171,6 +174,9 @@ $user_data = check_login($conn);
                             </p>
                             <p>
                                 <a href="help.php" class="text-reset">Help</a>
+                            </p>
+                            <p>
+                                <a href="reviews.php" class="text-reset">Reviews</a>
                             </p>
                         </div>
                         <!-- Grid column -->
