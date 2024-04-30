@@ -161,6 +161,66 @@ $book_data = getUserBookData($conn);
         </div>
 
 
+        <div class="headerContainer">
+            <h1><b>Our Technology Stack</b></h1>
+        </div>
+
+
+        <!-- Our Tech Stack  -->
+        <div class="techstackTableContainer">
+
+            <div class="row1techstack">
+
+                <div class="phpcontainer">
+                    <h2><b>PHP</b></h2>
+                    <img src="../images/PHP-logo.svg.png" width="150px"; height="100px";><br>
+                    <a href="https://www.php.net/" target="_blank">Learn More</a>
+                </div>
+
+                <div class="htmlcontainer">
+                    <h2><b>HTML</b></h2>
+                    <img src="../images/htmlLogo.jpg" width="125px"; height="125px";><br>
+                    <a href="https://html.com/" target="_blank">Learn More</a>
+                </div>
+
+                <div class="csscontainer">
+                    <h2><b>CSS</b></h2>
+                    <img src="../images/cssLogo.png" width="125px"; height="125px";><br>
+                    <a href="https://www.w3schools.com/css/css_intro.asp" target="_blank">Learn More</a>
+                </div>
+
+                <div class="javascriptcontainer">
+                    <h2><b>JavaScript</b></h2>
+                    <img src="../images/javascriptLogo.webp" width="125px"; height="125px";><br>
+                    <a href="https://www.javascript.com" target="_blank">Learn More</a>
+                </div>
+
+            </div>
+
+            <div class="row2techstack">
+
+                <div class="mysqlcontainer">
+                    <h2><b>MySQL</b></h2>
+                    <img src="../images/MySQLLogo.png" width="125px"; height="125px";><br>
+                    <a href="https://www.mysql.com/" target="_blank">Learn More</a> 
+                </div>
+
+                <div class="bootstrapcontainer">
+                    <h2><b>Bootstrap</b></h2>
+                    <img src="../images/bootstrapLogo.png" width="100px"; height="125px";><br>
+                    <a href="https://getbootstrap.com/" target="_blank">Learn More</a>
+                </div>
+
+                <div class="googleapiContainer">
+                    <h2><b>Google API</b></h2>
+                    <img src="../images/google-API.png" width="175px"; height="125px";><br>
+                    <a href="https://developers.google.com/apis-explorer" target="_blank">Learn More</a>
+                </div>
+
+            </div>
+
+        </div>
+
 
         <!-- footer -->
         <div class="container-fluid" id="companyFooter">

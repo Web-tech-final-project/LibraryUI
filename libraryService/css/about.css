@@ -14,6 +14,7 @@ h2{
 
 img{
     padding-top: 10px;
+    padding-bottom: 10px;
 }
 
 p{
@@ -25,7 +26,9 @@ p{
     padding-top: 20px;
 }
 
-.teamMembersTableContainer{
+
+.teamMembersTableContainer,
+.techstackTableContainer {
     display: flex;
     flex-wrap: wrap;
     padding-top: 20px;
@@ -35,10 +38,13 @@ p{
 
 
 .row1teamMembers,
-.row2teamMembers{
+.row2teamMembers,
+.row1techstack,
+.row2techstack {
     display: inline-flex;
     justify-content: center;
     width: 100%;
+    padding-top: 20px;
 }
 
 .aneesContainer{
@@ -113,6 +119,97 @@ p{
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
     width: 400px;
     height: 650px;
+    margin: auto;
+    padding-right: 20px;
+    padding-left: 20px;
+    padding-top: 20px;
+}
+
+.phpcontainer{
+    display: table-cell;
+    text-align: center;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    width: 250px;
+    height: 225px;
+    margin: auto;
+    padding-right: 20px;
+    padding-left: 20px;
+    padding-top: 20px;
+}
+
+.htmlcontainer{
+    display: table-cell;
+    text-align: center;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    width: 250px;
+    height: 225px;
+    margin: auto;
+    padding-right: 20px;
+    padding-left: 20px;
+    padding-top: 20px;
+}
+
+.csscontainer{
+    display: table-cell;
+    text-align: center;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    width: 250px;
+    height: 225px;
+    margin: auto;
+    padding-right: 20px;
+    padding-left: 20px;
+    padding-top: 20px;
+}
+
+.javascriptcontainer{
+    display: table-cell;
+    text-align: center;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    width: 250px;
+    height: 225px;
+    margin: auto;
+    padding-right: 20px;
+    padding-left: 20px;
+    padding-top: 20px;
+}
+
+.mysqlcontainer{
+    display: table-cell;
+    text-align: center;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    width: 250px;
+    height: 225px;
+    margin: auto;
+    padding-right: 20px;
+    padding-left: 20px;
+    padding-top: 20px;
+}
+
+.bootstrapcontainer{
+    display: table-cell;
+    text-align: center;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    width: 250px;
+    height: 225px;
+    margin: auto;
+    padding-right: 20px;
+    padding-left: 20px;
+    padding-top: 20px;
+}
+
+.googleapiContainer{
+    display: table-cell;
+    text-align: center;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    width: 250px;
+    height: 225px;
     margin: auto;
     padding-right: 20px;
     padding-left: 20px;
