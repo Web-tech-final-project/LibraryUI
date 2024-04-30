@@ -28,13 +28,13 @@ if ($_SERVER['REQUEST_METHOD'] == "POST" && isset($_POST['checkout'])) {
     $userId = $user_data['id'];
 
     if (hasUserCheckedOutBook($conn, $userId, $bookId)) {
-        echo json_encode(['success' => false, 'message' => 'You have already checked out this book.']);
+        echo "<script>alert('You have already checked out this book');</script>";
     } else {
         if (checkoutBook($conn, $userId, $bookId)) {
             $newAmount = getBookAmount($conn, $bookId);
-            echo json_encode(['success' => true, 'newAmount' => $newAmount]);
+            echo "<script>alert('Book checked out successfully');</script>";
         } else {
-            echo json_encode(['success' => false, 'message' => 'Failed to check out the book.']);
+            echo "<script>alert('Failed to check out the book');</script>";
         }
     }
 }
@@ -100,18 +100,18 @@ if ($_SERVER['REQUEST_METHOD'] == "POST" && isset($_POST['reserve'])) {
                     &nbsp<?php echo $user_data['userName'] ?>
                 </a>
 
-                <div class="offcanvas offcanvas-end" tabindex="-1" id="profilePane" aria-labelledby="profilePaneLabel">
+                <div class="offcanvas offcanvas-end h-25" tabindex="-1" id="profilePane" aria-labelledby="profilePaneLabel">
                     <div class="offcanvas-header">
                         <h5 class="offcanvas-title" id="profilePaneLabel"><span style="color: blue;"><?php echo $user_data['userName'] ?></span></h5>
                         <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
                     </div>
                     <div class="offcanvas-body">
-                        <div>
+                        <div style="margin-top: 25px;">
                             <?php echo "Date joined: " . date('Y-m-d', strtotime($user_data['date'])); ?>
                             <br><br>
                         </div>
 
-                        <a class="btn btn-danger" href="../userAuth/logout.php" role="button" style="margin: auto;">Logout</a>
+                        <a class="btn btn-danger" href="../userAuth/logout.php" role="button" style="margin-top: 40px;">Logout</a>
                     </div>
                 </div>
             </li>
@@ -204,7 +204,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST" && isset($_POST['reserve'])) {
                                                 <div class="modal-footer">
                                                     <form method="post" action="">
                                                         <input type="hidden" name="bookId" value="<?php echo $book['bookId']; ?>">
-                                                        <button type="button" class="btn btn-primary" onclick="checkoutBook(<?php echo $book['bookId']; ?>);">
+                                                        <button type="submit" class="btn btn-primary" name="checkout">
                                                             Yes, checkout
                                                         </button>
                                                     </form>

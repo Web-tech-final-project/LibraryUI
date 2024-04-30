@@ -68,26 +68,26 @@ if ($result && mysqli_num_rows($result) > 0) {
                     &nbsp<?php echo $user_data['userName'] ?>
                 </a>
 
-                <div class="offcanvas offcanvas-end" tabindex="-1" id="profilePane" aria-labelledby="profilePaneLabel">
+                <div class="offcanvas offcanvas-end h-25" tabindex="-1" id="profilePane" aria-labelledby="profilePaneLabel">
                     <div class="offcanvas-header">
                         <h5 class="offcanvas-title" id="profilePaneLabel"><span style="color: blue;"><?php echo $user_data['userName'] ?></span></h5>
                         <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
                     </div>
                     <div class="offcanvas-body">
-                        <div>
+                        <div style="margin-top: 25px;">
                             <?php echo "Date joined: " . date('Y-m-d', strtotime($user_data['date'])); ?>
                             <br><br>
                         </div>
 
-                        <a class="btn btn-danger" href="../userAuth/logout.php" role="button" style="margin: auto;">Logout</a>
+                        <a class="btn btn-danger" href="../userAuth/logout.php" role="button" style="margin-top: 40px;">Logout</a>
                     </div>
                 </div>
             </li>
         </ul>
 
         <!-- Reviews -->
-        <div class="container mt-5">
-            <h2 class="mb-4">Reviews</h2>
+        <div class="container">
+            <h1 class="text-center mb-3">Reviews</h1>
             <?php foreach ($reviews as $review) : ?>
                 <div class="card mb-3">
                     <div class="row g-0">
