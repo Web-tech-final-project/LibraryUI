@@ -1,5 +1,6 @@
 <?php
 
+// imports
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
@@ -10,8 +11,10 @@ require 'phpmailer/src/SMTP.php';
 ini_set ("SMTP","mail.gmail.com");
 ini_set ("sendmail_from",$_POST['email']);
 
+// checks something i think
 if (isset($_POST["submit"])) {
 
+    // mailer setup
     $mail = new PHPMailer(true);
 
     $mail->isSMTP();
@@ -22,66 +25,35 @@ if (isset($_POST["submit"])) {
     $mail->SMTPSecure = 'ssl';
     $mail->Port = '465';
     
-    //$mail->setFrom('halocraft2014@gmail.com');
+    // set to/from emails
     $email = $_POST['email'];
-    $mail->setFrom($email);
-    //$mail->addAddress($_POST['email']);
+    $mail->setFrom('halocraft2014@gmail.com');
     $mail->addAddress('halocraft2014@gmail.com');
     $mail->isHTML(true);
 
+    // get user info
     $name = $_POST['name'];
     $subject = $_POST['subject'];
     $message = $_POST['message'];
-    //$from = $email;
-    //$to = 'angelvazquez042002@gmail.com';
 
+    // build/send message to MyLibrary
     $mail->Subject = $subject . ': Message from MyLibrary ';
-    $mail->Body = 'Customer Name: ' . $name . 
-                    '<br>Customer Email: ' . $email
+    $mail->Body = 'User Name: ' . $name . 
+                    '<br>User Email: ' . $email
                     . '<br><br>' . $message . '<br><br><b>sent using MyLibrary Help Services</b>';
-
-
-    /*$body = "From: $name\n";
-    $body .= "E-Mail: $email\n";
-    $body .= "Subject: $subject\n";
-    $body .= "Message: $message\n";
-
-    // Check if name has been entered
-    if (!$_POST['name']) {
-        $errName = 'Please enter your name';
-    }
-
-    // Check if email has been entered and is valid
-    if (!$_POST['email'] || !filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)) {
-        $errEmail = 'Please enter a valid email address';
-    }
-
-    //Check if message has been entered
-    if (!$_POST['info_message']) {
-        $errMessage = 'Please enter your message';
-    }
-
-    // If there are no errors, send the email
-    if (!isset($errName) && !isset($errEmail) && !isset($errMessage)) {
-        if (mail($to, $subject, $body, $from)) {
-            $mail->send();
-
-            $result = "<div class='alert alert-success'>Thank You! I will be in touch</div>
-            <script>document.location.href = 'help.php';</script>";
-            echo ($result);
-        } else {
-            $result = "<div class='alert alert-danger'>Sorry there was an error sending your message. Please try again later</div>
-            <script>document.location.href = 'help.php';</script>";
-            echo ($result);
-        }
-    } else {
-        echo "<script>alert('Check your fields');
-        document.location.href = 'help.php';
-        </script>";
-    }*/
-
     $mail->send();
-    
+
+    // clear recipient address
+    $mail->clearAddresses();
+
+    // build/send message to user
+    $mail->addAddress($_POST['email']);
+    $mail->Subject = $subject . ': Message from MyLibrary ';
+    $mail->Body = 'Thank you, your request has been received. <br> Please allow 48 hours for us to respond.<br>'
+                    . '<br><br><b>sent using MyLibrary Help Services</b>';
+    $mail->send();
+
+    // display successful email
     echo 
     "
     <script>
@@ -89,4 +61,4 @@ if (isset($_POST["submit"])) {
         document.location.href = 'help.php';
     </script>
     ";
-}
+} // end

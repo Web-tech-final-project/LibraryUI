@@ -85,12 +85,17 @@ $user_data = check_login($conn);
 
             <h3><b>Q: How do I check out a book?</b></h3>
             <h5>To check out a book, simply come down to the library and take your desired book up to the front counter to check out.</h5>
-            <h5> We offer online checkout at this time. Simply head over to the explore page and hit checkout for the book you want.</h5>
+            <h5>We offer online checkout at this time. Simply head over to the <b>Explore</b> page and hit <b>checkout</b> for the book you want.</h5>
             <br><br>
 
             <h3><b>Q: My rental is about to expire, what should I do?</b></h3>
             <h5>If a rental is about to expire, you can either <b>return</b> the book or <b>renew</b> the rental. To do either of these, simply navigate to the</h5>
             <h5><b>My Bookshelf</b> tab and click on either <b>return</b> or <b>renew</b> at the bottom of the desired book.</h5></h5>
+            <br><br>
+
+            <h3><b>Q: How do reviews work?</b></h3>
+            <h5>You can add a review for a book by going to the <b>Explore</b> page and clicking the <b>review</b> button below the desired book.</h5>
+            <h5>You can also look at reviews made by other users by going to the <b>Review</b> tab.</h5>
             <br><br>
 
             <h3><b>Q: How do I contact the library?</b></h3>
