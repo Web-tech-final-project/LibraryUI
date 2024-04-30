@@ -82,7 +82,7 @@ $user_data = check_login($conn);
 
             <h3><b>Q: How do I check out a book?</b></h3>
             <h5>To check out a book, simply come down to the library and take your desired book up to the front counter to check out.</h5>
-            <h5> Unfortunately, we not offer online checkout at this time.</h5>
+            <h5> We offer online checkout at this time. Simply head over to the explore page and hit checkout for the book you want.</h5>
             <br><br>
 
             <h3><b>Q: My rental is about to expire, what should I do?</b></h3>
