@@ -179,7 +179,7 @@ $book_data = getUserBookData($conn);
 
                 <div class="htmlcontainer">
                     <h2><b>HTML</b></h2>
-                    <img src="../images/htmlLogo.jpg" width="125px"; height="125px";><br>
+                    <img src="../images/htmlLogo.png" width="125px"; height="125px";><br>
                     <a href="https://html.com/" target="_blank">Learn More</a>
                 </div>
 
