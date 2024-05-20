@@ -5,6 +5,8 @@ session_start();
 include("../connection.php");
 include("../functions.php");
 require_once("../libraryService/libraries.php"); 
+require 'loadEnv.php';
+$apiKey = getenv('GOOGLE_MAPS_API_KEY');
 $library = new libraries(); // Create a new instance of the libraries class
 $user_data = check_login($conn);
 ?>
@@ -356,8 +358,8 @@ $user_data = check_login($conn);
         </div>
     </div>
     <script async defer
-        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC134XnlDuhSMGl06diDEuU_3j6jdOzlCg&callback=loadMap">
-    </script>
+        src="https://maps.googleapis.com/maps/api/js?key=<?php echo $apiKey; ?>&callback=loadMap">
+    </script>   
     <!-- link for bootstrap js compatability -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 </body>
