@@ -155,11 +155,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['pay_all_books'])) {
                                 } elseif ($book['payDate'] != NULL && (strtotime(date('Y-m-d')) > strtotime($book['payDate']))) {
                                     echo "Last paid: " . date('D, M d, Y', strtotime($book['payDate']));
                                 } elseif ($book['renewalDate'] != NULL && date('Y-m-d') > date('Y-m-d', strtotime($returnByDate))) {
-                                    echo ((strtotime(date('Y-m-d')) - strtotime($returnByDate)) + (strtotime($book['renewalDate']) - strtotime($book['returnBy']))) / (60 * 60 * 24) . " days";
+                                    echo floor(((strtotime(date('Y-m-d')) - strtotime($returnByDate)) + (strtotime($book['renewalDate']) - strtotime($book['returnBy']))) / (60 * 60 * 24)) . " days";
                                 } elseif ($book['renewalDate'] != NULL) {
-                                    echo (strtotime($book['renewalDate']) - strtotime($book['returnBy'])) / (60 * 60 * 24) . " days";
+                                    echo floor((strtotime($book['renewalDate']) - strtotime($book['returnBy'])) / (60 * 60 * 24)) . " days";
                                 } else {
-                                    echo (strtotime(date('Y-m-d')) - strtotime(date('Y-m-d', strtotime($returnByDate)))) / (60 * 60 * 24) . " days";
+                                    echo floor((strtotime(date('Y-m-d')) - strtotime(date('Y-m-d', strtotime($returnByDate)))) / (60 * 60 * 24)) . " days";
                                 }
                                 ?>
                             </td>
